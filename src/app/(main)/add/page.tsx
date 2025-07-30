@@ -77,7 +77,7 @@ const SegmentedControl = ({ value, onChange, options }: { value: string, onChang
 
 export default function AddTransactionPage() {
     const router = useRouter();
-    const { expenseCategories, incomeCategories, addTransaction, accounts, submitTransactionForm, setSubmitTransactionForm, setTransactionType } = useApp();
+    const { expenseCategories, incomeCategories, addTransaction, accounts, submitTransactionForm, setSubmitTransactionForm, setTransactionType, notifyTransactionSaved } = useApp();
     const [amount, setAmount] = useState('0');
     const photoInputRef = useRef<HTMLInputElement>(null);
     const [photoPreview, setPhotoPreview] = useState<string | null>(null);
@@ -160,6 +160,7 @@ export default function AddTransactionPage() {
             description: data.note || '',
             photo: photoPreview || undefined,
         });
+        notifyTransactionSaved();
     };
     
     const categoriesToShow = currentTransactionType === 'income' ? incomeCategories : expenseCategories;
@@ -184,6 +185,7 @@ export default function AddTransactionPage() {
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                         <div className="pt-6 flex justify-center">
                            <div className="flex items-center justify-center">
+                                <span className="text-3xl font-bold">₹</span>
                                 <input
                                     type="text"
                                     value={amount}
@@ -405,3 +407,5 @@ export default function AddTransactionPage() {
     );
 
 }
+
+    

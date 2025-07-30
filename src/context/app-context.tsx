@@ -101,6 +101,8 @@ interface AppContextType {
   setSubmitTransactionForm: Dispatch<SetStateAction<boolean>>;
   transactionType: 'income' | 'expense' | 'investment';
   setTransactionType: Dispatch<SetStateAction<'income' | 'expense' | 'investment'>>;
+  transactionSaved: boolean;
+  notifyTransactionSaved: () => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -112,6 +114,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [expenseCategories, setExpenseCategories] = useState<Category[]>([]);
   const [submitTransactionForm, setSubmitTransactionForm] = useState(false);
   const [transactionType, setTransactionType] = useState<'income' | 'expense' | 'investment'>('expense');
+  const [transactionSaved, setTransactionSaved] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -126,6 +129,16 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (transactionSaved) {
+        const timer = setTimeout(() => {
+            setTransactionSaved(false);
+        }, 1000); 
+        return () => clearTimeout(timer);
+    }
+  }, [transactionSaved]);
+
 
   const login = (userData: User) => {
     setUser(userData);
@@ -171,8 +184,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const deleteAccount = (accountId: string) => {
-    // Note: This is a simple delete. In a real app, you'd want to handle
-    // what happens to transactions associated with this account.
     setAccounts(prevAccounts => prevAccounts.filter(acc => acc.id !== accountId));
     setTransactions(prevTransactions => prevTransactions.filter(t => t.accountId !== accountId));
      toast({
@@ -229,6 +240,14 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       })
     );
   };
+  
+  const notifyTransactionSaved = () => {
+    setTransactionSaved(true);
+    toast({
+      title: "Transaction Saved",
+      description: "Your transaction has been successfully recorded.",
+    });
+  }
 
   const value = {
     user,
@@ -248,6 +267,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     setSubmitTransactionForm,
     transactionType,
     setTransactionType,
+    transactionSaved,
+    notifyTransactionSaved,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
@@ -260,3 +281,5 @@ export const useApp = () => {
   }
   return context;
 };
+
+    

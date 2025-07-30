@@ -20,8 +20,7 @@ const links = [
 export function MobileNav() {
   const pathname = usePathname();
   const router = useRouter();
-  const { setSubmitTransactionForm, transactionType } = useApp();
-  const [isSaved, setIsSaved] = useState(false);
+  const { setSubmitTransactionForm, transactionType, transactionSaved } = useApp();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -30,30 +29,23 @@ export function MobileNav() {
   
   useEffect(() => {
     let timer: NodeJS.Timeout;
-    if (isSaved) {
+    if (transactionSaved) {
       timer = setTimeout(() => {
         router.push('/');
       }, 500);
     }
     return () => clearTimeout(timer);
-  }, [isSaved, router]);
-
-  useEffect(() => {
-    if (pathname !== '/add') {
-      setIsSaved(false);
-    }
-  }, [pathname]);
+  }, [transactionSaved, router]);
 
   const handleAddClick = (e: React.MouseEvent) => {
     if (pathname === '/add') {
       e.preventDefault();
       setSubmitTransactionForm(true);
-      setIsSaved(true);
     }
   };
   
   const getIcon = () => {
-    if (isSaved) return Check;
+    if (transactionSaved) return Check;
     if (pathname === '/add') return Check;
     return Plus;
   }
@@ -66,7 +58,7 @@ export function MobileNav() {
   
   const getButtonBgColor = () => {
     if (pathname === '/add') {
-        if (isSaved) return 'bg-green-500';
+        if (transactionSaved) return 'bg-green-500';
         return transactionType === 'expense' ? 'bg-destructive' : 'bg-green-500';
     }
     return 'bg-primary';
@@ -125,3 +117,5 @@ export function MobileNav() {
     </div>
   );
 }
+
+    
