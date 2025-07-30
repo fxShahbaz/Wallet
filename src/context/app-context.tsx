@@ -12,12 +12,13 @@ const sampleAccounts: Account[] = [
   { id: '4', name: 'Savings', initialBalance: 200000, balance: 200000, icon: PiggyBank },
 ];
 
+const today = new Date();
 const sampleTransactions: Transaction[] = [
-    { id: 't1', type: 'expense', amount: 2500, date: new Date(), category: 'Suya and garri', description: 'Suya and garri', accountId: '1' },
-    { id: 't2', type: 'expense', amount: 5300, date: new Date(), category: 'Bolt fee', description: 'Bolt fee', accountId: '2' },
-    { id: 't3', type: 'expense', amount: 25000, date: new Date(), category: 'Lumber Jacket', description: 'Lumber Jacket', accountId: '1' },
-    { id: 't4', type: 'expense', amount: 1800, date: new Date(), category: 'Uber', description: 'Uber', accountId: '3' },
-    { id: 't5', type: 'income', amount: 1500, date: new Date('2024-07-10'), category: 'Freelance', description: 'Logo design project', accountId: '2' },
+    { id: 't1', type: 'expense', amount: 2500, date: new Date(new Date().setHours(9, 15, 0, 0)), category: 'Suya and garri', description: 'Suya and garri', accountId: '1' },
+    { id: 't2', type: 'expense', amount: 5300, date: new Date(new Date().setHours(10, 30, 0, 0)), category: 'Bolt fee', description: 'Bolt fee', accountId: '2' },
+    { id: 't3', type: 'expense', amount: 25000, date: new Date(new Date().setHours(14, 0, 0, 0)), category: 'Lumber Jacket', description: 'Lumber Jacket', accountId: '1' },
+    { id: 't4', type: 'expense', amount: 1800, date: new Date(new Date().setDate(today.getDate() - 1)), category: 'Uber', description: 'Uber', accountId: '3' },
+    { id: 't5', type: 'income', amount: 1500, date: new Date(new Date().setDate(today.getDate() - 2)), category: 'Freelance', description: 'Logo design project', accountId: '2' },
 ];
 
 const sampleCategories: Category[] = [
