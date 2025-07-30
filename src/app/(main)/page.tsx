@@ -92,14 +92,18 @@ export default function DashboardPage() {
                             </button>
                         ))}
                     </div>
-                    <div className="p-4 rounded-2xl bg-gray-900 text-white">
-                        <p className="text-sm text-gray-400">Spend so far</p>
-                        <AnimatedCounter value={spendSoFar} />
-                    </div>
                 </div>
-                <ScrollArea className="flex-1 px-4">
-                    <RecentTransactions transactions={filteredTransactions} />
-                </ScrollArea>
+                <div className="flex-1 flex flex-col px-4">
+                    <div className="pt-0 space-y-4">
+                        <div className="p-4 rounded-2xl bg-gray-900 text-white">
+                            <p className="text-sm text-gray-400">Spend so far</p>
+                            <AnimatedCounter value={spendSoFar} />
+                        </div>
+                    </div>
+                    <ScrollArea className="flex-1 pt-4">
+                        <RecentTransactions transactions={filteredTransactions} />
+                    </ScrollArea>
+                </div>
             </div>
         </div>
     );
