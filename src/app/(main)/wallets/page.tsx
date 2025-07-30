@@ -42,15 +42,15 @@ export default function WalletsPage() {
                         <div className="grid grid-cols-2 gap-4">
                             {accounts.map(account => (
                                 <EditAccountDialog key={account.id} account={account}>
-                                    <Card className="p-4 bg-card flex flex-col justify-between h-32 cursor-pointer hover:bg-muted/50 transition-colors">
+                                    <Card className="p-4 bg-card flex flex-col justify-between h-28 cursor-pointer hover:bg-muted/50 transition-colors">
                                         <div>
                                             <div className="flex items-center gap-3">
-                                                {account.icon && <div className="flex items-center justify-center p-2 bg-secondary rounded-full w-10 h-10 shrink-0"><account.icon className="w-5 h-5 text-muted-foreground" /></div>}
+                                                {account.icon && <div className="flex items-center justify-center p-2 bg-secondary rounded-full w-8 h-8 shrink-0"><account.icon className="w-4 h-4 text-muted-foreground" /></div>}
                                                 <p className="font-semibold text-sm">{account.name}</p>
                                             </div>
                                         </div>
-                                        <div className="self-start">
-                                          <p className="font-mono text-xl font-semibold">{formatCurrency(account.balance)}</p>
+                                        <div className="self-end">
+                                          <p className="font-mono text-lg font-semibold">{formatCurrency(account.balance)}</p>
                                         </div>
                                     </Card>
                                 </EditAccountDialog>
