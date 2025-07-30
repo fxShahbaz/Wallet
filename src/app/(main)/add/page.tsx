@@ -18,7 +18,8 @@ import {
 } from "@/components/ui/select"
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
-import { Calendar as CalendarIcon, X, ArrowLeft, ArrowRight, TrendingUp, FileText, Folder } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
+import { Calendar as CalendarIcon, X, ArrowLeft, ArrowRight, TrendingUp, FileText, Folder, Landmark, Tag, Users, CreditCard, CheckCircle, MapPin, Camera } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
@@ -30,6 +31,14 @@ const transactionFormSchema = z.object({
     type: z.enum(['expense', 'income', 'investment']),
     description: z.string().optional(),
     category: z.string().min(1, { message: "Please select a category." }),
+    accountId: z.string().min(1, { message: "Please select an account." }),
+    label: z.string().optional(),
+    note: z.string().optional(),
+    payee: z.string().optional(),
+    paymentType: z.string().optional(),
+    status: z.string().optional(),
+    location: z.string().optional(),
+    photo: z.any().optional(),
 });
 
 type TransactionFormValues = z.infer<typeof transactionFormSchema>;
@@ -40,6 +49,7 @@ const SegmentedControl = ({ value, onChange, options }: { value: string, onChang
             {options.map(option => (
                 <button
                     key={option.value}
+                    type="button"
                     onClick={() => onChange(option.value)}
                     className={cn(
                         "relative flex-1 py-1.5 px-3 text-xs font-medium rounded-lg transition-colors",
@@ -76,8 +86,17 @@ export default function AddTransactionPage() {
             type: 'expense',
             description: '',
             category: '',
+            accountId: '',
+            label: '',
+            note: '',
+            payee: '',
+            paymentType: '',
+            status: 'Cleared',
+            location: '',
         },
     });
+
+    const transactionType = form.watch('type');
 
     const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value.replace(/[^0-9,]/g, '');
@@ -103,19 +122,16 @@ export default function AddTransactionPage() {
     };
 
     const onSubmit = (data: TransactionFormValues) => {
-        const selectedAccount = accounts[0]; // Or some logic to select an account
-        if (selectedAccount) {
-            addTransaction({
-                ...data,
-                accountId: selectedAccount.id,
-            });
-            router.push('/');
-        }
+        addTransaction({
+            ...data,
+            description: data.description || '', // Ensure description is not undefined
+        });
+        router.push('/');
     };
     
     return (
         <div className="h-full bg-white flex flex-col">
-            <header className="p-4 flex items-center justify-between sticky top-0 bg-white z-10">
+            <header className="p-4 flex items-center justify-between sticky top-0 bg-white z-10 border-b">
                 <button onClick={() => router.back()} className="p-2">
                     <X className="w-5 h-5 text-gray-500" />
                 </button>
@@ -135,7 +151,7 @@ export default function AddTransactionPage() {
                 </div>
             </div>
 
-            <div className="p-4 pt-6 space-y-4 flex-grow">
+            <div className="p-4 pt-6 space-y-4 flex-grow overflow-y-auto">
                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 h-full flex flex-col">
                     <Controller
                         name="date"
@@ -179,17 +195,31 @@ export default function AddTransactionPage() {
                         )}
                     />
                     
-                    <div className="flex items-center gap-3 p-2 h-10 bg-gray-50 border rounded-xl">
-                        <FileText className="w-4 h-4 text-gray-400 shrink-0" />
+                    <div className="flex items-center gap-3 h-10 bg-gray-50 border rounded-xl">
                         <Controller
-                            name="description"
+                            name="accountId"
                             control={form.control}
                             render={({ field }) => (
-                                <Input {...field} placeholder="Description" className="p-0 h-auto bg-transparent border-none focus-visible:ring-0 text-xs w-full" />
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <SelectTrigger className="w-full p-0 h-auto bg-transparent border-none focus:ring-0 text-xs">
+                                        <div className="flex items-center gap-3 pl-2">
+                                            <Landmark className="w-4 h-4 text-gray-400 shrink-0" />
+                                            <SelectValue placeholder="Select Bank Account" />
+                                        </div>
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {accounts.map(acc => (
+                                            <SelectItem key={acc.id} value={acc.id}>{acc.name}</SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
                             )}
                         />
+                         {form.formState.errors.accountId && (
+                            <p className="text-xs text-red-500 mt-1">{form.formState.errors.accountId.message}</p>
+                        )}
                     </div>
-                    
+
                     <div className="flex items-center gap-3 h-10 bg-gray-50 border rounded-xl">
                         <Controller
                             name="category"
@@ -214,10 +244,103 @@ export default function AddTransactionPage() {
                             <p className="text-xs text-red-500 mt-1">{form.formState.errors.category.message}</p>
                         )}
                     </div>
+                     <div className="flex items-center gap-3 p-2 h-10 bg-gray-50 border rounded-xl">
+                        <Tag className="w-4 h-4 text-gray-400 shrink-0" />
+                        <Controller
+                            name="label"
+                            control={form.control}
+                            render={({ field }) => (
+                                <Input {...field} placeholder="Add Label (custom)" className="p-0 h-auto bg-transparent border-none focus-visible:ring-0 text-xs w-full" />
+                            )}
+                        />
+                    </div>
+
+                     <div className="flex items-center gap-3 p-2 bg-gray-50 border rounded-xl">
+                        <FileText className="w-4 h-4 text-gray-400 shrink-0 mt-2 self-start" />
+                        <Controller
+                            name="note"
+                            control={form.control}
+                            render={({ field }) => (
+                                <Textarea {...field} placeholder="Note" className="p-0 h-auto bg-transparent border-none focus-visible:ring-0 text-xs w-full" rows={2}/>
+                            )}
+                        />
+                    </div>
+                    
+                    <div className="flex items-center gap-3 p-2 h-10 bg-gray-50 border rounded-xl">
+                        <Users className="w-4 h-4 text-gray-400 shrink-0" />
+                        <Controller
+                            name="payee"
+                            control={form.control}
+                            render={({ field }) => (
+                                <Input {...field} placeholder={transactionType === 'income' ? 'Payer' : 'Payee'} className="p-0 h-auto bg-transparent border-none focus-visible:ring-0 text-xs w-full" />
+                            )}
+                        />
+                    </div>
+
+                    <div className="flex items-center gap-3 h-10 bg-gray-50 border rounded-xl">
+                        <Controller
+                            name="paymentType"
+                            control={form.control}
+                            render={({ field }) => (
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <SelectTrigger className="w-full p-0 h-auto bg-transparent border-none focus:ring-0 text-xs">
+                                        <div className="flex items-center gap-3 pl-2">
+                                            <CreditCard className="w-4 h-4 text-gray-400 shrink-0" />
+                                            <SelectValue placeholder="Payment Type" />
+                                        </div>
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {['Cash', 'Debit Card', 'Credit Card', 'Bank Transfer', 'Voucher', 'UPI'].map(type => (
+                                            <SelectItem key={type} value={type}>{type}</SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            )}
+                        />
+                    </div>
+                    
+                     <div className="flex items-center gap-3 h-10 bg-gray-50 border rounded-xl">
+                        <Controller
+                            name="status"
+                            control={form.control}
+                            render={({ field }) => (
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <SelectTrigger className="w-full p-0 h-auto bg-transparent border-none focus:ring-0 text-xs">
+                                        <div className="flex items-center gap-3 pl-2">
+                                            <CheckCircle className="w-4 h-4 text-gray-400 shrink-0" />
+                                            <SelectValue placeholder="Status" />
+                                        </div>
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {['Cleared', 'Uncleared', 'Reconciled'].map(status => (
+                                            <SelectItem key={status} value={status}>{status}</SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            )}
+                        />
+                    </div>
+                    
+                    <div className="flex items-center gap-3 p-2 h-10 bg-gray-50 border rounded-xl">
+                        <MapPin className="w-4 h-4 text-gray-400 shrink-0" />
+                        <Controller
+                            name="location"
+                            control={form.control}
+                            render={({ field }) => (
+                                <Input {...field} placeholder="Add Location" className="p-0 h-auto bg-transparent border-none focus-visible:ring-0 text-xs w-full" />
+                            )}
+                        />
+                    </div>
+
+                    <div className="flex items-center gap-3 p-2 h-10 bg-gray-50 border rounded-xl">
+                       <Camera className="w-4 h-4 text-gray-400 shrink-0" />
+                       <button type="button" className="text-xs text-gray-700">Attach Photo</button>
+                    </div>
+
 
                     <div className="flex-grow"></div>
 
-                    <Button type="submit" size="lg" className="w-full h-12 text-base font-semibold rounded-full bg-gray-900 text-white hover:bg-gray-800">
+                    <Button type="submit" size="lg" className="w-full h-12 text-base font-semibold rounded-full bg-gray-900 text-white hover:bg-gray-800 sticky bottom-4">
                         Add Transaction
                     </Button>
                 </form>

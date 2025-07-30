@@ -39,6 +39,7 @@ const sampleCategories: Category[] = [
     { value: 'Lumber Jacket', label: 'Lumber Jacket' },
     { value: 'Uber', label: 'Uber' },
     { value: 'Refund', label: 'Refund' },
+    { value: 'Investment', label: 'Investment' },
   ];
 
 // Context Type
@@ -78,9 +79,12 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     setAccounts(prevAccounts =>
       prevAccounts.map(acc => {
         if (acc.id === newTransaction.accountId) {
-          const newBalance = newTransaction.type === 'income'
-            ? acc.balance + newTransaction.amount
-            : acc.balance - newTransaction.amount;
+          let newBalance;
+          if (newTransaction.type === 'income') {
+            newBalance = acc.balance + newTransaction.amount;
+          } else { // 'expense' or 'investment'
+            newBalance = acc.balance - newTransaction.amount;
+          }
           return { ...acc, balance: newBalance };
         }
         return acc;
