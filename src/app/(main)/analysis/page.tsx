@@ -87,7 +87,7 @@ export default function AnalysisPage() {
                     transition={{ duration: 0.3 }}
                     className="absolute top-2 z-10 w-full flex justify-center"
                 >
-                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary text-sm font-medium shadow-lg mt-4">
+                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary text-sm font-medium shadow-lg mt-12">
                         <p className="text-muted-foreground">
                             <span className="text-foreground">
                                 {format(appliedDate.from!, 'MMM d, yyyy')}
@@ -104,7 +104,7 @@ export default function AnalysisPage() {
             </AnimatePresence>
 
             <ScrollArea className="flex-1">
-                <div className={cn("p-4 space-y-6", appliedDate && 'pt-16')}>
+                <div className={cn("p-4 space-y-6", appliedDate && 'pt-24')}>
                     {filteredTransactions.length > 0 ? (
                         <>
                             <SummaryCards transactions={filteredTransactions} />
