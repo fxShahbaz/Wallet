@@ -141,7 +141,7 @@ export default function AddTransactionPage() {
 
             <div className="flex-grow overflow-y-auto">
                 <div className="flex flex-col items-center p-4 pt-6">
-                     <div className="flex items-center justify-center">
+                     <div className="flex items-center">
                         <span className="text-3xl font-bold text-gray-400">₹</span>
                         <input 
                             type="text"
@@ -337,8 +337,7 @@ export default function AddTransactionPage() {
                            <Camera className="w-4 h-4 text-gray-400 shrink-0" />
                            <button type="button" className="text-xs text-gray-700">Attach Photo</button>
                         </div>
-                        <div className="pb-24"></div>
-                        <div className="p-4 bg-white border-t">
+                        <div className="pb-24 pt-4">
                             <Button type="submit" size="lg" className="w-full h-12 text-base font-semibold rounded-full bg-gray-900 text-white hover:bg-gray-800">
                                 Add Transaction
                             </Button>
