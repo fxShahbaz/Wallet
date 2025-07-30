@@ -2,14 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Calendar, Wallet, Settings } from 'lucide-react';
+import { Home, Calendar, Wallet, Settings, Plus } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { AddTransactionSheet } from '../dashboard/add-transaction-sheet';
+// import { AddTransactionSheet } from '../dashboard/add-transaction-sheet';
 
 const links = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/analysis', label: 'Reports', icon: Calendar },
-  { href: '#', label: 'Add', icon: null }, // Placeholder for the FAB
+  { href: '/add', label: 'Add', icon: Plus }, 
   { href: '/wallets', label: 'Wallets', icon: Wallet },
   { href: '/settings', label: 'Settings', icon: Settings },
 ];
@@ -22,9 +22,18 @@ export function MobileNav() {
       <nav className="flex items-center justify-around h-full">
         {links.map((link, index) => {
           if (link.label === 'Add') {
+            const isActive = pathname === link.href;
             return (
               <div key="add-transaction" className="relative -top-6">
-                <AddTransactionSheet />
+                <Link href={link.href}>
+                    <div className={cn(
+                        "flex items-center justify-center w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg transition-transform-colors",
+                        isActive && "bg-foreground"
+                        )}>
+                        <link.icon className="w-7 h-7"/>
+                        <span className="sr-only">Add Transaction</span>
+                    </div>
+                </Link>
               </div>
             );
           }
