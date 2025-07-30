@@ -22,6 +22,7 @@ import {
 import { cn } from "@/lib/utils"
 import { motion } from "framer-motion"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export default function SettingsPage() {
     const { accounts, transactions, clearAllData } = useApp();
@@ -30,10 +31,16 @@ export default function SettingsPage() {
     const { theme, setTheme } = useTheme()
     const [isLoggedIn, setIsLoggedIn] = useState(true);
     const [mounted, setMounted] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
         setMounted(true);
     }, []);
+
+    const handleLogout = () => {
+      setIsLoggedIn(false);
+      router.push('/login');
+    }
 
     const handleExportData = () => {
         const dataToExport = {
@@ -62,12 +69,12 @@ export default function SettingsPage() {
             isLoggedIn ? (
                 <div className="flex items-center gap-2">
                     <UserNav />
-                    <Button variant="outline" size="sm" onClick={() => setIsLoggedIn(false)}>
+                    <Button variant="outline" size="sm" onClick={handleLogout}>
                         <LogOut className="w-4 h-4" />
                     </Button>
                 </div>
             ) : (
-                <Button size="sm" onClick={() => setIsLoggedIn(true)}>
+                <Button size="sm" onClick={() => router.push('/login')}>
                     <LogIn className="w-4 h-4 mr-2" />
                     Login
                 </Button>
