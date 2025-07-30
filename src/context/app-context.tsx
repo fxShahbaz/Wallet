@@ -50,6 +50,8 @@ interface AppContextType {
   categories: Category[];
   addTransaction: (transaction: Omit<Transaction, 'id'>) => void;
   addAccount: (account: Omit<Account, 'id' | 'balance' | 'icon'>) => void;
+  editAccount: (updatedAccount: Pick<Account, 'id' | 'name' | 'initialBalance'>) => void;
+  deleteAccount: (accountId: string) => void;
   submitTransactionForm: boolean;
   setSubmitTransactionForm: Dispatch<SetStateAction<boolean>>;
 }
@@ -71,6 +73,31 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     };
     setAccounts(prev => [...prev, newAccount]);
   };
+
+  const editAccount = (updatedAccount: Pick<Account, 'id' | 'name' | 'initialBalance'>) => {
+    setAccounts(prevAccounts => 
+      prevAccounts.map(account => {
+        if (account.id === updatedAccount.id) {
+          const balanceDifference = updatedAccount.initialBalance - account.initialBalance;
+          return {
+            ...account,
+            name: updatedAccount.name,
+            initialBalance: updatedAccount.initialBalance,
+            balance: account.balance + balanceDifference
+          };
+        }
+        return account;
+      })
+    );
+  };
+
+  const deleteAccount = (accountId: string) => {
+    // Note: This is a simple delete. In a real app, you'd want to handle
+    // what happens to transactions associated with this account.
+    setAccounts(prevAccounts => prevAccounts.filter(acc => acc.id !== accountId));
+    setTransactions(prevTransactions => prevTransactions.filter(t => t.accountId !== accountId));
+  };
+
 
   const addTransaction = (transactionData: Omit<Transaction, 'id'>) => {
     const newTransaction: Transaction = {
@@ -103,6 +130,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     categories,
     addTransaction,
     addAccount,
+    editAccount,
+    deleteAccount,
     submitTransactionForm,
     setSubmitTransactionForm,
   };
@@ -117,5 +146,3 @@ export const useApp = () => {
   }
   return context;
 };
-
-    
