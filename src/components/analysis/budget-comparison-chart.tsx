@@ -76,7 +76,7 @@ export function BudgetComparisonChart({ transactions, categories }: { transactio
             data={chartData}
             layout="vertical"
             margin={{
-              left: 10,
+              left: 20,
               right: 10,
             }}
           >
@@ -89,6 +89,7 @@ export function BudgetComparisonChart({ transactions, categories }: { transactio
               axisLine={false}
               tickFormatter={(value) => value}
               className="text-xs"
+              width={80}
             />
             <XAxis dataKey="budget" type="number" hide />
             <ChartTooltip
