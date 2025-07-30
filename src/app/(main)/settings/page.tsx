@@ -188,9 +188,9 @@ export default function SettingsPage() {
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                     <AlertDialogHeader>
-                    <AlertDialogTitle>Contact Developer</AlertDialogTitle>
+                        <AlertDialogTitle>Contact Developer</AlertDialogTitle>
                     </AlertDialogHeader>
-                    <div className="space-y-3">
+                    <div className="space-y-3 pt-2 pb-4">
                         <Button asChild className="w-full" variant="outline">
                             <Link href="tel:+917979057085"><Phone className="mr-2"/>Call</Link>
                         </Button>
@@ -202,7 +202,7 @@ export default function SettingsPage() {
                         </Button>
                     </div>
                     <AlertDialogFooter>
-                        <AlertDialogCancel>Close</AlertDialogCancel>
+                        <AlertDialogCancel className="w-full">Close</AlertDialogCancel>
                     </AlertDialogFooter>
                 </AlertDialogContent>
                </AlertDialog>
