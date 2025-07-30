@@ -131,15 +131,7 @@ export default function AddTransactionPage() {
     
     return (
         <div className="h-full bg-white flex flex-col">
-            <header className="p-4 flex items-center justify-between bg-white border-b">
-                <button onClick={() => router.back()} className="p-2">
-                    <X className="w-5 h-5 text-gray-500" />
-                </button>
-                <h1 className="text-md font-semibold">New Transaction</h1>
-                <div className="w-9"></div>
-            </header>
-
-            <div className="flex-1 flex flex-col items-center p-4">
+            <div className="flex-1 flex flex-col items-center p-4 pt-12">
                  <div className="relative">
                     <input 
                         type="text"
@@ -347,4 +339,5 @@ export default function AddTransactionPage() {
             </div>
         </div>
     );
-}
+
+    
