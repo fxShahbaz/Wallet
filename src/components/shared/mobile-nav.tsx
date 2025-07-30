@@ -18,15 +18,18 @@ const links = [
 ];
 
 const iconVariants = {
-  inactive: { 
-    fill: "rgba(255, 255, 255, 0)",
-    transition: { duration: 0.2 } 
+  inactive: {
+    scale: 1,
+    y: 0,
+    transition: { type: 'spring', stiffness: 300, damping: 20 }
   },
-  active: { 
-    fill: "hsl(var(--primary))",
-    transition: { duration: 0.2 } 
+  active: {
+    scale: 1.1,
+    y: -2,
+    transition: { type: 'spring', stiffness: 300, damping: 20 }
   },
 };
+
 
 export function MobileNav() {
   const pathname = usePathname();
@@ -121,11 +124,12 @@ export function MobileNav() {
 
             return (
               <Link key={link.href} href={link.href} className="flex flex-col items-center justify-center text-xs gap-1 p-3">
-                <MotionIcon 
-                  className={cn("w-5 h-5", isActive ? "text-primary" : "text-muted-foreground")}
+                <motion.div
                   variants={iconVariants}
                   animate={isActive ? "active" : "inactive"}
-                />
+                >
+                  <link.icon className={cn("w-5 h-5", isActive ? "text-primary" : "text-muted-foreground")} />
+                </motion.div>
                 <span className={cn("text-xs", isActive ? "text-primary" : "text-muted-foreground")}>{link.label}</span>
               </Link>
             );
