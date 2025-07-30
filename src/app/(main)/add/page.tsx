@@ -93,7 +93,7 @@ export default function AddTransactionPage() {
             label: '',
             note: '',
             payee: '',
-            paymentType: '',
+            paymentType: 'UPI',
             status: 'Cleared',
             location: '',
         },
@@ -307,7 +307,7 @@ export default function AddTransactionPage() {
                                     <SelectTrigger className="w-full p-0 h-auto bg-transparent border-none focus:ring-0 text-xs">
                                         <div className="flex items-center gap-3">
                                             <CreditCard className="w-4 h-4 text-muted-foreground shrink-0" />
-                                            <SelectValue placeholder="Payment Type" />
+                                            <SelectValue placeholder="Payment Mode" />
                                         </div>
                                     </SelectTrigger>
                                     <SelectContent>
@@ -389,3 +389,6 @@ export default function AddTransactionPage() {
 
     
 
+
+
+    
