@@ -57,8 +57,8 @@ export default function AnalysisPage() {
                 {/* You can add sidebar content here if needed */}
             </Sidebar>
             <SidebarInset>
-                <div className="flex flex-col h-full">
-                    <header className="flex items-center justify-between p-4 border-b h-14">
+                <div className="flex flex-col h-full relative">
+                    <header className="flex items-center justify-between p-4 border-b h-14 shrink-0">
                        <div className="flex items-center gap-2">
                         <SidebarTrigger className="md:hidden"/>
                         <h1 className="font-semibold text-lg">Reports</h1>
@@ -96,9 +96,9 @@ export default function AnalysisPage() {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
                             transition={{ duration: 0.3 }}
-                            className="sticky top-2 z-10 flex justify-center"
+                            className="absolute top-16 z-10 w-full flex justify-center"
                         >
-                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary text-sm font-medium shadow-md">
+                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary text-sm font-medium shadow-lg mt-2">
                                 <p className="text-muted-foreground">
                                     <span className="text-foreground">
                                         {format(appliedDate.from!, 'MMM d, yyyy')}
@@ -114,8 +114,8 @@ export default function AnalysisPage() {
                     )}
                     </AnimatePresence>
 
-                    <ScrollArea className="flex-1 p-4">
-                        <div className="grid gap-6">
+                    <ScrollArea className="flex-1">
+                        <div className="grid gap-6 p-4 pt-16">
                             {filteredTransactions.length > 0 ? (
                                 <RecentTransactions transactions={filteredTransactions} showTypeIndicator={true} />
                             ) : (
