@@ -10,11 +10,11 @@ const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(amount);
 };
 
-const SummaryCard = ({ title, value, icon, colorClass, dark }: { title: string, value: number, icon: React.ReactNode, colorClass?: string, dark?: boolean }) => {
+const SummaryCard = ({ title, value, icon, colorClass }: { title: string, value: number, icon: React.ReactNode, colorClass?: string }) => {
     if (value === 0) return null;
 
     return (
-        <Card>
+        <Card className="bg-secondary">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-xs font-medium">{title}</CardTitle>
                 <div className={cn("w-4 h-4 text-muted-foreground", colorClass)}>
