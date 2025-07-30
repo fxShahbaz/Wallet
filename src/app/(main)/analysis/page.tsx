@@ -12,7 +12,7 @@ import { useApp } from '@/context/app-context';
 import { Transaction } from '@/lib/types';
 import { isWithinInterval, startOfDay, endOfDay, format } from 'date-fns';
 import { RecentTransactions } from '@/components/dashboard/recent-transactions';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { SummaryCards } from '@/components/analysis/summary-cards';
 import Link from 'next/link';
@@ -82,7 +82,7 @@ export default function AnalysisPage() {
             <AnimatePresence>
             {appliedDate && (
                 <div
-                    className="absolute top-24 z-10 w-full flex justify-center"
+                    className="absolute top-20 z-10 w-full flex justify-center"
                 >
                     <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary text-sm font-medium shadow-lg">
                         <p className="text-muted-foreground">
@@ -101,7 +101,7 @@ export default function AnalysisPage() {
             </AnimatePresence>
 
             <ScrollArea className="flex-1">
-                <div className={cn("p-4 space-y-6", appliedDate && 'pt-32')}>
+                <div className={cn("p-4 space-y-6", appliedDate && 'pt-16')}>
                     {filteredTransactions.length > 0 ? (
                         <>
                             <SummaryCards transactions={filteredTransactions} />
@@ -115,7 +115,7 @@ export default function AnalysisPage() {
                                 <CalendarDays className="w-10 h-10 text-gray-300" />
                                 <p className="text-sm">Select a date range to view transactions from top right corner.</p>
                             </div>
-                            <div className="text-center p-4 border-t">
+                            <div className="text-center p-4 border rounded-lg">
                                 <p className="text-sm text-muted-foreground mb-4">
                                     Enjoy the app. Buy a coffee for the developer.
                                     <br/>
