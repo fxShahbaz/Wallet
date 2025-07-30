@@ -5,6 +5,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { ArrowDownLeft, ArrowUpRight } from 'lucide-react';
 import { useMemo } from 'react';
+import { format } from 'date-fns';
 
 const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
@@ -50,7 +51,7 @@ export function RecentTransactions() {
                                 </TableCell>
                                 <TableCell>
                                     <div className="font-medium">{t.description}</div>
-                                    <div className="text-sm text-muted-foreground">{t.date.toLocaleDateString()}</div>
+                                    <div className="text-sm text-muted-foreground">{format(t.date, "PPP")}</div>
                                 </TableCell>
                                 <TableCell className="hidden md:table-cell">
                                     <Badge variant="outline">{t.category}</Badge>
