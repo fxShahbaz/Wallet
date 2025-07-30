@@ -55,8 +55,8 @@ export function ExpenseCategoryChart({ transactions }: { transactions: Transacti
   return (
     <Card className="flex flex-col h-full">
       <CardHeader>
-        <CardTitle>Expense Breakdown</CardTitle>
-        <CardDescription>Spending by category for all time</CardDescription>
+        <CardTitle className="text-base font-semibold">Expense Breakdown</CardTitle>
+        <CardDescription className="text-xs">Spending by category for all time</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer

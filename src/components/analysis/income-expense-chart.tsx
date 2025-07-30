@@ -60,8 +60,8 @@ export function IncomeExpenseChart({ transactions }: { transactions: Transaction
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Weekly Overview</CardTitle>
-        <CardDescription>Income vs. Expense for the last 7 days</CardDescription>
+        <CardTitle className="text-base font-semibold">Weekly Overview</CardTitle>
+        <CardDescription className="text-xs">Income vs. Expense for the last 7 days</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>

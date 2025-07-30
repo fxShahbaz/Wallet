@@ -55,8 +55,8 @@ export function IncomeCategoryChart({ transactions }: { transactions: Transactio
   return (
     <Card className="flex flex-col h-full">
       <CardHeader>
-        <CardTitle>Income Breakdown</CardTitle>
-        <CardDescription>Income by category for all time</CardDescription>
+        <CardTitle className="text-base font-semibold">Income Breakdown</CardTitle>
+        <CardDescription className="text-xs">Income by category for all time</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
