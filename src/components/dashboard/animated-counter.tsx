@@ -35,3 +35,5 @@ export const AnimatedCounter = ({ value }: { value: number }) => {
         </div>
     );
 };
+
+    

@@ -140,3 +140,5 @@ export function RecentTransactions({ transactions, showTypeIndicator }: { transa
         </div>
     );
 }
+
+    

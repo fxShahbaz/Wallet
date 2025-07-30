@@ -1,3 +1,4 @@
+
 "use client"
 import { useApp } from '@/context/app-context';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -75,3 +76,5 @@ export function SummaryCards() {
         </div>
     );
 }
+
+    

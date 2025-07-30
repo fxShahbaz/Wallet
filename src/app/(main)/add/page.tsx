@@ -76,7 +76,7 @@ const SegmentedControl = ({ value, onChange, options }: { value: string, onChang
 export default function AddTransactionPage() {
     const router = useRouter();
     const { categories, addTransaction, accounts } = useApp();
-    const [amount, setAmount] = useState('0,00');
+    const [amount, setAmount] = useState('0.00');
 
     const form = useForm<TransactionFormValues>({
         resolver: zodResolver(transactionFormSchema),
@@ -99,25 +99,25 @@ export default function AddTransactionPage() {
     const transactionType = form.watch('type');
 
     const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let value = e.target.value.replace(/[^0-9,]/g, '');
+        let value = e.target.value.replace(/[^0-9.]/g, '');
         
-        if (value.startsWith(',')) {
+        if (value.startsWith('.')) {
             value = '0' + value;
         }
 
-        const parts = value.split(',');
+        const parts = value.split('.');
         if (parts.length > 2) {
-            value = `${parts[0]},${parts.slice(1).join('')}`;
+            value = `${parts[0]}.${parts.slice(1).join('')}`;
         }
         
         if (parts[1] && parts[1].length > 2) {
             parts[1] = parts[1].substring(0, 2);
-            value = parts.join(',');
+            value = parts.join('.');
         }
         
         setAmount(value);
 
-        const numericValue = parseFloat(value.replace(',', '.'));
+        const numericValue = parseFloat(value);
         form.setValue('amount', isNaN(numericValue) ? 0 : numericValue);
     };
 
@@ -141,14 +141,14 @@ export default function AddTransactionPage() {
 
             <div className="flex-grow overflow-y-auto">
                 <div className="flex flex-col items-center p-4 pt-6">
-                     <div className="relative">
+                     <div className="flex items-center justify-center">
+                        <span className="text-3xl font-bold text-gray-400">₹</span>
                         <input 
                             type="text"
                             value={amount}
                             onChange={handleAmountChange}
-                            className="text-3xl font-bold text-center bg-transparent border-none focus:ring-0 outline-none w-full"
+                            className="text-3xl font-bold text-center bg-transparent border-none focus:ring-0 outline-none w-auto"
                         />
-                        <span className="absolute right-0 top-1/2 -translate-y-1/2 text-2xl font-bold text-gray-300 -mr-6">€</span>
                     </div>
                 </div>
 
@@ -337,7 +337,7 @@ export default function AddTransactionPage() {
                            <Camera className="w-4 h-4 text-gray-400 shrink-0" />
                            <button type="button" className="text-xs text-gray-700">Attach Photo</button>
                         </div>
-
+                        <div className="pb-24"></div>
                         <div className="p-4 bg-white border-t">
                             <Button type="submit" size="lg" className="w-full h-12 text-base font-semibold rounded-full bg-gray-900 text-white hover:bg-gray-800">
                                 Add Transaction
@@ -349,3 +349,5 @@ export default function AddTransactionPage() {
         </div>
     );
 }
+
+    

@@ -39,15 +39,6 @@ export function SummaryCards({ transactions }: { transactions: Transaction[] }) 
                 case 'expense':
                     acc.expense += t.amount;
                     break;
-                case 'transfer':
-                    acc.transferred += t.amount;
-                    break;
-                case 'lended':
-                    acc.lended += t.amount;
-                    break;
-                case 'receivable':
-                    acc.receivables += t.amount;
-                    break;
                 case 'investment':
                     acc.investment += t.amount;
                     break;
@@ -56,9 +47,6 @@ export function SummaryCards({ transactions }: { transactions: Transaction[] }) 
         }, {
             income: 0,
             expense: 0,
-            transferred: 0,
-            lended: 0,
-            receivables: 0,
             investment: 0
         });
     }, [transactions]);
@@ -80,11 +68,10 @@ export function SummaryCards({ transactions }: { transactions: Transaction[] }) 
                 <SummaryCard title="Total Expenses" value={summary.expense} icon={<ArrowDownLeft />} colorClass="text-red-500" dark />
             </div>
              <div className="grid gap-4 md:grid-cols-2">
-                <SummaryCard title="Total Transferred" value={summary.transferred} icon={<Landmark />} />
-                <SummaryCard title="Total Lended" value={summary.lended} icon={<HandCoins />} />
-                <SummaryCard title="Total Receivables" value={summary.receivables} icon={<Receipt />} />
                 <SummaryCard title="Total Investment" value={summary.investment} icon={<TrendingUp />} />
             </div>
         </div>
     );
 }
+
+    
