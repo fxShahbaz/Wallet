@@ -190,7 +190,7 @@ export default function SettingsPage() {
                     <AlertDialogHeader>
                     <AlertDialogTitle>Contact Developer</AlertDialogTitle>
                     </AlertDialogHeader>
-                    <div className="space-y-3 py-2 px-4">
+                    <div className="space-y-3">
                         <Button asChild className="w-full" variant="outline">
                             <Link href="tel:+917979057085"><Phone className="mr-2"/>Call</Link>
                         </Button>
@@ -201,7 +201,7 @@ export default function SettingsPage() {
                             <Link href="https://www.buymeacoffee.com/shahbaz" target="_blank"><Coffee className="mr-2"/>Buy a Coffee</Link>
                         </Button>
                     </div>
-                    <AlertDialogFooter className="px-4">
+                    <AlertDialogFooter>
                         <AlertDialogCancel>Close</AlertDialogCancel>
                     </AlertDialogFooter>
                 </AlertDialogContent>
