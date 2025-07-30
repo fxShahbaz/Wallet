@@ -131,7 +131,7 @@ export default function AddTransactionPage() {
     
     return (
         <div className="h-full bg-white flex flex-col">
-            <div className="flex-1 flex flex-col items-center p-4 pt-12">
+            <div className="flex flex-col items-center p-4 pt-12">
                  <div className="relative">
                     <input 
                         type="text"
@@ -339,5 +339,7 @@ export default function AddTransactionPage() {
             </div>
         </div>
     );
+
+    
 
     
