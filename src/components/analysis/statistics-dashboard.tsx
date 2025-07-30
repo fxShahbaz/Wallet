@@ -20,6 +20,7 @@ import {
   isToday,
   differenceInDays,
   startOfDay,
+  format,
 } from 'date-fns';
 
 const formatCurrency = (amount: number) => {
