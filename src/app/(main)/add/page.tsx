@@ -77,7 +77,7 @@ const SegmentedControl = ({ value, onChange, options }: { value: string, onChang
 export default function AddTransactionPage() {
     const router = useRouter();
     const { categories, addTransaction, accounts, submitTransactionForm, setSubmitTransactionForm } = useApp();
-    const [amount, setAmount] = useState('0.00');
+    const [amount, setAmount] = useState('0');
     const photoInputRef = useRef<HTMLInputElement>(null);
     const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
@@ -172,7 +172,7 @@ export default function AddTransactionPage() {
                 <h1 className="font-semibold text-lg">New Transaction</h1>
                 <div className="w-10"></div>
             </header>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 pb-24">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 pb-36">
                 <div className="p-4 pt-6 flex justify-center">
                    <div className="flex items-center justify-center">
                         <input
@@ -387,5 +387,3 @@ export default function AddTransactionPage() {
         </motion.div>
     );
 }
-
-    
