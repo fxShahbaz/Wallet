@@ -74,13 +74,17 @@ export function SummaryCards({ transactions }: { transactions: Transaction[] }) 
     }
 
     return (
-        <div className="grid gap-4 md:grid-cols-2">
-            <SummaryCard title="Total Income" value={summary.income} icon={<ArrowUpRight />} colorClass="text-green-500" />
-            <SummaryCard title="Total Expenses" value={summary.expense} icon={<ArrowDownLeft />} colorClass="text-red-500" />
-            <SummaryCard title="Total Transferred" value={summary.transferred} icon={<Landmark />} />
-            <SummaryCard title="Total Lended" value={summary.lended} icon={<HandCoins />} />
-            <SummaryCard title="Total Receivables" value={summary.receivables} icon={<Receipt />} />
-            <SummaryCard title="Total Investment" value={summary.investment} icon={<TrendingUp />} />
+        <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+                <SummaryCard title="Total Income" value={summary.income} icon={<ArrowUpRight />} colorClass="text-green-500" />
+                <SummaryCard title="Total Expenses" value={summary.expense} icon={<ArrowDownLeft />} colorClass="text-red-500" />
+            </div>
+             <div className="grid gap-4 md:grid-cols-2">
+                <SummaryCard title="Total Transferred" value={summary.transferred} icon={<Landmark />} />
+                <SummaryCard title="Total Lended" value={summary.lended} icon={<HandCoins />} />
+                <SummaryCard title="Total Receivables" value={summary.receivables} icon={<Receipt />} />
+                <SummaryCard title="Total Investment" value={summary.investment} icon={<TrendingUp />} />
+            </div>
         </div>
     );
 }
