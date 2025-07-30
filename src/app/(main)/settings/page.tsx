@@ -58,19 +58,6 @@ export default function SettingsPage() {
         <div className="flex items-center gap-2">
           <h1 className="font-semibold text-lg">Settings</h1>
         </div>
-        {isLoggedIn ? (
-          <div className="flex items-center gap-2">
-              <UserNav />
-              <Button variant="outline" size="sm" onClick={() => setIsLoggedIn(false)}>
-                <LogOut className="w-4 h-4" />
-              </Button>
-          </div>
-        ) : (
-            <Button size="sm" onClick={() => setIsLoggedIn(true)}>
-                <LogIn className="w-4 h-4 mr-2" />
-                Login
-            </Button>
-        )}
       </header>
       <ScrollArea className="flex-1">
         <div className="p-4 space-y-8 pb-24">
@@ -79,11 +66,25 @@ export default function SettingsPage() {
             <h2 className="text-base font-semibold text-muted-foreground mb-4 px-2">Account</h2>
              {isLoggedIn ? (
               <div className="flex items-center justify-between p-2 rounded-lg">
-                <p className="font-semibold text-base">Shahbaz</p>
+                <div className="flex items-center gap-3">
+                    <UserNav />
+                    <div>
+                        <p className="font-semibold text-base">Shahbaz</p>
+                        <p className="text-sm text-muted-foreground">shahbaz@example.com</p>
+                    </div>
+                </div>
+                <Button variant="outline" size="sm" onClick={() => setIsLoggedIn(false)}>
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Logout
+                </Button>
               </div>
             ) : (
                 <div className="flex items-center justify-between p-2 rounded-lg">
                     <p className="text-sm text-muted-foreground">You are not logged in.</p>
+                    <Button size="sm" onClick={() => setIsLoggedIn(true)}>
+                        <LogIn className="w-4 h-4 mr-2" />
+                        Login
+                    </Button>
                 </div>
             )}
           </div>
@@ -94,26 +95,26 @@ export default function SettingsPage() {
             <div className="space-y-2">
               <div className="flex items-center justify-between p-2 rounded-lg hover:bg-secondary">
                 <span className="font-medium text-sm">Theme</span>
-                <div className="relative flex items-center gap-1 rounded-lg bg-secondary p-1">
+                <div className="relative flex items-center gap-1 rounded-full bg-secondary p-1">
                   
-                  <Button variant="ghost" size="sm" onClick={() => setTheme('light')} className={cn("relative rounded-md px-2 py-1 h-auto z-10", theme !== 'light' && 'text-muted-foreground')}>
+                  <Button variant="ghost" size="icon" onClick={() => setTheme('light')} className={cn("relative rounded-full h-8 w-8 z-10", theme !== 'light' && 'text-muted-foreground')}>
                     <Sun className="w-4 h-4" />
                   </Button>
-                  <Button variant="ghost" size="sm" onClick={() => setTheme('dark')} className={cn("relative rounded-md px-2 py-1 h-auto z-10", theme !== 'dark' && 'text-muted-foreground')}>
+                  <Button variant="ghost" size="icon" onClick={() => setTheme('dark')} className={cn("relative rounded-full h-8 w-8 z-10", theme !== 'dark' && 'text-muted-foreground')}>
                     <Moon className="w-4 h-4" />
                   </Button>
-                  <Button variant="ghost" size="sm" onClick={() => setTheme('system')} className={cn("relative rounded-md px-2 py-1 h-auto z-10", theme !== 'system' && 'text-muted-foreground')}>
+                  <Button variant="ghost" size="icon" onClick={() => setTheme('system')} className={cn("relative rounded-full h-8 w-8 z-10", theme !== 'system' && 'text-muted-foreground')}>
                     <Laptop className="w-4 h-4" />
                   </Button>
                   
                   {mounted && theme && (
                     <motion.div
                       layoutId="theme-switcher-active"
-                      className="absolute inset-0 bg-background rounded-md shadow-sm"
+                      className="absolute inset-0 bg-background rounded-full shadow-sm"
                       style={{ 
                         left: theme === 'light' ? '4px' : theme === 'dark' ? '44px' : '84px',
-                        width: '36px',
-                        height: 'calc(100% - 8px)',
+                        width: '32px',
+                        height: '32px',
                         top: '4px'
                       }}
                       transition={{ type: 'spring', stiffness: 300, damping: 30 }}
@@ -127,7 +128,7 @@ export default function SettingsPage() {
           <div>
             <h2 className="text-base font-semibold text-muted-foreground mb-4 px-2">Data Management</h2>
             <div className="space-y-1">
-              <button onClick={handleExportData} className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-secondary text-sm font-medium">
+              <button onClick={handleExportData} className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-secondary text-sm font-medium">
                 <div className="flex items-center gap-3">
                   <FileUp className="w-4 h-4 text-muted-foreground" />
                   <span>Export Data</span>
@@ -136,7 +137,7 @@ export default function SettingsPage() {
               </button>
               <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
                 <AlertDialogTrigger asChild>
-                    <button className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-secondary text-sm font-medium text-destructive">
+                    <button className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-secondary text-sm font-medium text-destructive">
                         <div className="flex items-center gap-3">
                         <Trash2 className="w-4 h-4" />
                         <span>Delete All Data</span>
@@ -165,14 +166,14 @@ export default function SettingsPage() {
           <div>
             <h2 className="text-base font-semibold text-muted-foreground mb-4 px-2">About</h2>
             <div className="space-y-1">
-               <button className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-secondary text-sm font-medium">
+               <button className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-secondary text-sm font-medium">
                 <div className="flex items-center gap-3">
                   <HelpCircle className="w-4 h-4 text-muted-foreground" />
                   <span>Help & Support</span>
                 </div>
                 <ChevronRight className="w-4 h-4 text-muted-foreground" />
               </button>
-              <div className="flex items-center justify-between p-2 text-sm">
+              <div className="flex items-center justify-between p-3 text-sm">
                 <span className="font-medium">Version</span>
                 <span className="text-muted-foreground">1.0.0</span>
               </div>
