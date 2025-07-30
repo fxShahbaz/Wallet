@@ -13,22 +13,16 @@ const formatCurrency = (amount: number) => {
 const SummaryCard = ({ title, value, icon, colorClass, dark }: { title: string, value: number, icon: React.ReactNode, colorClass?: string, dark?: boolean }) => {
     if (value === 0) return null;
 
-    const [titlePart1, titlePart2] = title.split(' ');
-
     return (
-        <Card className={cn("bg-gray-900 text-white flex flex-col justify-between h-32", dark && "bg-gray-900 text-white")}>
-            <CardHeader className="flex flex-row items-start justify-between pb-2 space-y-0">
-                <CardTitle className="text-sm font-medium">
-                    {titlePart1}
-                    {titlePart2 && <br />}
-                    {titlePart2}
-                </CardTitle>
-                <div className={cn("w-5 h-5", colorClass)}>
+        <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-xs font-medium">{title}</CardTitle>
+                <div className={cn("w-4 h-4 text-muted-foreground", colorClass)}>
                     {icon}
                 </div>
             </CardHeader>
             <CardContent>
-                <div className={cn("text-2xl font-bold", colorClass)}>{formatCurrency(value)}</div>
+                <div className={cn("text-base font-bold", colorClass)}>{formatCurrency(value)}</div>
             </CardContent>
         </Card>
     )
@@ -67,14 +61,10 @@ export function SummaryCards({ transactions }: { transactions: Transaction[] }) 
     }
 
     return (
-        <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-                <SummaryCard title="Total Income" value={summary.income} icon={<ArrowUpRight />} colorClass="text-green-500" dark />
-                <SummaryCard title="Total Expenses" value={summary.expense} icon={<ArrowDownLeft />} colorClass="text-red-500" dark />
-            </div>
-             <div className="grid gap-4 md:grid-cols-2">
-                <SummaryCard title="Total Investment" value={summary.investment} icon={<TrendingUp />} />
-            </div>
+        <div className="grid grid-cols-2 gap-4">
+            <SummaryCard title="Total Income" value={summary.income} icon={<ArrowUpRight />} colorClass="text-green-500" />
+            <SummaryCard title="Total Expenses" value={summary.expense} icon={<ArrowDownLeft />} colorClass="text-red-500" />
+            <SummaryCard title="Total Investment" value={summary.investment} icon={<TrendingUp />} />
         </div>
     );
 }
