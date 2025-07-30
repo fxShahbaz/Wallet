@@ -131,7 +131,7 @@ export default function AddTransactionPage() {
     
     return (
         <div className="h-full bg-white flex flex-col">
-            <header className="p-4 flex items-center justify-between sticky top-0 bg-white z-10 border-b">
+            <header className="p-4 flex items-center justify-between bg-white border-b">
                 <button onClick={() => router.back()} className="p-2">
                     <X className="w-5 h-5 text-gray-500" />
                 </button>
