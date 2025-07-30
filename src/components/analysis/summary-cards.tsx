@@ -1,9 +1,10 @@
 
 "use client"
 import { useMemo } from 'react';
-import { Transaction } from '@/lib/types';
+import type { Transaction } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowDownLeft, ArrowUpRight, Landmark, HandCoins, PiggyBank, Receipt, TrendingUp, Wallet } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(amount);
@@ -83,5 +84,3 @@ export function SummaryCards({ transactions }: { transactions: Transaction[] }) 
         </div>
     );
 }
-
-const cn = (a: string, b?: string) => b ? `${a} ${b}` : a;
