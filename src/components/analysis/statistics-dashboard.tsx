@@ -1,6 +1,6 @@
 
 "use client";
-import { useMemo } from 'react';
+import { useMemo, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Account, Transaction } from '@/lib/types';
 import {
@@ -14,6 +14,7 @@ import {
   startOfDay,
   format
 } from 'date-fns';
+import { cn } from '@/lib/utils';
 
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat('en-IN', {
@@ -28,21 +29,56 @@ const StatCard = ({
   title,
   value,
   icon,
+  index,
 }: {
   title: string;
   value: string;
   icon: React.ReactNode;
-}) => (
-  <Card className="h-full">
-    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-      <CardTitle className="text-xs font-medium">{title}</CardTitle>
-      <div className="text-muted-foreground">{icon}</div>
-    </CardHeader>
-    <CardContent>
-      <div className="text-base font-bold">{value}</div>
-    </CardContent>
-  </Card>
-);
+  index: number;
+}) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-transaction-in');
+                }
+            },
+            { threshold: 0.1 }
+        );
+
+        const currentRef = ref.current;
+        if (currentRef) {
+            observer.observe(currentRef);
+        }
+
+        return () => {
+            if (currentRef) {
+                observer.unobserve(currentRef);
+            }
+        };
+    }, []);
+
+
+  return (
+    <div
+        ref={ref}
+        className="opacity-0"
+        style={{ animationDelay: `${index * 100}ms` }}
+    >
+      <Card className="h-full">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-xs font-medium">{title}</CardTitle>
+          <div className="text-muted-foreground">{icon}</div>
+        </CardHeader>
+        <CardContent>
+          <div className="text-base font-bold">{value}</div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+};
 
 export function StatisticsDashboard({
   accounts,
@@ -116,12 +152,13 @@ export function StatisticsDashboard({
 
   return (
     <div className="grid grid-cols-2 gap-4">
-      {stats.map((stat) => (
+      {stats.map((stat, index) => (
         <StatCard
           key={stat.title}
           title={stat.title}
           value={stat.value}
           icon={stat.icon}
+          index={index}
         />
       ))}
     </div>
