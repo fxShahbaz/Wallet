@@ -115,7 +115,7 @@ export default function AnalysisPage() {
                         <div className="pt-12 space-y-4">
                             <div className="text-center p-6 border rounded-xl">
                                 <div 
-                                    className="flex flex-col items-center justify-center text-center text-muted-foreground py-8 gap-3"
+                                    className="flex flex-col items-center justify-center text-center text-muted-foreground gap-3"
                                 >
                                     <CalendarDays className="w-10 h-10 text-gray-300" />
                                     <p className="text-sm">Select a date range to view transactions from top right corner.</p>
@@ -128,6 +128,7 @@ export default function AnalysisPage() {
                                     <br/>
                                     Made with <Heart className="inline w-4 h-4 text-red-500 fill-current" /> by Shahbaz
                                 </p>
+
                                 <Button asChild className="bg-gray-900 text-white hover:bg-gray-800 rounded-lg">
                                     <Link href="https://buymeacoffee.com/howdyshahbaz" target="_blank">
                                         Buy me a coffee
