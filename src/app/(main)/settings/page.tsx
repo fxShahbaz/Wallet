@@ -54,21 +54,6 @@ export default function SettingsPage() {
 
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">Notifications</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <button className="w-full flex items-center justify-between py-2 text-sm font-medium">
-                <div className="flex items-center gap-3">
-                  <Bell className="w-4 h-4 text-muted-foreground" />
-                  <span>Push Notifications</span>
-                </div>
-                <ChevronRight className="w-4 h-4 text-muted-foreground" />
-              </button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
               <CardTitle className="text-base">Data Management</CardTitle>
             </CardHeader>
             <CardContent>
