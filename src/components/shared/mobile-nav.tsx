@@ -61,8 +61,8 @@ export function MobileNav() {
   }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 h-16 flex justify-center items-center z-50 md:hidden">
-      <div className="relative w-full">
+    <div className="fixed bottom-0 left-0 right-0 h-16 flex justify-center items-center z-50">
+      <div className="relative w-full max-w-md">
         <nav className="flex items-center justify-around h-full bg-card shadow-lg">
           {links.map((link) => {
             const isActive = pathname === link.href;
