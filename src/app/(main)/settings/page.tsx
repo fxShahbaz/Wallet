@@ -1,7 +1,7 @@
 
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -27,6 +27,11 @@ export default function SettingsPage() {
     const [isAlertOpen, setIsAlertOpen] = useState(false);
     const { theme, setTheme } = useTheme()
     const [isLoggedIn, setIsLoggedIn] = useState(true);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const handleExportData = () => {
         const dataToExport = {
@@ -74,10 +79,7 @@ export default function SettingsPage() {
             <h2 className="text-base font-semibold text-muted-foreground mb-4 px-2">Account</h2>
              {isLoggedIn ? (
               <div className="flex items-center justify-between p-2 rounded-lg">
-                <div>
-                  <p className="font-semibold text-base">Shahbaz</p>
-                  <p className="text-sm text-muted-foreground">shahbaz@example.com</p>
-                </div>
+                <p className="font-semibold text-base">Shahbaz</p>
               </div>
             ) : (
                 <div className="flex items-center justify-between p-2 rounded-lg">
@@ -104,7 +106,7 @@ export default function SettingsPage() {
                     <Laptop className="w-4 h-4" />
                   </Button>
                   
-                  {theme && (
+                  {mounted && theme && (
                     <motion.div
                       layoutId="theme-switcher-active"
                       className="absolute inset-0 bg-background rounded-md shadow-sm"
