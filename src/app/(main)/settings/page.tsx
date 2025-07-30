@@ -5,7 +5,7 @@ import { useState } from "react"
 import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { ChevronRight, FileUp, Sun, Moon, Laptop, Trash2, HelpCircle } from "lucide-react"
+import { ChevronRight, FileUp, Sun, Moon, Laptop, Trash2, HelpCircle, LogIn, LogOut } from "lucide-react"
 import { UserNav } from "@/components/shared/user-nav"
 import { useApp } from "@/context/app-context"
 import {
@@ -26,6 +26,7 @@ export default function SettingsPage() {
     const { accounts, transactions, clearAllData } = useApp();
     const [isAlertOpen, setIsAlertOpen] = useState(false);
     const { theme, setTheme } = useTheme()
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
 
     const handleExportData = () => {
         const dataToExport = {
@@ -56,13 +57,33 @@ export default function SettingsPage() {
       <ScrollArea className="flex-1">
         <div className="p-4 space-y-8 pb-24">
           
-          <div className="flex items-center gap-4">
-            <UserNav />
-            <div>
-              <p className="font-semibold text-base">Shahbaz</p>
-              <p className="text-sm text-muted-foreground">shahbaz@example.com</p>
-            </div>
+          <div className="space-y-2">
+            <h2 className="text-base font-semibold text-muted-foreground mb-4 px-2">Account</h2>
+            {isLoggedIn ? (
+              <div className="flex items-center justify-between p-2 rounded-lg">
+                <div className="flex items-center gap-4">
+                  <UserNav />
+                  <div>
+                    <p className="font-semibold text-base">Shahbaz</p>
+                    <p className="text-sm text-muted-foreground">shahbaz@example.com</p>
+                  </div>
+                </div>
+                <Button variant="outline" size="sm" onClick={() => setIsLoggedIn(false)}>
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </Button>
+              </div>
+            ) : (
+                <div className="flex items-center justify-between p-2 rounded-lg">
+                    <p className="text-sm text-muted-foreground">You are not logged in.</p>
+                    <Button size="sm" onClick={() => setIsLoggedIn(true)}>
+                        <LogIn className="w-4 h-4 mr-2" />
+                        Login
+                    </Button>
+                </div>
+            )}
           </div>
+
 
           <div>
             <h2 className="text-base font-semibold text-muted-foreground mb-4 px-2">Appearance</h2>
