@@ -53,33 +53,35 @@ export default function SettingsPage() {
         <div className="flex items-center gap-2">
           <h1 className="font-semibold text-lg">Settings</h1>
         </div>
+        {isLoggedIn ? (
+          <div className="flex items-center gap-2">
+              <UserNav />
+              <Button variant="outline" size="sm" onClick={() => setIsLoggedIn(false)}>
+                <LogOut className="w-4 h-4" />
+              </Button>
+          </div>
+        ) : (
+            <Button size="sm" onClick={() => setIsLoggedIn(true)}>
+                <LogIn className="w-4 h-4 mr-2" />
+                Login
+            </Button>
+        )}
       </header>
       <ScrollArea className="flex-1">
         <div className="p-4 space-y-8 pb-24">
           
           <div className="space-y-2">
             <h2 className="text-base font-semibold text-muted-foreground mb-4 px-2">Account</h2>
-            {isLoggedIn ? (
+             {isLoggedIn ? (
               <div className="flex items-center justify-between p-2 rounded-lg">
-                <div className="flex items-center gap-4">
-                  <UserNav />
-                  <div>
-                    <p className="font-semibold text-base">Shahbaz</p>
-                    <p className="text-sm text-muted-foreground">shahbaz@example.com</p>
-                  </div>
+                <div>
+                  <p className="font-semibold text-base">Shahbaz</p>
+                  <p className="text-sm text-muted-foreground">shahbaz@example.com</p>
                 </div>
-                <Button variant="outline" size="sm" onClick={() => setIsLoggedIn(false)}>
-                  <LogOut className="w-4 h-4 mr-2" />
-                  Logout
-                </Button>
               </div>
             ) : (
                 <div className="flex items-center justify-between p-2 rounded-lg">
                     <p className="text-sm text-muted-foreground">You are not logged in.</p>
-                    <Button size="sm" onClick={() => setIsLoggedIn(true)}>
-                        <LogIn className="w-4 h-4 mr-2" />
-                        Login
-                    </Button>
                 </div>
             )}
           </div>
