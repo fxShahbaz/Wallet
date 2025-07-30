@@ -74,7 +74,7 @@ export default function DashboardPage() {
             <div className="flex-1 flex flex-col">
                 
                 <div className="flex-1 flex flex-col relative">
-                    <div className="sticky top-0 z-10 p-4 bg-secondary/0 backdrop-blur-sm">
+                    <div className="sticky top-0 z-10 p-4 bg-secondary/0">
                         <div className="relative flex items-center gap-2 bg-background p-1 rounded-full">
                             {filters.map((filter) => (
                                 <button
