@@ -64,7 +64,7 @@ export default function AnalysisPage() {
                     <header className="sticky top-0 z-10 flex items-center justify-between h-16 px-4 bg-background/80 backdrop-blur-sm border-b shrink-0 md:px-6">
                         <div className="flex items-center gap-4">
                             {isMobile && <SidebarTrigger />}
-                            <h1 className="text-2xl font-semibold font-headline">Analysis</h1>
+                            <h1 className="text-2xl font-semibold font-headline">Reports</h1>
                         </div>
                     </header>
                     <div className="flex-1 p-4 space-y-6 overflow-auto md:p-6">

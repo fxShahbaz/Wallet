@@ -11,7 +11,7 @@ import {
 
 const links = [
   { href: '/', label: 'Dashboard', icon: Home },
-  { href: '/analysis', label: 'Analysis', icon: Calendar },
+  { href: '/analysis', label: 'Reports', icon: Calendar },
 ];
 
 export function MainNav() {

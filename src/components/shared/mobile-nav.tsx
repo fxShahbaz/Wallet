@@ -8,7 +8,7 @@ import { AddTransactionSheet } from '../dashboard/add-transaction-sheet';
 
 const links = [
   { href: '/', label: 'Home', icon: Home },
-  { href: '/analysis', label: 'Analysis', icon: Calendar },
+  { href: '/analysis', label: 'Reports', icon: Calendar },
   { href: '#', label: 'Add', icon: null }, // Placeholder for the FAB
   { href: '/wallets', label: 'Wallets', icon: Wallet },
   { href: '/settings', label: 'Settings', icon: Settings },
