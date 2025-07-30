@@ -16,6 +16,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { SummaryCards } from '@/components/analysis/summary-cards';
 import { StatisticsDashboard } from '@/components/analysis/statistics-dashboard';
+import { IncomeExpenseChart } from '@/components/analysis/income-expense-chart';
+import { ExpenseCategoryChart } from '@/components/analysis/expense-category-chart';
 
 
 export default function AnalysisPage() {
@@ -105,9 +107,13 @@ export default function AnalysisPage() {
             </AnimatePresence>
 
             <ScrollArea className="flex-1">
-                <div className={cn("px-4 pt-4 pb-4 space-y-6", appliedDate && 'pt-16')}>
+                <div className={cn("p-4 space-y-6", appliedDate && 'pt-16')}>
                     {!appliedDate ? (
-                        <StatisticsDashboard transactions={transactions} accounts={accounts} />
+                        <>
+                            <StatisticsDashboard transactions={transactions} accounts={accounts} />
+                            <IncomeExpenseChart transactions={transactions} />
+                            <ExpenseCategoryChart transactions={transactions} />
+                        </>
                     ) : filteredTransactions.length > 0 ? (
                         <>
                             <SummaryCards transactions={filteredTransactions} />
