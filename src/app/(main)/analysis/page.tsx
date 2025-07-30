@@ -71,7 +71,7 @@ export default function AnalysisPage() {
                     {date?.from && (
                         <div className="flex justify-end gap-2 p-4 border-t">
                             <Button variant="ghost" size="sm" onClick={() => setDate(undefined)}>Clear</Button>
-                            <Button size="sm" onClick={handleApply}>Apply</Button>
+                            <Button size="sm" onClick={handleApply}>Date Apply</Button>
                         </div>
                     )}
                 </PopoverContent>
@@ -85,9 +85,9 @@ export default function AnalysisPage() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.3 }}
-                    className="absolute top-2 z-10 w-full flex justify-center"
+                    className="absolute top-24 z-10 w-full flex justify-center"
                 >
-                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary text-sm font-medium shadow-lg mt-24">
+                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary text-sm font-medium shadow-lg">
                         <p className="text-muted-foreground">
                             <span className="text-foreground">
                                 {format(appliedDate.from!, 'MMM d, yyyy')}
