@@ -22,6 +22,11 @@ export function MobileNav() {
   const router = useRouter();
   const { setSubmitTransactionForm } = useApp();
   const [isSaved, setIsSaved] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   useEffect(() => {
     if (pathname !== '/add') {
@@ -47,6 +52,10 @@ export function MobileNav() {
   }
 
   const Icon = getIcon();
+
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <div className="fixed bottom-4 left-0 right-0 h-16 flex justify-center items-center z-50 md:hidden">
