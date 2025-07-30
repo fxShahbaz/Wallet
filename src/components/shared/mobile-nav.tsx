@@ -17,6 +17,17 @@ const links = [
   { href: '/settings', label: 'Settings', icon: Settings },
 ];
 
+const iconVariants = {
+  inactive: { 
+    fill: "rgba(255, 255, 255, 0)",
+    transition: { duration: 0.2 } 
+  },
+  active: { 
+    fill: "hsl(var(--primary))",
+    transition: { duration: 0.2 } 
+  },
+};
+
 export function MobileNav() {
   const pathname = usePathname();
   const router = useRouter();
@@ -106,9 +117,15 @@ export function MobileNav() {
               );
             }
             
+            const MotionIcon = motion(link.icon);
+
             return (
               <Link key={link.href} href={link.href} className="flex flex-col items-center justify-center text-xs gap-1 p-3">
-                <link.icon className={cn("w-5 h-5", isActive ? "text-primary" : "text-muted-foreground")} />
+                <MotionIcon 
+                  className={cn("w-5 h-5", isActive ? "text-primary" : "text-muted-foreground")}
+                  variants={iconVariants}
+                  animate={isActive ? "active" : "inactive"}
+                />
                 <span className={cn("text-xs", isActive ? "text-primary" : "text-muted-foreground")}>{link.label}</span>
               </Link>
             );
@@ -118,5 +135,3 @@ export function MobileNav() {
     </div>
   );
 }
-
-    
