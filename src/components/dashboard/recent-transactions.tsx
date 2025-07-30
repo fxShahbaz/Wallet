@@ -50,8 +50,6 @@ function TransactionItem({ transaction, index, showTypeIndicator }: { transactio
             ([entry]) => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('animate-transaction-in');
-                } else {
-                    entry.target.classList.remove('animate-transaction-in');
                 }
             },
             { threshold: 0.1 }
@@ -73,7 +71,7 @@ function TransactionItem({ transaction, index, showTypeIndicator }: { transactio
             ref={ref}
             key={transaction.id} 
             className="flex items-center justify-between p-3 rounded-xl bg-card text-card-foreground opacity-0"
-            style={{ animationDelay: `${index * 50}ms`}}
+            style={{ animationDelay: `${index * 50}ms`, willChange: 'transform, opacity' }}
         >
             <div className="flex items-center gap-3">
                 <div className="p-2 bg-secondary rounded-full">
@@ -87,8 +85,8 @@ function TransactionItem({ transaction, index, showTypeIndicator }: { transactio
             <div className="flex items-center gap-1">
                 {showTypeIndicator && (
                     transaction.type === 'income' ? 
-                    <ArrowUpRight className="w-4 h-4 text-green-500" /> :
-                    <ArrowDownLeft className="w-4 h-4 text-red-500" />
+                    <ArrowDownLeft className="w-4 h-4 text-green-500" /> :
+                    <ArrowUpRight className="w-4 h-4 text-red-500" />
                 )}
                 <p className="font-semibold text-sm">{formatCurrency(transaction.amount)}</p>
             </div>
