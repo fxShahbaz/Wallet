@@ -3,6 +3,7 @@
 
 import * as React from "react"
 import { Check, ChevronsUpDown } from "lucide-react"
+
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -29,70 +30,52 @@ interface ComboboxProps {
 
 export function Combobox({ options, value, onChange, placeholder, inputClassName }: ComboboxProps) {
   const [open, setOpen] = React.useState(false)
-  const [inputValue, setInputValue] = React.useState("")
-
-  const handleSelect = (currentValue: string) => {
-    const label = options.find(opt => opt.label.toLowerCase() === currentValue.toLowerCase())?.label || currentValue;
-    onChange(label);
-    setOpen(false);
-    setInputValue("");
-  };
-
-  const filteredOptions = options.filter(option => 
-    option.label.toLowerCase().includes(inputValue.toLowerCase())
-  );
-
-  const showCreateNew = inputValue && !filteredOptions.some(option => option.label.toLowerCase() === inputValue.toLowerCase());
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-            variant="outline"
-            role="combobox"
-            aria-expanded={open}
-            className={cn("w-full justify-between font-normal", inputClassName)}
-            >
-            {value
-                ? options.find((option) => option.label.toLowerCase() === value.toLowerCase())?.label || value
-                : placeholder || "Select..."}
-            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className={cn("w-full justify-between font-normal", inputClassName)}
+        >
+          {value
+            ? options.find((option) => option.label.toLowerCase() === value.toLowerCase())?.label || value
+            : placeholder || "Select..."}
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
-        <Command>
-          <CommandInput 
-            placeholder="Search or add category..."
-            value={inputValue}
-            onValueChange={setInputValue}
-          />
+        <Command
+            filter={(value, search) => {
+                const extendedValue = options.find(opt => opt.value === value)?.label.toLowerCase() || value;
+                if (extendedValue.includes(search.toLowerCase())) return 1
+                return 0
+            }}
+        >
+          <CommandInput placeholder="Search or add category..." />
           <CommandList>
             <CommandEmpty>
-              {showCreateNew ? (
-                <div
-                  className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none"
-                  onClick={() => handleSelect(inputValue)}
+                <CommandItem
+                    onSelect={(currentValue) => {
+                        onChange(currentValue);
+                        setOpen(false);
+                    }}
                 >
-                  Create "{inputValue}"
-                </div>
-              ) : (
-                "No category found."
-              )}
+                    Create a new category
+                </CommandItem>
             </CommandEmpty>
             <CommandGroup>
-              {showCreateNew && !filteredOptions.length && (
-                  <CommandItem
-                    value={inputValue}
-                    onSelect={() => handleSelect(inputValue)}
-                  >
-                    Create "{inputValue}"
-                  </CommandItem>
-              )}
-              {filteredOptions.map((option) => (
+              {options.map((option) => (
                 <CommandItem
                   key={option.value}
-                  value={option.label}
-                  onSelect={handleSelect}
+                  value={option.value}
+                  onSelect={(currentValue) => {
+                    const label = options.find(opt => opt.value === currentValue)?.label || currentValue;
+                    onChange(label)
+                    setOpen(false)
+                  }}
                 >
                   <Check
                     className={cn(
