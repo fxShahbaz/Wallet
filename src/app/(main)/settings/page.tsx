@@ -2,9 +2,10 @@
 "use client"
 
 import { useState } from "react"
+import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Bell, ChevronRight, FileUp, Sun, Moon, Laptop, Trash2, HelpCircle } from "lucide-react"
+import { ChevronRight, FileUp, Sun, Moon, Laptop, Trash2, HelpCircle } from "lucide-react"
 import { UserNav } from "@/components/shared/user-nav"
 import { useApp } from "@/context/app-context"
 import {
@@ -18,10 +19,12 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
+import { cn } from "@/lib/utils"
 
 export default function SettingsPage() {
     const { accounts, transactions, clearAllData } = useApp();
     const [isAlertOpen, setIsAlertOpen] = useState(false);
+    const { theme, setTheme } = useTheme()
 
     const handleExportData = () => {
         const dataToExport = {
@@ -66,13 +69,13 @@ export default function SettingsPage() {
               <div className="flex items-center justify-between p-2 rounded-lg hover:bg-secondary">
                 <span className="font-medium text-sm">Theme</span>
                 <div className="flex items-center gap-1 rounded-lg bg-secondary p-1">
-                  <Button variant="ghost" size="sm" className="rounded-md px-2 py-1 h-auto bg-background shadow-sm">
+                  <Button variant="ghost" size="sm" onClick={() => setTheme('light')} className={cn("rounded-md px-2 py-1 h-auto", theme === 'light' && 'bg-background shadow-sm')}>
                     <Sun className="w-4 h-4" />
                   </Button>
-                  <Button variant="ghost" size="sm" className="rounded-md px-2 py-1 h-auto">
+                  <Button variant="ghost" size="sm" onClick={() => setTheme('dark')} className={cn("rounded-md px-2 py-1 h-auto", theme === 'dark' && 'bg-background shadow-sm')}>
                     <Moon className="w-4 h-4" />
                   </Button>
-                  <Button variant="ghost" size="sm" className="rounded-md px-2 py-1 h-auto">
+                  <Button variant="ghost" size="sm" onClick={() => setTheme('system')} className={cn("rounded-md px-2 py-1 h-auto", theme === 'system' && 'bg-background shadow-sm')}>
                     <Laptop className="w-4 h-4" />
                   </Button>
                 </div>
