@@ -19,6 +19,10 @@ const sampleTransactions: Transaction[] = [
     { id: 't3', type: 'expense', amount: 25000, date: new Date(new Date().setHours(14, 0, 0, 0)), category: 'Lumber Jacket', description: 'Lumber Jacket', accountId: '1' },
     { id: 't4', type: 'expense', amount: 1800, date: new Date(new Date().setDate(today.getDate() - 1)), category: 'Uber', description: 'Uber', accountId: '3' },
     { id: 't5', type: 'income', amount: 1500, date: new Date(new Date().setDate(today.getDate() - 2)), category: 'Freelance', description: 'Logo design project', accountId: '2' },
+    { id: 't6', type: 'income', amount: 85000, date: new Date(new Date(today).setDate(1)), category: 'Salary', description: 'Monthly Salary', accountId: '1' },
+    { id: 't7', type: 'income', amount: 12000, date: new Date(new Date().setDate(today.getDate() - 5)), category: 'Freelance', description: 'Web design gig', accountId: '2' },
+    { id: 't8', type: 'income', amount: 500, date: new Date(new Date().setDate(today.getDate() - 3)), category: 'Refund', description: 'Amazon return', accountId: '1' },
+
 ];
 
 const sampleCategories: Category[] = [
@@ -34,6 +38,7 @@ const sampleCategories: Category[] = [
     { value: 'Bolt fee', label: 'Bolt fee' },
     { value: 'Lumber Jacket', label: 'Lumber Jacket' },
     { value: 'Uber', label: 'Uber' },
+    { value: 'Refund', label: 'Refund' },
   ];
 
 // Context Type
