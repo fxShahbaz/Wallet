@@ -11,6 +11,7 @@ import { Transaction } from '@/lib/types';
 import { startOfDay, startOfWeek, startOfMonth, isWithinInterval } from 'date-fns';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { AnimatedCounter } from '@/components/dashboard/animated-counter';
+import { cn } from '@/lib/utils';
 
 const filters = ['Today', 'This week', 'This month'];
 
@@ -80,7 +81,10 @@ export default function DashboardPage() {
                                 <button
                                     key={filter}
                                     onClick={() => setActiveFilter(filter)}
-                                    className="relative flex-1 py-1.5 text-sm font-medium text-center text-muted-foreground rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                    className={cn(
+                                        "relative flex-1 py-1.5 text-sm font-medium text-center text-muted-foreground rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                                        activeFilter === filter && "text-primary-foreground"
+                                    )}
                                 >
                                     {activeFilter === filter && (
                                         <motion.span
@@ -90,7 +94,7 @@ export default function DashboardPage() {
                                             transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                                         />
                                     )}
-                                    <span className="relative z-10 mix-blend-exclusion">{filter}</span>
+                                    <span className={cn("relative z-10", activeFilter === filter && "mix-blend-exclusion")}>{filter}</span>
                                 </button>
                             ))}
                         </div>
