@@ -81,7 +81,7 @@ export default function AddTransactionPage() {
                     <button 
                         onClick={() => setTransactionType('expense')}
                         className={cn(
-                            "relative px-4 py-1 text-sm font-medium rounded-full",
+                            "relative px-3 py-1 text-xs font-medium rounded-full",
                             transactionType === 'expense' ? "text-white" : "text-black"
                         )}
                     >
@@ -98,7 +98,7 @@ export default function AddTransactionPage() {
                     <button 
                         onClick={() => setTransactionType('income')}
                         className={cn(
-                            "relative px-4 py-1 text-sm font-medium rounded-full",
+                            "relative px-3 py-1 text-xs font-medium rounded-full",
                             transactionType === 'income' ? "text-white" : "text-black"
                         )}
                     >
@@ -122,10 +122,10 @@ export default function AddTransactionPage() {
                 <div className="flex overflow-x-auto p-4 space-x-4">
                     {dates.map(date => (
                         <button key={date.toString()} onClick={() => setSelectedDate(date)} className={cn(
-                            "flex flex-col items-center justify-center p-2 rounded-lg w-12 h-14 shrink-0 transition-colors",
+                            "flex flex-col items-center justify-center p-2 rounded-lg w-10 h-12 shrink-0 transition-colors",
                             isSameDay(date, selectedDate) ? "bg-black text-white" : "hover:bg-gray-100"
                         )}>
-                            <span className="text-sm font-medium">{format(date, 'd')}</span>
+                            <span className="text-xs font-medium">{format(date, 'd')}</span>
                             <span className="text-xs uppercase">{format(date, 'eee')}</span>
                         </button>
                     ))}
@@ -134,7 +134,7 @@ export default function AddTransactionPage() {
 
             <div className="flex-1 flex flex-col items-center justify-center p-4">
                 <div className="flex items-end">
-                    <span className="text-4xl font-medium -mb-1">$</span>
+                    <span className="text-3xl font-medium -mb-1">$</span>
                     <AnimatePresence mode="popLayout">
                         <motion.span 
                             key={amount}
@@ -142,20 +142,20 @@ export default function AddTransactionPage() {
                             animate={{ y: 0, opacity: 1 }}
                             exit={{ y: -20, opacity: 0 }}
                             transition={{ duration: 0.2 }}
-                            className="text-7xl font-light tracking-tighter"
+                            className="text-6xl font-light tracking-tighter"
                         >
                             {amount || '0'}
                         </motion.span>
                     </AnimatePresence>
                 </div>
-                 <div className="h-10 mt-4">
+                 <div className="h-8 mt-3">
                     <AnimatePresence>
                         {selectedCategory && (
                             <motion.div
                                 initial={{ y: 10, opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
                                 exit={{ y: -10, opacity: 0 }}
-                                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gray-900 text-white text-sm"
+                                className="flex items-center gap-2 px-3 py-1 rounded-full bg-gray-900 text-white text-xs"
                             >
                                 <span>{selectedCategory}</span>
                                 <button onClick={() => setSelectedCategory(null)} className="text-gray-400 hover:text-white">
@@ -174,7 +174,7 @@ export default function AddTransactionPage() {
                             key={cat.value} 
                             onClick={() => setSelectedCategory(cat.label)}
                             className={cn(
-                                "px-4 py-2 text-sm font-medium rounded-full",
+                                "px-3 py-1.5 text-xs font-medium rounded-full",
                                 selectedCategory === cat.label ? "bg-black text-white" : "bg-gray-100 text-black"
                             )}
                         >
@@ -187,13 +187,13 @@ export default function AddTransactionPage() {
                         <button 
                             key={key} 
                             onClick={() => handleNumpadPress(key)} 
-                            className="h-16 text-2xl font-light rounded-full bg-gray-100 active:bg-gray-200"
+                            className="h-14 text-xl font-light rounded-full bg-gray-100 active:bg-gray-200"
                         >
                             {key}
                         </button>
                     ))}
-                    <button onClick={handleSaveTransaction} className="h-16 flex items-center justify-center text-2xl font-light rounded-full bg-black text-white active:bg-gray-800">
-                        <Check className="w-8 h-8"/>
+                    <button onClick={handleSaveTransaction} className="h-14 flex items-center justify-center text-xl font-light rounded-full bg-black text-white active:bg-gray-800">
+                        <Check className="w-7 h-7"/>
                     </button>
                 </div>
             </div>
