@@ -17,6 +17,7 @@ import { Logo } from '@/components/shared/logo';
 import { MainNav } from '@/components/shared/main-nav';
 import { AccountsList } from '@/components/accounts/accounts-list';
 import { AddAccountSheet } from '@/components/accounts/add-account-sheet';
+import { Label } from '@/components/ui/label';
 
 export default function AnalysisPage() {
     const { transactions, accounts } = useApp();
@@ -39,7 +40,10 @@ export default function AnalysisPage() {
         });
     }, [transactions, dateRange, selectedCategory, selectedAccount]);
     
-    const uniqueCategories = useMemo(() => ['all', ...Array.from(new Set(transactions.map(t => t.category)))], [transactions]);
+    const uniqueCategories = useMemo(() => {
+      const categories = ['all', ...Array.from(new Set(transactions.map(t => t.category)))];
+      return categories.sort((a,b) => a.localeCompare(b));
+    }, [transactions]);
 
     return (
         <SidebarProvider>
@@ -65,55 +69,64 @@ export default function AnalysisPage() {
                     </header>
                     <div className="flex-1 p-4 space-y-6 overflow-auto md:p-6">
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                            <Popover>
-                                <PopoverTrigger asChild>
-                                    <Button
-                                        id="date"
-                                        variant={"outline"}
-                                        className="justify-start w-full text-left font-normal"
-                                    >
-                                        <CalendarIcon className="mr-2 h-4 w-4" />
-                                        {dateRange?.from ? (
-                                            dateRange.to ? (
-                                                <>
-                                                    {format(dateRange.from, "LLL dd, y")} - {format(dateRange.to, "LLL dd, y")}
-                                                </>
+                            <div className="space-y-2">
+                                <Label htmlFor="date">Date Filter</Label>
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <Button
+                                            id="date"
+                                            variant={"outline"}
+                                            className="justify-start w-full text-left font-normal"
+                                        >
+                                            <CalendarIcon className="mr-2 h-4 w-4" />
+                                            {dateRange?.from ? (
+                                                dateRange.to ? (
+                                                    <>
+                                                        {format(dateRange.from, "LLL dd, y")} - {format(dateRange.to, "LLL dd, y")}
+                                                    </>
+                                                ) : (
+                                                    format(dateRange.from, "LLL dd, y")
+                                                )
                                             ) : (
-                                                format(dateRange.from, "LLL dd, y")
-                                            )
-                                        ) : (
-                                            <span>Pick a date</span>
-                                        )}
-                                    </Button>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-auto p-0" align="start">
-                                    <Calendar
-                                        initialFocus
-                                        mode="range"
-                                        defaultMonth={dateRange?.from}
-                                        selected={dateRange}
-                                        onSelect={setDateRange}
-                                        numberOfMonths={2}
-                                    />
-                                </PopoverContent>
-                            </Popover>
-                            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Filter by category..." />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {uniqueCategories.map(c => <SelectItem key={c} value={c}>{c === 'all' ? 'All Categories' : c}</SelectItem>)}
-                                </SelectContent>
-                            </Select>
-                            <Select value={selectedAccount} onValueChange={setSelectedAccount}>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Filter by account..." />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="all">All Accounts</SelectItem>
-                                    {accounts.map(a => <SelectItem key={a.id} value={a.id}>{a.name}</SelectItem>)}
-                                </SelectContent>
-                            </Select>
+                                                <span>Pick a date</span>
+                                            )}
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0" align="start">
+                                        <Calendar
+                                            initialFocus
+                                            mode="range"
+                                            defaultMonth={dateRange?.from}
+                                            selected={dateRange}
+                                            onSelect={setDateRange}
+                                            numberOfMonths={2}
+                                        />
+                                    </PopoverContent>
+                                </Popover>
+                            </div>
+                            <div className="space-y-2">
+                                <Label>Category Filter</Label>
+                                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Filter by category..." />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {uniqueCategories.map(c => <SelectItem key={c} value={c}>{c === 'all' ? 'All Categories' : c}</SelectItem>)}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                           <div className="space-y-2">
+                                <Label>Account Filter</Label>
+                                <Select value={selectedAccount} onValueChange={setSelectedAccount}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Filter by account..." />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="all">All Accounts</SelectItem>
+                                        {accounts.map(a => <SelectItem key={a.id} value={a.id}>{a.name}</SelectItem>)}
+                                    </SelectContent>
+                                </Select>
+                           </div>
                         </div>
                         <div className="grid gap-6 lg:grid-cols-2">
                             <ExpensePieChart data={filteredTransactions} />
