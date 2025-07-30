@@ -12,14 +12,29 @@ import { startOfDay, startOfWeek, startOfMonth, isWithinInterval } from 'date-fn
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { AnimatedCounter } from '@/components/dashboard/animated-counter';
 import { cn } from '@/lib/utils';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Button } from '@/components/ui/button';
+import { ChevronDown } from 'lucide-react';
 
 const filters = ['Today', 'This week', 'This month'];
+const transactionFilters = {
+    all: 'All Transactions',
+    expense: 'Expenses',
+    income: 'Income'
+};
+
 
 export default function DashboardPage() {
     const [activeFilter, setActiveFilter] = useState(filters[0]);
     const { transactions } = useApp();
     const [greeting, setGreeting] = useState('');
     const [isClient, setIsClient] = useState(false);
+    const [transactionFilter, setTransactionFilter] = useState<keyof typeof transactionFilters>('all');
 
     useEffect(() => {
       setIsClient(true);
@@ -52,8 +67,13 @@ export default function DashboardPage() {
                 break;
         }
 
-        return transactions.filter(t => isWithinInterval(t.date, interval));
-    }, [transactions, activeFilter, isClient]);
+        return transactions
+          .filter(t => isWithinInterval(t.date, interval))
+          .filter(t => {
+            if (transactionFilter === 'all') return true;
+            return t.type === transactionFilter;
+          });
+    }, [transactions, activeFilter, isClient, transactionFilter]);
 
     const spendSoFar = filteredTransactions
         .filter(t => t.type === 'expense')
@@ -67,23 +87,32 @@ export default function DashboardPage() {
                         <UserNav />
                         <div>
                             <p className="font-semibold text-xs">{greeting}, Shahbaz</p>
-                            <p className="text-xs text-muted-foreground">Track your expenses.</p>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" className="h-auto p-0 text-xs text-muted-foreground hover:bg-transparent focus-visible:ring-0">
+                                        <span>{transactionFilters[transactionFilter]}</span>
+                                        <ChevronDown className="w-3 h-3 ml-1" />
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="start">
+                                    <DropdownMenuItem onClick={() => setTransactionFilter('all')}>All Transactions</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => setTransactionFilter('expense')}>Expenses</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => setTransactionFilter('income')}>Income</DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
                         </div>
                     </div>
                 </div>
             </header>
             <div className="flex-1 flex flex-col">
-                
-                <div className="flex-1 flex flex-col relative">
-                    <div className="sticky top-0 z-10 p-4 bg-secondary/0">
+                <div className="sticky top-0 z-10 p-4 pt-0 bg-secondary/0">
                         <div className="relative flex items-center gap-2 bg-background p-1 rounded-full">
                             {filters.map((filter) => (
                                 <button
                                     key={filter}
                                     onClick={() => setActiveFilter(filter)}
                                     className={cn(
-                                        "relative flex-1 py-1.5 text-sm font-medium text-center text-muted-foreground rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                                        activeFilter === filter && "text-primary-foreground"
+                                        "relative flex-1 py-1.5 text-sm font-medium text-center text-muted-foreground rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                                     )}
                                 >
                                     {activeFilter === filter && (
@@ -94,11 +123,13 @@ export default function DashboardPage() {
                                             transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                                         />
                                     )}
-                                    <span className={cn("relative z-10", activeFilter === filter && "mix-blend-exclusion")}>{filter}</span>
+                                    <span className={cn("relative z-10", activeFilter === filter && "text-primary-foreground mix-blend-exclusion")}>{filter}</span>
                                 </button>
                             ))}
                         </div>
                     </div>
+                <div className="flex-1 flex flex-col relative">
+                    
                     <div className="p-4 pt-0 space-y-4">
                         <div className="p-4 rounded-2xl bg-gray-900 text-white">
                             <p className="text-sm text-gray-400">Spend so far</p>
