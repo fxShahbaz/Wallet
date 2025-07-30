@@ -21,6 +21,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Calendar as CalendarIcon, X, ArrowLeft, ArrowRight, TrendingUp, StickyNote, Folders } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
 
 
 const transactionFormSchema = z.object({
@@ -35,18 +36,25 @@ type TransactionFormValues = z.infer<typeof transactionFormSchema>;
 
 const SegmentedControl = ({ value, onChange, options }: { value: string, onChange: (val: string) => void, options: { value: string, label: string, icon: React.ReactNode }[]}) => {
     return (
-        <div className="flex items-center gap-2 p-1 rounded-xl bg-gray-100">
+        <div className="relative flex items-center gap-2 p-1 rounded-xl bg-gray-100">
             {options.map(option => (
                 <button
                     key={option.value}
                     onClick={() => onChange(option.value)}
                     className={cn(
-                        "flex-1 flex items-center justify-center gap-2 py-1.5 px-3 text-xs font-medium rounded-lg transition-colors",
-                        value === option.value ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:bg-gray-200"
+                        "relative z-10 flex-1 flex items-center justify-center gap-2 py-1.5 px-3 text-xs font-medium rounded-lg transition-colors",
+                        value !== option.value ? "text-gray-500 hover:bg-gray-200" : "text-gray-900"
                     )}
                 >
                     {option.icon}
                     {option.label}
+                    {value === option.value && (
+                        <motion.div
+                            layoutId="segmented-control-active"
+                            className="absolute inset-0 bg-white rounded-lg shadow-sm"
+                            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                        />
+                    )}
                 </button>
             ))}
         </div>
@@ -133,7 +141,7 @@ export default function AddTransactionPage() {
                         render={({ field }) => (
                             <Popover>
                                 <PopoverTrigger asChild>
-                                    <button className="w-full text-left p-2 rounded-xl border bg-gray-50 flex justify-between items-center">
+                                    <button type="button" className="w-full text-left p-2 rounded-xl border bg-gray-50 flex justify-between items-center">
                                         <div>
                                             <p className="text-[10px] text-gray-500">Date</p>
                                             <p className="font-medium text-xs">{format(field.value, 'PPP')}</p>
