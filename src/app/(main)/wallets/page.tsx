@@ -26,7 +26,7 @@ export default function WalletsPage() {
                </div>
             </header>
             <ScrollArea className="flex-1">
-                <div className="p-4 space-y-4 pb-32">
+                <div className="p-4 space-y-4 pb-24">
                     <Card className="bg-gray-900 text-white">
                         <CardContent className="p-4">
                             <div className="flex items-center justify-between text-sm text-gray-400">
@@ -51,3 +51,5 @@ export default function WalletsPage() {
         </div>
     );
 }
+
+    

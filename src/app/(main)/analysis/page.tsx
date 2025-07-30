@@ -108,7 +108,7 @@ export default function AnalysisPage() {
             </AnimatePresence>
 
             <ScrollArea className="flex-1">
-                <div className={cn("p-4 space-y-6", appliedDate && 'pt-16')}>
+                <div className={cn("p-4 space-y-6 pt-4 pb-24", appliedDate && 'pt-16')}>
                     {!appliedDate ? (
                         <>
                             <StatisticsDashboard transactions={transactions} accounts={accounts} />
@@ -136,3 +136,5 @@ export default function AnalysisPage() {
         </div>
     );
 }
+
+    

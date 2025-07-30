@@ -151,7 +151,7 @@ export default function AddTransactionPage() {
                 <h1 className="font-semibold text-lg">New Transaction</h1>
                 <div className="w-10"></div>
             </header>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 pb-24">
                 <div className="p-4 pt-6 flex justify-center">
                    <div className="flex items-center justify-center">
                         <input
@@ -341,5 +341,7 @@ export default function AddTransactionPage() {
         </motion.div>
     );
 }
+
+    
 
     
