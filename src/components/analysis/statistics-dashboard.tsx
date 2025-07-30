@@ -115,7 +115,7 @@ export function StatisticsDashboard({
       
     const totalExpenseAllTime = transactions
         .filter((t) => t.type === 'expense')
-        .reduce((sum, t) => t.amount, 0);
+        .reduce((sum, t) => sum + t.amount, 0);
 
     const dailyAvgSpent = totalExpenseAllTime / daysSinceFirstTransaction;
 
