@@ -65,10 +65,6 @@ export default function LoginPage() {
                                 <Button type="submit" className="w-full h-9" onClick={handleSuccess}>
                                     Sign In
                                 </Button>
-                                <Button variant="outline" className="w-full h-9" onClick={handleSuccess}>
-                                    <GoogleIcon className="mr-2 h-4 w-4" />
-                                    Sign in with Google
-                                </Button>
                             </CardContent>
                         </Card>
                     </TabsContent>
@@ -102,10 +98,6 @@ export default function LoginPage() {
                                 </div>
                                 <Button type="submit" className="w-full h-9" onClick={handleSuccess}>
                                     Create Account
-                                </Button>
-                                <Button variant="outline" className="w-full h-9" onClick={handleSuccess}>
-                                    <GoogleIcon className="mr-2 h-4 w-4" />
-                                    Sign up with Google
                                 </Button>
                             </CardContent>
                         </Card>
