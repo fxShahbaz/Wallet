@@ -147,7 +147,7 @@ export default function AddTransactionPage() {
                             type="text"
                             value={amount}
                             onChange={handleAmountChange}
-                            className="text-3xl font-bold text-center bg-transparent border-none focus:ring-0 outline-none w-auto"
+                            className="text-3xl font-bold bg-transparent border-none focus:ring-0 outline-none w-auto"
                         />
                     </div>
                 </div>
@@ -349,5 +349,3 @@ export default function AddTransactionPage() {
         </div>
     );
 }
-
-    
