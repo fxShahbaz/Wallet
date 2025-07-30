@@ -185,7 +185,7 @@ export default function AddTransactionPage() {
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                         <div className="pt-6 flex justify-center">
                            <div className="flex items-center justify-center">
-                                <span className="text-3xl font-bold">₹</span>
+                                <span className="text-3xl font-bold"></span>
                                 <input
                                     type="text"
                                     value={amount}
