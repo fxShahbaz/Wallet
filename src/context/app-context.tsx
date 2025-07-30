@@ -27,28 +27,51 @@ const sampleTransactions: Transaction[] = [
 
 ];
 
-const sampleCategories: Category[] = [
+const expenseCategories: Category[] = [
     { value: 'Groceries', label: 'Groceries' },
-    { value: 'Salary', label: 'Salary' },
-    { value: 'Electronics', label: 'Electronics' },
-    { value: 'Bills', label: 'Bills' },
-    { value: 'Freelance', label: 'Freelance' },
+    { value: 'Fruits or Vegetables', label: 'Fruits or Vegetables' },
+    { value: 'Home', label: 'Home' },
+    { value: 'Personal Care', label: 'Personal Care' },
+    { value: 'Electronics & Accessories', label: 'Electronics & Accessories' },
+    { value: 'Utilities', label: 'Utilities' },
+    { value: 'Learning', label: 'Learning' },
+    { value: 'Entertainment', label: 'Entertainment' },
+    { value: 'Private', label: 'Private' },
+    { value: 'Travelling', label: 'Travelling' },
+    { value: 'Bar, Cafe & Drinks', label: 'Bar, Cafe & Drinks' },
+    { value: 'Shopping', label: 'Shopping' },
+    { value: 'Money Lending', label: 'Money Lending' },
+    { value: 'Unknown', label: 'Unknown' },
+    { value: 'Unwanted', label: 'Unwanted' },
+    { value: 'Bike', label: 'Bike' },
+    { value: 'Fuel', label: 'Fuel' },
+    { value: 'Maintenance', label: 'Maintenance' },
+    { value: 'Health & Fitness', label: 'Health & Fitness' },
+    { value: 'Bike Maintenance', label: 'Bike Maintenance' },
     { value: 'Food', label: 'Food'},
     { value: 'Transportation', label: 'Transportation'},
-    { value: 'Utilities', label: 'Utilities'},
-    { value: 'Suya and garri', label: 'Suya and garri' },
-    { value: 'Bolt fee', label: 'Bolt fee' },
-    { value: 'Lumber Jacket', label: 'Lumber Jacket' },
-    { value: 'Uber', label: 'Uber' },
+];
+
+const incomeCategories: Category[] = [
+    { value: 'Salary', label: 'Salary' },
+    { value: 'Freelance', label: 'Freelance' },
     { value: 'Refund', label: 'Refund' },
     { value: 'Investment', label: 'Investment' },
-  ];
+    { value: 'Unknown', label: 'Unknown' },
+    { value: 'Unwanted', label: 'Unwanted' },
+    { value: 'Bike', label: 'Bike' },
+    { value: 'Fuel', label: 'Fuel' },
+    { value: 'Maintenance', label: 'Maintenance' },
+    { value: 'Health & Fitness', label: 'Health & Fitness' },
+    { value: 'Bike Maintenance', label: 'Bike Maintenance' },
+];
 
 // Context Type
 interface AppContextType {
   accounts: Account[];
   transactions: Transaction[];
-  categories: Category[];
+  expenseCategories: Category[];
+  incomeCategories: Category[];
   addTransaction: (transaction: Omit<Transaction, 'id'>) => void;
   addAccount: (account: Omit<Account, 'id' | 'balance' | 'icon'>) => void;
   editAccount: (updatedAccount: Pick<Account, 'id' | 'name' | 'initialBalance'>) => void;
@@ -65,7 +88,6 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [accounts, setAccounts] = useState<Account[]>(sampleAccounts);
   const [transactions, setTransactions] = useState<Transaction[]>(sampleTransactions);
-  const [categories, setCategories] = useState<Category[]>(sampleCategories);
   const [submitTransactionForm, setSubmitTransactionForm] = useState(false);
   const [transactionType, setTransactionType] = useState<'income' | 'expense' | 'investment'>('expense');
   const { toast } = useToast();
@@ -156,7 +178,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const value = {
     accounts,
     transactions,
-    categories,
+    expenseCategories,
+    incomeCategories,
     addTransaction,
     addAccount,
     editAccount,
@@ -178,5 +201,3 @@ export const useApp = () => {
   }
   return context;
 };
-
-    

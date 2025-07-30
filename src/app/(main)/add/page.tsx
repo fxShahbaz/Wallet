@@ -25,6 +25,7 @@ import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { Combobox } from '@/components/ui/combobox';
 
 
 const transactionFormSchema = z.object({
@@ -77,7 +78,7 @@ const SegmentedControl = ({ value, onChange, options }: { value: string, onChang
 
 export default function AddTransactionPage() {
     const router = useRouter();
-    const { categories, addTransaction, accounts, submitTransactionForm, setSubmitTransactionForm, setTransactionType } = useApp();
+    const { expenseCategories, incomeCategories, addTransaction, accounts, submitTransactionForm, setSubmitTransactionForm, setTransactionType } = useApp();
     const [amount, setAmount] = useState('0');
     const photoInputRef = useRef<HTMLInputElement>(null);
     const [photoPreview, setPhotoPreview] = useState<string | null>(null);
@@ -162,6 +163,8 @@ export default function AddTransactionPage() {
         });
     };
     
+    const categoriesToShow = currentTransactionType === 'income' ? incomeCategories : expenseCategories;
+
     return (
         <motion.div 
             className="bg-background h-full flex flex-col"
@@ -223,7 +226,10 @@ export default function AddTransactionPage() {
                             render={({ field }) => (
                                <SegmentedControl
                                     value={field.value}
-                                    onChange={field.onChange}
+                                    onChange={(value) => {
+                                        field.onChange(value);
+                                        form.setValue('category', '');
+                                    }}
                                     options={[
                                         { value: 'expense', label: 'Expense', icon: <ArrowLeft className="w-3 h-3" /> },
                                         { value: 'income', label: 'Income', icon: <ArrowRight className="w-3 h-3" /> },
@@ -264,7 +270,13 @@ export default function AddTransactionPage() {
                                 name="category"
                                 control={form.control}
                                 render={({ field }) => (
-                                    <Input {...field} placeholder="Category" className="p-0 h-auto bg-transparent border-none focus-visible:ring-0 text-xs w-full" />
+                                    <Combobox
+                                        options={categoriesToShow}
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        placeholder="Category"
+                                        inputClassName="p-0 h-auto bg-transparent border-none focus-visible:ring-0 text-xs w-full"
+                                    />
                                 )}
                             />
                              {form.formState.errors.category && (
@@ -395,5 +407,3 @@ export default function AddTransactionPage() {
     );
 
 }
-
-    
