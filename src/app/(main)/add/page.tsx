@@ -1,203 +1,241 @@
-"use client";
-import React, { useState, useMemo, useEffect } from 'react';
-import { useApp } from '@/context/app-context';
-import { cn } from '@/lib/utils';
-import { format, addDays, isSameDay, startOfToday } from 'date-fns';
-import { AnimatePresence, motion } from 'framer-motion';
-import { Check, X } from 'lucide-react';
-import { useLocalStorage } from 'react-use';
-import { useRouter } from 'next/navigation';
 
-const numpadKeys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0'];
+"use client";
+
+import React, { useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { useApp } from '@/context/app-context';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { Switch } from '@/components/ui/switch';
+import { Calendar as CalendarIcon, X, ArrowLeft, ArrowRight, TrendingUp, StickyNote, Folders, Repeat } from 'lucide-react';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
+
+
+const transactionFormSchema = z.object({
+    amount: z.coerce.number().positive({ message: "Amount must be positive." }),
+    date: z.date(),
+    type: z.enum(['expense', 'income', 'investment']),
+    description: z.string().optional(),
+    category: z.string().min(1, { message: "Please select a category." }),
+    recurring: z.boolean(),
+});
+
+type TransactionFormValues = z.infer<typeof transactionFormSchema>;
+
+const SegmentedControl = ({ value, onChange, options }: { value: string, onChange: (val: string) => void, options: { value: string, label: string, icon: React.ReactNode }[]}) => {
+    return (
+        <div className="flex items-center gap-2 p-1 rounded-xl bg-gray-100">
+            {options.map(option => (
+                <button
+                    key={option.value}
+                    onClick={() => onChange(option.value)}
+                    className={cn(
+                        "flex-1 flex items-center justify-center gap-2 py-2 px-4 text-sm font-medium rounded-lg transition-colors",
+                        value === option.value ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:bg-gray-200"
+                    )}
+                >
+                    {option.icon}
+                    {option.label}
+                </button>
+            ))}
+        </div>
+    )
+}
 
 export default function AddTransactionPage() {
-    const [transactionType, setTransactionType] = useState<'expense' | 'income'>('expense');
-    const [selectedDate, setSelectedDate] = useState(startOfToday());
-    const [amount, setAmount] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-    const { categories, addTransaction, accounts } = useApp();
     const router = useRouter();
+    const { categories, addTransaction, accounts } = useApp();
+    const [amount, setAmount] = useState('0,00');
 
-    const [lastUsedAccount, setLastUsedAccount] = useLocalStorage('lastUsedAccount', accounts[0]?.id || '');
+    const form = useForm<TransactionFormValues>({
+        resolver: zodResolver(transactionFormSchema),
+        defaultValues: {
+            amount: 0,
+            date: new Date(),
+            type: 'expense',
+            description: '',
+            category: '',
+            recurring: false,
+        },
+    });
 
-    const dates = useMemo(() => {
-        const today = startOfToday();
-        return Array.from({ length: 14 }, (_, i) => addDays(today, -i)).reverse();
-    }, []);
-
-    const handleNumpadPress = (key: string) => {
-        if (key === '.') {
-            if (!amount.includes('.')) {
-                setAmount(prev => prev + '.');
-            }
-        } else {
-            setAmount(prev => prev + key);
+    const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let value = e.target.value.replace(/[^0-9,]/g, '');
+        
+        if (value.startsWith(',')) {
+            value = '0' + value;
         }
+
+        const parts = value.split(',');
+        if (parts.length > 2) {
+            value = `${parts[0]},${parts.slice(1).join('')}`;
+        }
+        
+        if (parts[1] && parts[1].length > 2) {
+            parts[1] = parts[1].substring(0, 2);
+            value = parts.join(',');
+        }
+        
+        setAmount(value);
+
+        const numericValue = parseFloat(value.replace(',', '.'));
+        form.setValue('amount', isNaN(numericValue) ? 0 : numericValue);
     };
 
-    const handleDelete = () => {
-        setAmount(prev => prev.slice(0, -1));
-    };
-
-    const handleClear = () => {
-        setAmount('');
-    }
-
-    const handleSaveTransaction = () => {
-        const numericAmount = parseFloat(amount);
-        if (numericAmount > 0 && selectedCategory && lastUsedAccount) {
+    const onSubmit = (data: TransactionFormValues) => {
+        const selectedAccount = accounts[0]; // Or some logic to select an account
+        if (selectedAccount) {
             addTransaction({
-                type: transactionType,
-                amount: numericAmount,
-                date: selectedDate,
-                category: selectedCategory,
-                description: selectedCategory, // Or some other logic for description
-                accountId: lastUsedAccount,
+                ...data,
+                accountId: selectedAccount.id,
             });
             router.push('/');
-        } else {
-            // TODO: show some error to user
         }
     };
-
-    useEffect(() => {
-        if (accounts.length > 0 && !accounts.find(a => a.id === lastUsedAccount)) {
-            setLastUsedAccount(accounts[0].id);
-        }
-    }, [accounts, lastUsedAccount, setLastUsedAccount]);
-
-    const formatAmount = (value: string) => {
-        if (!value) return "0.00";
-        return parseFloat(value).toLocaleString('en-IN', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-        });
-    }
-
+    
     return (
-        <div className="flex flex-col h-full bg-background text-foreground">
-            <header className="flex-shrink-0 p-4 flex items-center justify-between">
-                <div className="flex items-center gap-1 p-1 rounded-full bg-gray-200/50">
-                    <button 
-                        onClick={() => setTransactionType('expense')}
-                        className={cn(
-                            "relative px-2 py-0.5 text-xs font-medium rounded-full",
-                            transactionType === 'expense' ? "text-white" : "text-black"
-                        )}
-                    >
-                         {transactionType === 'expense' && (
-                            <motion.span
-                                layoutId="active-type-bubble"
-                                className="absolute inset-0 bg-black"
-                                style={{ borderRadius: 9999 }}
-                                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                            />
-                        )}
-                        <span className="relative z-10">Expenses</span>
-                    </button>
-                    <button 
-                        onClick={() => setTransactionType('income')}
-                        className={cn(
-                            "relative px-2 py-0.5 text-xs font-medium rounded-full",
-                            transactionType === 'income' ? "text-white" : "text-black"
-                        )}
-                    >
-                         {transactionType === 'income' && (
-                            <motion.span
-                                layoutId="active-type-bubble"
-                                className="absolute inset-0 bg-black"
-                                style={{ borderRadius: 9999 }}
-                                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                            />
-                        )}
-                        <span className="relative z-10">Income</span>
-                    </button>
-                </div>
+        <div className="h-full bg-white flex flex-col">
+            <header className="p-4 flex items-center justify-between sticky top-0 bg-white z-10">
                 <button onClick={() => router.back()} className="p-2">
-                    <X className="w-5 h-5" />
+                    <X className="w-5 h-5 text-gray-500" />
                 </button>
+                <h1 className="text-md font-semibold">New Transaction</h1>
+                <div className="w-9"></div>
             </header>
-            
-            <div className="flex-shrink-0">
-                <div className="flex overflow-x-auto p-4 space-x-2">
-                    {dates.map(date => (
-                        <button key={date.toString()} onClick={() => setSelectedDate(date)} className={cn(
-                            "flex flex-col items-center justify-center p-1 rounded-lg w-8 h-10 shrink-0 transition-colors",
-                            isSameDay(date, selectedDate) ? "bg-black text-white" : "hover:bg-gray-100"
-                        )}>
-                            <span className="text-[10px] font-medium">{format(date, 'd')}</span>
-                            <span className="text-[10px] uppercase">{format(date, 'eee')}</span>
-                        </button>
-                    ))}
+
+            <div className="flex-1 flex flex-col items-center p-4">
+                 <div className="relative">
+                    <input 
+                        type="text"
+                        value={amount}
+                        onChange={handleAmountChange}
+                        className="text-5xl font-bold text-center bg-transparent border-none focus:ring-0 outline-none w-full"
+                    />
+                    <span className="absolute right-0 top-1/2 -translate-y-1/2 text-4xl font-bold text-gray-300 -mr-8">€</span>
                 </div>
             </div>
 
-            <div className="flex-1 flex flex-col items-center justify-center p-4">
-                <div className="flex items-end">
-                    <span className="text-xl font-medium -mb-1">$</span>
-                    <AnimatePresence mode="popLayout">
-                        <motion.span 
-                            key={amount}
-                            initial={{ y: 20, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            exit={{ y: -20, opacity: 0 }}
-                            transition={{ duration: 0.2 }}
-                            className="text-5xl font-light tracking-tighter"
-                        >
-                            {amount || '0'}
-                        </motion.span>
-                    </AnimatePresence>
-                </div>
-                 <div className="h-6 mt-2">
-                    <AnimatePresence>
-                        {selectedCategory && (
-                            <motion.div
-                                initial={{ y: 10, opacity: 0 }}
-                                animate={{ y: 0, opacity: 1 }}
-                                exit={{ y: -10, opacity: 0 }}
-                                className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-gray-900 text-white text-[10px]"
-                            >
-                                <span>{selectedCategory}</span>
-                                <button onClick={() => setSelectedCategory(null)} className="text-gray-400 hover:text-white">
-                                    <X className="w-2.5 h-2.5"/>
-                                </button>
-                            </motion.div>
+            <div className="p-4 pt-8 space-y-4 flex-grow">
+                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 h-full flex flex-col">
+                    <Controller
+                        name="date"
+                        control={form.control}
+                        render={({ field }) => (
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <button className="w-full text-left p-3 rounded-xl border bg-gray-50 flex justify-between items-center">
+                                        <div>
+                                            <p className="text-xs text-gray-500">Date</p>
+                                            <p className="font-medium">{format(field.value, 'PPP')}</p>
+                                        </div>
+                                        <CalendarIcon className="w-5 h-5 text-gray-400" />
+                                    </button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0" align="center">
+                                    <Calendar
+                                        mode="single"
+                                        selected={field.value}
+                                        onSelect={(date) => date && field.onChange(date)}
+                                        initialFocus
+                                    />
+                                </PopoverContent>
+                            </Popover>
                         )}
-                    </AnimatePresence>
-                </div>
-            </div>
-            
-            <div className="flex-shrink-0 p-4">
-                <div className="flex overflow-x-auto space-x-2 mb-3">
-                    {categories.map(cat => (
-                        <button 
-                            key={cat.value} 
-                            onClick={() => setSelectedCategory(cat.label)}
-                            className={cn(
-                                "px-2 py-1 text-[10px] font-medium rounded-full",
-                                selectedCategory === cat.label ? "bg-black text-white" : "bg-gray-100 text-black"
-                            )}
-                        >
-                            {cat.label}
-                        </button>
-                    ))}
-                </div>
-                <div className="grid grid-cols-3 gap-2">
-                    {numpadKeys.map(key => (
-                        <button 
-                            key={key} 
-                            onClick={() => handleNumpadPress(key)} 
-                            className="h-12 text-lg font-light rounded-full bg-gray-100 active:bg-gray-200"
-                        >
-                            {key}
-                        </button>
-                    ))}
-                    <button onClick={handleSaveTransaction} className="h-12 flex items-center justify-center text-xl font-light rounded-full bg-black text-white active:bg-gray-800">
-                        <Check className="w-6 h-6"/>
-                    </button>
-                </div>
-            </div>
+                    />
 
+                    <Controller
+                        name="type"
+                        control={form.control}
+                        render={({ field }) => (
+                           <SegmentedControl
+                                value={field.value}
+                                onChange={field.onChange}
+                                options={[
+                                    { value: 'expense', label: 'Expense', icon: <ArrowLeft className="w-4 h-4" /> },
+                                    { value: 'income', label: 'Income', icon: <ArrowRight className="w-4 h-4" /> },
+                                    { value: 'investment', label: 'Investment', icon: <TrendingUp className="w-4 h-4" /> },
+                                ]}
+                           />
+                        )}
+                    />
+                    
+                    <div className="relative">
+                        <StickyNote className="w-5 h-5 text-gray-400 absolute top-1/2 left-3 -translate-y-1/2" />
+                        <Controller
+                            name="description"
+                            control={form.control}
+                            render={({ field }) => (
+                                <Input {...field} placeholder="Description" className="pl-10 p-3 h-12 bg-gray-50 border rounded-xl" />
+                            )}
+                        />
+                    </div>
+                    
+                    <div className="relative">
+                        <Folders className="w-5 h-5 text-gray-400 absolute top-1/2 left-3 -translate-y-1/2" />
+                        <Controller
+                            name="category"
+                            control={form.control}
+                            render={({ field }) => (
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <SelectTrigger className="w-full pl-10 p-3 h-12 bg-gray-50 border rounded-xl">
+                                        <SelectValue placeholder="Category" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {categories.map(cat => (
+                                            <SelectItem key={cat.value} value={cat.value}>{cat.label}</SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            )}
+                        />
+                         {form.formState.errors.category && (
+                            <p className="text-xs text-red-500 mt-1">{form.formState.errors.category.message}</p>
+                        )}
+                    </div>
+                    
+                    <div className="flex items-center justify-between p-3 rounded-xl bg-gray-50">
+                        <div className="flex items-center gap-3">
+                            <Repeat className="w-5 h-5 text-gray-400"/>
+                            <div>
+                                <p className="font-medium text-sm">Add as recurring</p>
+                                <p className="text-xs text-gray-500">This transaction will be added again the following months at the same day as today</p>
+                            </div>
+                        </div>
+                         <Controller
+                            name="recurring"
+                            control={form.control}
+                            render={({ field }) => (
+                                <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                />
+                            )}
+                        />
+                    </div>
+
+                    <div className="flex-grow"></div>
+
+                    <Button type="submit" size="lg" className="w-full h-14 text-lg font-semibold rounded-full bg-gray-900 text-white hover:bg-gray-800">
+                        Add Transaction
+                    </Button>
+                </form>
+            </div>
         </div>
     );
 }
+
+
+    
