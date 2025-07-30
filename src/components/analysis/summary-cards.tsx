@@ -10,11 +10,11 @@ const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(amount);
 };
 
-const SummaryCard = ({ title, value, icon, colorClass }: { title: string, value: number, icon: React.ReactNode, colorClass?: string }) => {
+const SummaryCard = ({ title, value, icon, colorClass, dark }: { title: string, value: number, icon: React.ReactNode, colorClass?: string, dark?: boolean }) => {
     if (value === 0) return null;
 
     return (
-        <Card>
+        <Card className={cn(dark && "bg-gray-900 text-white")}>
             <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
                 <CardTitle className="text-sm font-medium">{title}</CardTitle>
                 <div className={cn("w-4 h-4 text-muted-foreground", colorClass)}>
@@ -76,8 +76,8 @@ export function SummaryCards({ transactions }: { transactions: Transaction[] }) 
     return (
         <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
-                <SummaryCard title="Total Income" value={summary.income} icon={<ArrowUpRight />} colorClass="text-green-500" />
-                <SummaryCard title="Total Expenses" value={summary.expense} icon={<ArrowDownLeft />} colorClass="text-red-500" />
+                <SummaryCard title="Total Income" value={summary.income} icon={<ArrowUpRight />} colorClass="text-green-500" dark />
+                <SummaryCard title="Total Expenses" value={summary.expense} icon={<ArrowDownLeft />} colorClass="text-red-500" dark />
             </div>
              <div className="grid gap-4 md:grid-cols-2">
                 <SummaryCard title="Total Transferred" value={summary.transferred} icon={<Landmark />} />
