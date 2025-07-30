@@ -29,14 +29,6 @@ interface ComboboxProps {
 
 export function Combobox({ options, value, onChange, placeholder, inputClassName }: ComboboxProps) {
   const [open, setOpen] = React.useState(false)
-  const [inputValue, setInputValue] = React.useState(value || "")
-
-  const handleSelect = (currentValue: string) => {
-    const label = options.find(opt => opt.value.toLowerCase() === currentValue.toLowerCase())?.label || currentValue;
-    onChange(label);
-    setInputValue(label);
-    setOpen(false);
-  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -57,15 +49,17 @@ export function Combobox({ options, value, onChange, placeholder, inputClassName
         <Command>
           <CommandInput 
             placeholder="Search or add category..."
-            value={inputValue}
-            onValueChange={setInputValue}
           />
           <CommandList>
             <CommandEmpty
-                onSelect={() => handleSelect(inputValue)}
+                onSelect={() => {
+                    const inputValue = (document.querySelector('[cmdk-input]') as HTMLInputElement)?.value;
+                    onChange(inputValue);
+                    setOpen(false);
+                }}
             >
-                <div className="p-2">
-                    Add new category: <span className="font-bold">{inputValue}</span>
+                <div className="p-2 text-sm cursor-pointer">
+                    Add new category
                 </div>
             </CommandEmpty>
             <CommandGroup>
@@ -75,7 +69,8 @@ export function Combobox({ options, value, onChange, placeholder, inputClassName
                   value={option.label}
                   onSelect={(currentValue) => {
                     const label = options.find(opt => opt.label.toLowerCase() === currentValue.toLowerCase())?.label || currentValue
-                    handleSelect(label)
+                    onChange(label === value ? "" : label)
+                    setOpen(false)
                   }}
                 >
                   <Check
