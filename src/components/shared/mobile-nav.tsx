@@ -54,9 +54,9 @@ export function MobileNav() {
   const Icon = getIcon();
 
   return (
-    <div className={cn("fixed bottom-0 left-0 right-0 h-16 flex justify-center items-center z-50", isClient ? "md:hidden" : "hidden")}>
-      <div className="relative w-full">
-        <nav className="flex items-center justify-around h-full bg-card shadow-lg">
+    <div className={cn("fixed bottom-4 left-0 right-0 h-16 flex justify-center items-center z-50", isClient ? "md:hidden" : "hidden")}>
+      <div className="relative w-[90%] max-w-sm">
+        <nav className="flex items-center justify-around h-full bg-card shadow-lg rounded-full">
           {links.map((link) => {
             const isActive = pathname === link.href;
             const isAddButton = link.label === 'Add';
