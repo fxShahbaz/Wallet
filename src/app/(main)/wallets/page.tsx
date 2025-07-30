@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { PlusCircle, PiggyBank } from 'lucide-react';
 import { AddAccountSheet } from '@/components/accounts/add-account-sheet';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { EditAccountDialog } from '@/components/accounts/edit-account-dialog';
+import { AccountCard } from '@/components/accounts/account-card';
 import { Account } from '@/lib/types';
 
 const formatCurrency = (amount: number) => {
@@ -40,20 +40,8 @@ export default function WalletsPage() {
                     <div className="space-y-3">
                         <h2 className="text-sm font-semibold text-muted-foreground px-1">Your Accounts</h2>
                         <div className="grid grid-cols-2 gap-3">
-                            {accounts.map(account => (
-                                <EditAccountDialog key={account.id} account={account}>
-                                    <Card className="p-3 bg-card flex flex-col justify-between h-24 cursor-pointer hover:bg-muted/50 transition-colors">
-                                        <div>
-                                            <div className="flex items-center gap-2">
-                                                {account.icon && <div className="flex items-center justify-center p-1.5 bg-secondary rounded-full w-7 h-7 shrink-0"><account.icon className="w-3.5 h-3.5 text-muted-foreground" /></div>}
-                                                <p className="font-semibold text-xs">{account.name}</p>
-                                            </div>
-                                        </div>
-                                        <div className="self-end">
-                                          <p className="font-mono text-base font-semibold">{formatCurrency(account.balance)}</p>
-                                        </div>
-                                    </Card>
-                                </EditAccountDialog>
+                            {accounts.map((account, index) => (
+                               <AccountCard key={account.id} account={account} index={index} />
                             ))}
                              <AddAccountSheet />
                         </div>
