@@ -44,7 +44,7 @@ export default function AnalysisPage() {
             <div className="relative">
                 {date.getDate()}
                 {hasTransactions && !isSelected && isCurrentMonth && (
-                    <div className="absolute bottom-1 left-1/2 w-1 h-1 bg-red-500 rounded-full transform -translate-x-1/2"></div>
+                    <div className="absolute bottom-1 left-1/2 w-1 h-1 bg-primary rounded-full transform -translate-x-1/2"></div>
                 )}
             </div>
         );
@@ -73,9 +73,9 @@ export default function AnalysisPage() {
                     }}
                     classNames={{
                         head_cell: "w-full",
-                        nav_button_previous: 'absolute left-2',
-                        nav_button_next: 'absolute right-2',
-                        caption_label: "text-lg font-medium",
+                        nav_button_previous: 'absolute left-1 h-8 w-8',
+                        nav_button_next: 'absolute right-1 h-8 w-8',
+                        caption_label: "font-medium",
                         day: "w-full h-10 rounded-full",
                         day_selected: "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground"
                     }}
