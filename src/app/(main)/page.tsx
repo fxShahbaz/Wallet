@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { UserNav } from '@/components/shared/user-nav';
 import { RecentTransactions } from '@/components/dashboard/recent-transactions';
@@ -17,6 +17,18 @@ const formatCurrency = (amount: number) => {
 export default function DashboardPage() {
     const [activeFilter, setActiveFilter] = useState('Today');
     const { transactions } = useApp();
+    const [greeting, setGreeting] = useState('');
+
+    useEffect(() => {
+        const hour = new Date().getHours();
+        if (hour < 12) {
+            setGreeting('Good morning');
+        } else if (hour < 18) {
+            setGreeting('Good afternoon');
+        } else {
+            setGreeting('Good evening');
+        }
+    }, []);
 
     const filteredTransactions = useMemo(() => {
         const now = new Date();
@@ -49,7 +61,7 @@ export default function DashboardPage() {
                     <div className="flex items-center gap-3">
                         <UserNav />
                         <div>
-                            <p className="font-semibold text-xs">Good morning, Jon</p>
+                            <p className="font-semibold text-xs">{greeting}, Shahbaz</p>
                             <p className="text-xs text-muted-foreground">Track your expenses, start your day right</p>
                         </div>
                     </div>
