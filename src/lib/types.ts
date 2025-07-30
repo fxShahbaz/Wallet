@@ -8,12 +8,13 @@ export interface Account {
 
 export interface Transaction {
   id: string;
-  type: 'income' | 'expense';
+  type: 'income' | 'expense' | 'transfer' | 'lended' | 'receivable' | 'investment';
   amount: number;
   date: Date;
   category: string;
   description: string;
   accountId: string;
+  toAccountId?: string;
 }
 
 export interface Category {

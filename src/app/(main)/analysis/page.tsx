@@ -20,6 +20,7 @@ import { isWithinInterval, startOfDay, endOfDay, format } from 'date-fns';
 import { RecentTransactions } from '@/components/dashboard/recent-transactions';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { SummaryCards } from '@/components/analysis/summary-cards';
 
 
 export default function AnalysisPage() {
@@ -98,7 +99,7 @@ export default function AnalysisPage() {
                             transition={{ duration: 0.3 }}
                             className="absolute top-16 z-10 w-full flex justify-center"
                         >
-                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary text-sm font-medium shadow-lg mt-2">
+                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary text-sm font-medium shadow-lg mt-4">
                                 <p className="text-muted-foreground">
                                     <span className="text-foreground">
                                         {format(appliedDate.from!, 'MMM d, yyyy')}
@@ -114,20 +115,25 @@ export default function AnalysisPage() {
                     )}
                     </AnimatePresence>
 
-                    <ScrollArea className="flex-1">
-                        <div className="grid gap-6 p-4 pt-16">
+                    <ScrollArea className="flex-1 pt-16">
+                        <div className="p-4 space-y-6">
                             {filteredTransactions.length > 0 ? (
-                                <RecentTransactions transactions={filteredTransactions} showTypeIndicator={true} />
+                                <>
+                                    <SummaryCards transactions={filteredTransactions} />
+                                    <RecentTransactions transactions={filteredTransactions} showTypeIndicator={true} />
+                                </>
                             ) : (
-                                <motion.div 
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.5 }}
-                                    className="flex flex-col items-center justify-center text-center text-muted-foreground py-8 gap-3"
-                                >
-                                    <CalendarDays className="w-10 h-10 text-gray-300" />
-                                    <p className="text-sm">Select a date range to view transactions.</p>
-                                </motion.div>
+                                <div className="pt-12">
+                                    <motion.div 
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.5 }}
+                                        className="flex flex-col items-center justify-center text-center text-muted-foreground py-8 gap-3"
+                                    >
+                                        <CalendarDays className="w-10 h-10 text-gray-300" />
+                                        <p className="text-sm">Select a date range to view transactions.</p>
+                                    </motion.div>
+                                </div>
                             )}
                         </div>
                     </ScrollArea>
