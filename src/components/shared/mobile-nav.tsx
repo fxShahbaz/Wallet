@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { Home, Calendar, Wallet, Settings, Plus, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useApp } from '@/context/app-context';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const links = [
@@ -23,6 +23,12 @@ export function MobileNav() {
   const { setSubmitTransactionForm } = useApp();
   const [isSaved, setIsSaved] = useState(false);
 
+  useEffect(() => {
+    if (pathname !== '/add') {
+      setIsSaved(false);
+    }
+  }, [pathname]);
+
   const handleAddClick = (e: React.MouseEvent) => {
     if (pathname === '/add') {
       e.preventDefault();
@@ -33,6 +39,14 @@ export function MobileNav() {
       }, 1500);
     }
   };
+  
+  const getIcon = () => {
+    if (isSaved) return Check;
+    if (pathname === '/add') return Check;
+    return Plus;
+  }
+
+  const Icon = getIcon();
 
   return (
     <div className="fixed bottom-4 left-0 right-0 h-16 flex justify-center items-center md:hidden z-50">
@@ -43,7 +57,6 @@ export function MobileNav() {
             const isAddButton = link.label === 'Add';
 
             if (isAddButton) {
-              const Icon = isSaved ? Check : (pathname === '/add' ? Check : Plus);
               return (
                 <div key="add-transaction" className="relative -top-5">
                   <Link href={link.href} onClick={handleAddClick}>
@@ -53,10 +66,10 @@ export function MobileNav() {
                           )}>
                           <AnimatePresence mode="wait">
                             <motion.div
-                                key={isSaved ? "saved" : "default"}
-                                initial={{ scale: 0.5, opacity: 0 }}
-                                animate={{ scale: 1, opacity: 1 }}
-                                exit={{ scale: 0.5, opacity: 0 }}
+                                key={Icon.displayName}
+                                initial={{ scale: 0.5, opacity: 0, rotate: -45 }}
+                                animate={{ scale: 1, opacity: 1, rotate: 0 }}
+                                exit={{ scale: 0.5, opacity: 0, rotate: 45 }}
                                 transition={{ duration: 0.2 }}
                             >
                                 <Icon className="w-7 h-7"/>
@@ -81,5 +94,3 @@ export function MobileNav() {
     </div>
   );
 }
-
-    
