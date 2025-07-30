@@ -84,7 +84,11 @@ export default function AnalysisPage() {
                 <div
                     className="absolute top-20 z-10 w-full flex justify-center"
                 >
-                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary text-sm font-medium shadow-lg">
+                    <motion.div 
+                        initial={{ y: -20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -20, opacity: 0 }}
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary text-sm font-medium shadow-lg">
                         <p className="text-muted-foreground">
                             <span className="text-foreground">
                                 {format(appliedDate.from!, 'MMM d, yyyy')}
@@ -95,7 +99,7 @@ export default function AnalysisPage() {
                             <X className="w-3 h-3" />
                             <span className="sr-only">Clear filter</span>
                         </button>
-                    </div>
+                    </motion.div>
                 </div>
             )}
             </AnimatePresence>
@@ -116,8 +120,9 @@ export default function AnalysisPage() {
                                 <p className="text-sm">Select a date range to view transactions from top right corner.</p>
                             </div>
                             <div className="text-center p-4 border rounded-lg">
+                                <p className="font-semibold mb-2">Enjoying the app?</p>
                                 <p className="text-sm text-muted-foreground mb-4">
-                                    Enjoy the app. Buy a coffee for the developer.
+                                    Buy a coffee for the developer.
                                     <br/>
                                     Made with <Heart className="inline w-4 h-4 text-red-500 fill-current" /> by Shahbaz
                                 </p>
