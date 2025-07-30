@@ -178,8 +178,8 @@ export default function AddTransactionPage() {
                 <div className="w-10"></div>
             </header>
             <ScrollArea className="flex-1">
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 pb-36">
-                    <div className="p-4 pt-6 flex justify-center">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 px-4 pb-36">
+                    <div className="pt-6 flex justify-center">
                        <div className="flex items-center justify-center">
                             <input
                                 type="text"
@@ -190,7 +190,7 @@ export default function AddTransactionPage() {
                             />
                        </div>
                     </div>
-                    <div className="p-4 pt-6 space-y-4">
+                    <div className="pt-6 space-y-4">
                         <Controller
                             name="date"
                             control={form.control}
