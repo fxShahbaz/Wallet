@@ -51,7 +51,7 @@ export default function AnalysisPage() {
         <div className="flex flex-col h-full relative">
             <header className="flex items-center justify-between p-4 border-b h-14 shrink-0">
                <div className="flex items-center gap-2">
-                <h1 className="font-semibold text-lg">Reports</h1>
+                <h1 className="font-semibold text-lg">Statistics</h1>
                </div>
                <Popover open={isOpen} onOpenChange={setIsOpen}>
                 <PopoverTrigger asChild>

@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -11,7 +12,7 @@ import {
 
 const links = [
   { href: '/', label: 'Dashboard', icon: Home },
-  { href: '/analysis', label: 'Reports', icon: Calendar },
+  { href: '/analysis', label: 'Statistics', icon: Calendar },
 ];
 
 export function MainNav() {

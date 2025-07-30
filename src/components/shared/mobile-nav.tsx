@@ -11,7 +11,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const links = [
   { href: '/', label: 'Home', icon: Home },
-  { href: '/analysis', label: 'Reports', icon: Calendar },
+  { href: '/analysis', label: 'Statistics', icon: Calendar },
   { href: '/add', label: 'Add', icon: Plus }, 
   { href: '/wallets', label: 'Wallets', icon: Wallet },
   { href: '/settings', label: 'Settings', icon: Settings },
