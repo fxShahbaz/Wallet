@@ -75,9 +75,36 @@ export default function DashboardPage() {
           });
     }, [transactions, activeFilter, isClient, transactionFilter]);
 
-    const spendSoFar = filteredTransactions
-        .filter(t => t.type === 'expense')
+    const { cardTitle, cardValue } = useMemo(() => {
+      let title = "Spend so far";
+      let value = 0;
+
+      const income = filteredTransactions
+        .filter((t) => t.type === 'income')
         .reduce((sum, t) => sum + t.amount, 0);
+      
+      const expense = filteredTransactions
+        .filter((t) => t.type === 'expense')
+        .reduce((sum, t) => sum + t.amount, 0);
+
+      switch (transactionFilter) {
+        case 'income':
+          title = 'Income so far';
+          value = income;
+          break;
+        case 'expense':
+          title = 'Spend so far';
+          value = expense;
+          break;
+        case 'all':
+        default:
+          title = 'Net so far';
+          value = income - expense;
+          break;
+      }
+
+      return { cardTitle: title, cardValue: value };
+    }, [filteredTransactions, transactionFilter]);
 
     return (
         <div className="flex flex-col h-full bg-secondary text-foreground">
@@ -105,7 +132,7 @@ export default function DashboardPage() {
                 </div>
             </header>
             <div className="flex-1 flex flex-col">
-                <div className="sticky top-0 z-10 p-4 pt-0 bg-secondary/0">
+                <div className="sticky top-0 z-10 p-4 pt-0">
                         <div className="relative flex items-center gap-2 bg-background p-1 rounded-full">
                             {filters.map((filter) => (
                                 <button
@@ -123,7 +150,7 @@ export default function DashboardPage() {
                                             transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                                         />
                                     )}
-                                    <span className={cn("relative z-10", activeFilter === filter && "text-primary-foreground mix-blend-exclusion")}>{filter}</span>
+                                    <span className={cn("relative z-10", activeFilter === filter && "text-primary-foreground")}>{filter}</span>
                                 </button>
                             ))}
                         </div>
@@ -132,8 +159,8 @@ export default function DashboardPage() {
                     
                     <div className="p-4 pt-0 space-y-4">
                         <div className="p-4 rounded-2xl bg-gray-900 text-white">
-                            <p className="text-sm text-gray-400">Spend so far</p>
-                            <AnimatedCounter value={spendSoFar} />
+                            <p className="text-sm text-gray-400">{cardTitle}</p>
+                            <AnimatedCounter value={cardValue} />
                         </div>
                     </div>
                     <ScrollArea className="flex-1 px-4">
