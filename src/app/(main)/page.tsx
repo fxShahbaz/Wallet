@@ -20,19 +20,23 @@ export default function DashboardPage() {
     const [activeFilter, setActiveFilter] = useState('Today');
     const { transactions } = useApp();
     const [greeting, setGreeting] = useState('');
+    const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
-        const hour = new Date().getHours();
-        if (hour < 12) {
-            setGreeting('Good morning');
-        } else if (hour < 18) {
-            setGreeting('Good afternoon');
-        } else {
-            setGreeting('Good evening');
-        }
+      setIsClient(true);
+      const hour = new Date().getHours();
+      if (hour < 12) {
+          setGreeting('Good morning');
+      } else if (hour < 18) {
+          setGreeting('Good afternoon');
+      } else {
+          setGreeting('Good evening');
+      }
     }, []);
 
     const filteredTransactions = useMemo(() => {
+        if (!isClient) return [];
+
         const now = new Date();
         let interval;
 
@@ -50,7 +54,7 @@ export default function DashboardPage() {
         }
 
         return transactions.filter(t => isWithinInterval(t.date, interval));
-    }, [transactions, activeFilter]);
+    }, [transactions, activeFilter, isClient]);
 
     const spendSoFar = filteredTransactions
         .filter(t => t.type === 'expense')
