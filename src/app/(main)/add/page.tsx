@@ -180,15 +180,15 @@ export default function AddTransactionPage() {
                 <div className="w-10"></div>
             </header>
             <ScrollArea className="flex-1">
-                <div className="max-w-lg mx-auto">
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 px-4 pb-36">
+                <div className="max-w-lg mx-auto px-4 pb-36">
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                         <div className="pt-6 flex justify-center">
                            <div className="flex items-center justify-center">
                                 <input
                                     type="text"
                                     value={amount}
                                     onChange={handleAmountChange}
-                                    className="text-3xl font-bold bg-transparent border-none focus:ring-0 outline-none text-center"
+                                    className="text-3xl font-bold bg-transparent border-none focus:ring-0 outline-none text-center w-full"
                                     style={{ minWidth: '1ch' }}
                                 />
                            </div>
@@ -240,16 +240,14 @@ export default function AddTransactionPage() {
                             />
                             
                             <div className="flex items-center gap-3 p-2 bg-background rounded-xl border">
+                               <Landmark className="w-4 h-4 text-muted-foreground shrink-0" />
                                 <Controller
                                     name="accountId"
                                     control={form.control}
                                     render={({ field }) => (
                                         <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                            <SelectTrigger className="w-full p-0 h-auto bg-transparent border-none focus:ring-0 text-xs">
-                                                <div className="flex items-center gap-3">
-                                                    <Landmark className="w-4 h-4 text-muted-foreground shrink-0" />
-                                                    <SelectValue placeholder="Select Bank Account" />
-                                                </div>
+                                            <SelectTrigger className="w-full p-0 h-auto bg-transparent border-none focus:ring-0 text-xs shadow-none">
+                                                <SelectValue placeholder="Select Bank Account" />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {accounts.map(acc => (
@@ -271,7 +269,7 @@ export default function AddTransactionPage() {
                                     control={form.control}
                                     render={({ field }) => (
                                         <Select onValueChange={field.onChange} value={field.value}>
-                                            <SelectTrigger className="w-full p-0 h-auto bg-transparent border-none focus:ring-0 text-xs">
+                                            <SelectTrigger className="w-full p-0 h-auto bg-transparent border-none focus:ring-0 text-xs shadow-none">
                                                  <SelectValue placeholder="Category" />
                                             </SelectTrigger>
                                             <SelectContent>
@@ -320,16 +318,14 @@ export default function AddTransactionPage() {
                             </div>
 
                             <div className="flex items-center gap-3 p-2 bg-background rounded-xl border">
+                                <CreditCard className="w-4 h-4 text-muted-foreground shrink-0" />
                                 <Controller
                                     name="paymentType"
                                     control={form.control}
                                     render={({ field }) => (
                                         <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                            <SelectTrigger className="w-full p-0 h-auto bg-transparent border-none focus:ring-0 text-xs">
-                                                <div className="flex items-center gap-3">
-                                                    <CreditCard className="w-4 h-4 text-muted-foreground shrink-0" />
-                                                    <SelectValue placeholder="Payment Mode" />
-                                                </div>
+                                            <SelectTrigger className="w-full p-0 h-auto bg-transparent border-none focus:ring-0 text-xs shadow-none">
+                                                <SelectValue placeholder="Payment Mode" />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {['Cash', 'Debit Card', 'Credit Card', 'Bank Transfer', 'Voucher', 'UPI'].map(type => (
@@ -342,16 +338,14 @@ export default function AddTransactionPage() {
                             </div>
                             
                              <div className="flex items-center gap-3 p-2 bg-background rounded-xl border">
+                                <CheckCircle className="w-4 h-4 text-muted-foreground shrink-0" />
                                 <Controller
                                     name="status"
                                     control={form.control}
                                     render={({ field }) => (
                                         <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                            <SelectTrigger className="w-full p-0 h-auto bg-transparent border-none focus:ring-0 text-xs">
-                                                <div className="flex items-center gap-3">
-                                                    <CheckCircle className="w-4 h-4 text-muted-foreground shrink-0" />
-                                                    <SelectValue placeholder="Status" />
-                                                </div>
+                                            <SelectTrigger className="w-full p-0 h-auto bg-transparent border-none focus:ring-0 text-xs shadow-none">
+                                                <SelectValue placeholder="Status" />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {['Cleared', 'Uncleared', 'Reconciled'].map(status => (
