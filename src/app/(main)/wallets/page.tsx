@@ -39,18 +39,18 @@ export default function WalletsPage() {
 
                     <div className="space-y-3">
                         <h2 className="text-sm font-semibold text-muted-foreground px-1">Your Accounts</h2>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-2 gap-3">
                             {accounts.map(account => (
                                 <EditAccountDialog key={account.id} account={account}>
-                                    <Card className="p-4 bg-card flex flex-col justify-between h-28 cursor-pointer hover:bg-muted/50 transition-colors">
+                                    <Card className="p-3 bg-card flex flex-col justify-between h-24 cursor-pointer hover:bg-muted/50 transition-colors">
                                         <div>
-                                            <div className="flex items-center gap-3">
-                                                {account.icon && <div className="flex items-center justify-center p-2 bg-secondary rounded-full w-8 h-8 shrink-0"><account.icon className="w-4 h-4 text-muted-foreground" /></div>}
-                                                <p className="font-semibold text-sm">{account.name}</p>
+                                            <div className="flex items-center gap-2">
+                                                {account.icon && <div className="flex items-center justify-center p-1.5 bg-secondary rounded-full w-7 h-7 shrink-0"><account.icon className="w-3.5 h-3.5 text-muted-foreground" /></div>}
+                                                <p className="font-semibold text-xs">{account.name}</p>
                                             </div>
                                         </div>
                                         <div className="self-end">
-                                          <p className="font-mono text-lg font-semibold">{formatCurrency(account.balance)}</p>
+                                          <p className="font-mono text-base font-semibold">{formatCurrency(account.balance)}</p>
                                         </div>
                                     </Card>
                                 </EditAccountDialog>
