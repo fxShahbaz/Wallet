@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -23,6 +23,7 @@ import { Calendar as CalendarIcon, X, ArrowLeft, ArrowRight, TrendingUp, FileTex
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 
 const transactionFormSchema = z.object({
@@ -77,6 +78,8 @@ export default function AddTransactionPage() {
     const router = useRouter();
     const { categories, addTransaction, accounts, submitTransactionForm, setSubmitTransactionForm } = useApp();
     const [amount, setAmount] = useState('0.00');
+    const photoInputRef = useRef<HTMLInputElement>(null);
+    const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
     const form = useForm<TransactionFormValues>({
         resolver: zodResolver(transactionFormSchema),
@@ -128,11 +131,29 @@ export default function AddTransactionPage() {
         form.setValue('amount', isNaN(numericValue) ? 0 : numericValue);
     };
 
+    const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            form.setValue('photo', file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPhotoPreview(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleAttachPhotoClick = () => {
+        photoInputRef.current?.click();
+    };
+
+
     const onSubmit = (data: TransactionFormValues) => {
         addTransaction({
             ...data,
             category: data.category,
             description: data.note || '',
+            photo: photoPreview || undefined,
         });
     };
     
@@ -332,16 +353,39 @@ export default function AddTransactionPage() {
                         />
                     </div>
 
+                    <input
+                        type="file"
+                        ref={photoInputRef}
+                        className="hidden"
+                        accept="image/*"
+                        onChange={handlePhotoChange}
+                    />
                     <div className="flex items-center gap-3 p-2 bg-gray-50 border rounded-xl">
                        <Camera className="w-4 h-4 text-gray-400 shrink-0" />
-                       <button type="button" className="text-xs text-gray-700">Attach Photo</button>
+                       <button type="button" onClick={handleAttachPhotoClick} className="text-xs text-gray-700">Attach Photo</button>
                     </div>
+
+                    {photoPreview && (
+                        <div className="relative w-full h-48 rounded-xl overflow-hidden">
+                            <Image src={photoPreview} alt="Selected photo" layout="fill" objectFit="cover" />
+                             <Button
+                                variant="destructive"
+                                size="icon"
+                                className="absolute top-2 right-2 h-7 w-7 rounded-full"
+                                onClick={() => {
+                                    setPhotoPreview(null);
+                                    form.setValue('photo', null);
+                                    if(photoInputRef.current) photoInputRef.current.value = '';
+                                }}
+                            >
+                                <X className="w-4 h-4" />
+                            </Button>
+                        </div>
+                    )}
                 </div>
             </form>
         </motion.div>
     );
 }
-
-    
 
     

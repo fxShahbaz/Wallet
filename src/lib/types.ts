@@ -20,7 +20,7 @@ export interface Transaction {
   paymentType?: string;
   status?: 'Cleared' | 'Uncleared' | 'Reconciled';
   location?: string;
-  photo?: string;
+  photo?: string | File;
   labels?: Label[];
 }
 
@@ -34,3 +34,5 @@ export interface Label {
   id: string;
   name: string;
 }
+
+    
