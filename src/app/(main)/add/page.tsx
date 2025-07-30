@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/select"
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
-import { Calendar as CalendarIcon, X, ArrowLeft, ArrowRight, TrendingUp, StickyNote, Folders } from 'lucide-react';
+import { Calendar as CalendarIcon, X, ArrowLeft, ArrowRight, TrendingUp, FileText, Folder } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
@@ -180,18 +180,18 @@ export default function AddTransactionPage() {
                     />
                     
                     <div className="relative">
-                        <StickyNote className="w-4 h-4 text-gray-400 absolute top-1/2 left-3 -translate-y-1/2" />
+                        <FileText className="w-4 h-4 text-gray-400 absolute top-1/2 left-3 -translate-y-1/2" />
                         <Controller
                             name="description"
                             control={form.control}
                             render={({ field }) => (
-                                <Input {...field} placeholder="Description" className="pl-9 p-2 h-10 bg-gray-50 border rounded-xl" />
+                                <Input {...field} placeholder="Description" className="pl-9 p-2 h-10 bg-gray-50 border rounded-xl text-xs" />
                             )}
                         />
                     </div>
                     
                     <div className="relative">
-                        <Folders className="w-4 h-4 text-gray-400 absolute top-1/2 left-3 -translate-y-1/2" />
+                        <Folder className="w-4 h-4 text-gray-400 absolute top-1/2 left-3 -translate-y-1/2" />
                         <Controller
                             name="category"
                             control={form.control}
