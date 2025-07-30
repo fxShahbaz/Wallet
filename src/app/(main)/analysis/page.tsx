@@ -19,10 +19,11 @@ import { StatisticsDashboard } from '@/components/analysis/statistics-dashboard'
 import { IncomeExpenseChart } from '@/components/analysis/income-expense-chart';
 import { ExpenseCategoryChart } from '@/components/analysis/expense-category-chart';
 import { IncomeCategoryChart } from '@/components/analysis/income-category-chart';
+import { BudgetComparisonChart } from '@/components/analysis/budget-comparison-chart';
 
 
 export default function AnalysisPage() {
-    const { transactions, accounts } = useApp();
+    const { transactions, accounts, expenseCategories } = useApp();
     const [date, setDate] = useState<DateRange | undefined>();
     const [appliedDate, setAppliedDate] = useState<DateRange | undefined>();
     const [filteredTransactions, setFilteredTransactions] = useState<Transaction[]>([]);
@@ -112,6 +113,7 @@ export default function AnalysisPage() {
                     {!appliedDate ? (
                         <>
                             <StatisticsDashboard transactions={transactions} accounts={accounts} />
+                            <BudgetComparisonChart transactions={transactions} categories={expenseCategories} />
                             <IncomeExpenseChart transactions={transactions} />
                             <div className="space-y-6">
                                 <ExpenseCategoryChart transactions={transactions} />

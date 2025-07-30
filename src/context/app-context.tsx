@@ -21,7 +21,6 @@ const Beer = (props: any) => (
   </svg>
 );
 
-
 // Sample data
 const sampleAccounts: Account[] = [
   { id: '1', name: 'HDFC Bank', initialBalance: 50000, balance: 45300, icon: Landmark },
@@ -43,27 +42,27 @@ const sampleTransactions: Transaction[] = [
 
 ];
 
-const expenseCategories: Category[] = [
-    { value: 'food', label: 'Food', icon: Utensils },
-    { value: 'groceries', label: 'Groceries', icon: ShoppingCart },
+const initialExpenseCategories: Category[] = [
+    { value: 'food', label: 'Food', icon: Utensils, budget: 15000 },
+    { value: 'groceries', label: 'Groceries', icon: ShoppingCart, budget: 10000 },
     { value: 'fruits_or_vegetables', label: 'Fruits or Vegetables', icon: Apple },
     { value: 'home', label: 'Home', icon: Home },
     { value: 'personal_care', label: 'Personal Care', icon: HeartHandshake },
     { value: 'electronics_accessories', label: 'Electronics & Accessories', icon: Laptop },
-    { value: 'utilities', label: 'Utilities', icon: Wrench },
+    { value: 'utilities', label: 'Utilities', icon: Wrench, budget: 7500 },
     { value: 'learning', label: 'Learning', icon: BookOpen },
-    { value: 'entertainment', label: 'Entertainment', icon: Film },
+    { value: 'entertainment', label: 'Entertainment', icon: Film, budget: 5000 },
     { value: 'private', label: 'Private', icon: UserRound },
     { value: 'travelling', label: 'Travelling', icon: Truck },
     { value: 'bar_cafe_drinks', label: 'Bar, Cafe & Drinks', icon: BeerLucide },
-    { value: 'shopping', label: 'Shopping', icon: Shirt },
+    { value: 'shopping', label: 'Shopping', icon: Shirt, budget: 20000 },
     { value: 'money_lending', label: 'Money Lending', icon: HandCoins },
     { value: 'bike', label: 'Bike', icon: Bike },
     { value: 'fuel', label: 'Fuel', icon: Fuel },
     { value: 'maintenance', label: 'Maintenance', icon: Wrench },
     { value: 'health_fitness', label: 'Health & Fitness', icon: Dumbbell },
     { value: 'bike_maintenance', label: 'Bike Maintenance', icon: Wrench },
-    { value: 'transportation', label: 'Transportation', icon: Car },
+    { value: 'transportation', label: 'Transportation', icon: Car, budget: 6000 },
     { value: 'unknown', label: 'Unknown', icon: HelpCircle },
     { value: 'unwanted', label: 'Unwanted', icon: Ban },
 ];
@@ -93,6 +92,7 @@ interface AppContextType {
   addAccount: (account: Omit<Account, 'id' | 'balance' | 'icon'>) => void;
   editAccount: (updatedAccount: Pick<Account, 'id' | 'name' | 'initialBalance'>) => void;
   deleteAccount: (accountId: string) => void;
+  setCategoryBudget: (categoryValue: string, budget: number) => void;
   clearAllData: () => void;
   submitTransactionForm: boolean;
   setSubmitTransactionForm: Dispatch<SetStateAction<boolean>>;
@@ -105,6 +105,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [accounts, setAccounts] = useState<Account[]>(sampleAccounts);
   const [transactions, setTransactions] = useState<Transaction[]>(sampleTransactions);
+  const [expenseCategories, setExpenseCategories] = useState<Category[]>(initialExpenseCategories);
   const [submitTransactionForm, setSubmitTransactionForm] = useState(false);
   const [transactionType, setTransactionType] = useState<'income' | 'expense' | 'investment'>('expense');
   const { toast } = useToast();
@@ -166,6 +167,18 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
+  const setCategoryBudget = (categoryValue: string, budget: number) => {
+    setExpenseCategories(prev => 
+        prev.map(cat => 
+            cat.value === categoryValue ? { ...cat, budget } : cat
+        )
+    );
+    toast({
+        title: "Budget Updated",
+        description: `Budget for ${categoryValue} set to ${budget}.`,
+    });
+  }
+
 
   const addTransaction = (transactionData: Omit<Transaction, 'id'>) => {
     const newTransaction: Transaction = {
@@ -201,6 +214,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     addAccount,
     editAccount,
     deleteAccount,
+    setCategoryBudget,
     clearAllData,
     submitTransactionForm,
     setSubmitTransactionForm,

@@ -28,6 +28,7 @@ export interface Category {
   value: string;
   label: string;
   icon?: React.ComponentType<{ className?: string }>;
+  budget?: number;
 }
 
 export interface Label {

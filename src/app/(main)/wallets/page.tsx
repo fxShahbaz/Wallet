@@ -9,6 +9,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { AccountCard } from '@/components/accounts/account-card';
 import { Account } from '@/lib/types';
 import { AnimatedCounter } from '@/components/dashboard/animated-counter';
+import { BudgetSettings } from '@/components/budget/budget-settings';
 
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(amount);
@@ -27,7 +28,7 @@ export default function WalletsPage() {
                </div>
             </header>
             <ScrollArea className="flex-1">
-                <div className="p-4 space-y-4 pb-24">
+                <div className="p-4 space-y-6 pb-24">
                     <Card className="bg-gray-900 text-white">
                         <CardContent className="p-4">
                             <div className="flex items-center justify-between text-sm text-gray-400">
@@ -49,10 +50,11 @@ export default function WalletsPage() {
                              <AddAccountSheet />
                         </div>
                     </div>
+                    
+                    <BudgetSettings />
+
                 </div>
             </ScrollArea>
         </div>
     );
 }
-
-    
