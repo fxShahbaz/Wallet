@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { DateRange } from 'react-day-picker';
 import {
   Sidebar,
@@ -14,22 +14,36 @@ import { Button } from '@/components/ui/button';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
+import { useApp } from '@/context/app-context';
+import { Transaction } from '@/lib/types';
+import { isWithinInterval, startOfDay, endOfDay } from 'date-fns';
+import { RecentTransactions } from '@/components/dashboard/recent-transactions';
 
 
 export default function AnalysisPage() {
+    const { transactions } = useApp();
     const [date, setDate] = useState<DateRange | undefined>();
+    const [filteredTransactions, setFilteredTransactions] = useState<Transaction[]>([]);
     const [isOpen, setIsOpen] = useState(false);
 
     const handleClear = () => {
         setDate(undefined);
+        setFilteredTransactions([]);
     }
 
     const handleApply = () => {
-        // You can add your apply logic here.
-        // For now, we can just log the date range.
-        console.log('Applied date range:', date);
+        if (date?.from && date?.to) {
+            const range = { start: startOfDay(date.from), end: endOfDay(date.to) };
+            const filtered = transactions.filter(t => isWithinInterval(t.date, range));
+            setFilteredTransactions(filtered);
+        } else if (date?.from) {
+            const range = { start: startOfDay(date.from), end: endOfDay(date.from) };
+            const filtered = transactions.filter(t => isWithinInterval(t.date, range));
+            setFilteredTransactions(filtered);
+        }
         setIsOpen(false);
     }
+    
 
     return (
         <SidebarProvider>
@@ -70,7 +84,13 @@ export default function AnalysisPage() {
                     </header>
                     <ScrollArea className="flex-1 p-4">
                         <div className="grid gap-6">
-                            {/* Page content goes here */}
+                            {filteredTransactions.length > 0 ? (
+                                <RecentTransactions transactions={filteredTransactions} showTypeIndicator={true} />
+                            ) : (
+                                <div className="text-center text-muted-foreground py-12">
+                                    <p>Select a date range to view transactions.</p>
+                                </div>
+                            )}
                         </div>
                     </ScrollArea>
                 </div>
