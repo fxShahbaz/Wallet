@@ -62,7 +62,7 @@ export default function DashboardPage() {
                         <UserNav />
                         <div>
                             <p className="font-semibold text-xs">{greeting}, Shahbaz</p>
-                            <p className="text-xs text-muted-foreground">Track your expenses, start your day right</p>
+                            <p className="text-xs text-muted-foreground">Track your expenses.</p>
                         </div>
                     </div>
                 </div>
