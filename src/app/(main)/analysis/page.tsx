@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { DateRange } from 'react-day-picker';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
-import { Calendar as CalendarIcon, CalendarDays, X, Heart } from 'lucide-react';
+import { Calendar as CalendarIcon, X } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { useApp } from '@/context/app-context';
@@ -15,11 +15,11 @@ import { RecentTransactions } from '@/components/dashboard/recent-transactions';
 import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { SummaryCards } from '@/components/analysis/summary-cards';
-import Link from 'next/link';
+import { StatisticsDashboard } from '@/components/analysis/statistics-dashboard';
 
 
 export default function AnalysisPage() {
-    const { transactions } = useApp();
+    const { transactions, accounts } = useApp();
     const [date, setDate] = useState<DateRange | undefined>();
     const [appliedDate, setAppliedDate] = useState<DateRange | undefined>();
     const [filteredTransactions, setFilteredTransactions] = useState<Transaction[]>([]);
@@ -106,32 +106,23 @@ export default function AnalysisPage() {
 
             <ScrollArea className="flex-1">
                 <div className={cn("px-4 pb-4 space-y-6", appliedDate && 'pt-16')}>
-                    {filteredTransactions.length > 0 ? (
+                    {!appliedDate ? (
+                        <StatisticsDashboard transactions={transactions} accounts={accounts} />
+                    ) : filteredTransactions.length > 0 ? (
                         <>
                             <SummaryCards transactions={filteredTransactions} />
-                            <RecentTransactions transactions={filteredTransactions} showTypeIndicator={true} />
+                            <RecentTransactions transactions={filteredTransactions} showTypeIndicator={true} groupByDate={false} />
                         </>
                     ) : (
-                        <div className="pt-12 space-y-4">
-                            <div className="text-center p-6 border rounded-xl">
-                                <p className="text-lg font-semibold mb-2">Enjoying the app?</p>
-                                <p className="text-sm text-muted-foreground mb-6">
-                                    Buy a coffee for the developer.
-                                    <br/>
-                                    Made with <Heart className="inline w-4 h-4 text-red-500 fill-current" /> by Shahbaz
-                                </p>
-
-                                <Button asChild className="bg-gray-900 text-white hover:bg-gray-800 rounded-lg">
-                                    <Link href="https://buymeacoffee.com/howdyshahbaz" target="_blank">
-                                        Buy me a coffee
-                                    </Link>
-                                </Button>
-                            </div>
-                        </div>
+                       <div className="text-center py-12">
+                         <h3 className="text-lg font-semibold">No data for this period</h3>
+                         <p className="text-sm text-muted-foreground mt-1">
+                            Try adjusting your date range.
+                         </p>
+                       </div>
                     )}
                 </div>
             </ScrollArea>
         </div>
     );
 }
-

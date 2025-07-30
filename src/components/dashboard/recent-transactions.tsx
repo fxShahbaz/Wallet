@@ -86,8 +86,8 @@ function TransactionItem({ transaction, index, showTypeIndicator }: { transactio
             <div className="flex items-center gap-1">
                 {showTypeIndicator && (
                     transaction.type === 'income' ? 
-                    <ArrowDownLeft className="w-4 h-4 text-green-500" /> :
-                    <ArrowUpRight className="w-4 h-4 text-red-500" />
+                    <ArrowUpRight className="w-4 h-4 text-green-500" /> :
+                    <ArrowDownLeft className="w-4 h-4 text-red-500" />
                 )}
                 <p className="font-semibold text-sm">{formatCurrency(transaction.amount)}</p>
             </div>
@@ -96,11 +96,10 @@ function TransactionItem({ transaction, index, showTypeIndicator }: { transactio
 }
 
 
-export function RecentTransactions({ transactions, showTypeIndicator }: { transactions: Transaction[], showTypeIndicator: boolean }) {
+export function RecentTransactions({ transactions, showTypeIndicator, groupByDate = true }: { transactions: Transaction[], showTypeIndicator: boolean, groupByDate?: boolean }) {
 
     const groupedTransactions = useMemo(() => {
-        // Group by day, but if showTypeIndicator is false, we just want a flat list
-        if (!showTypeIndicator) {
+        if (!groupByDate) {
             return { 'transactions': transactions };
         }
 
@@ -112,14 +111,13 @@ export function RecentTransactions({ transactions, showTypeIndicator }: { transa
             acc[dateKey].push(t);
             return acc;
         }, {} as Record<string, typeof transactions>);
-    }, [transactions, showTypeIndicator]);
+    }, [transactions, groupByDate]);
     
-    // if we are not showing the type indicator (as in the calendar view), we don't group by date
-    if (!showTypeIndicator) {
+    if (!groupByDate) {
         return (
             <div className="space-y-2">
                 {transactions.map((t, index) => (
-                    <TransactionItem key={t.id} transaction={t} index={index} showTypeIndicator={false} />
+                    <TransactionItem key={t.id} transaction={t} index={index} showTypeIndicator={showTypeIndicator} />
                 ))}
             </div>
         )
