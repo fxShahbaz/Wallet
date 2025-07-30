@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -19,10 +18,6 @@ const Command = React.forwardRef<
       "flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground",
       className
     )}
-    onMouseDown={(e) => {
-      e.preventDefault();
-      e.stopPropagation();
-    }}
     {...props}
   />
 ))

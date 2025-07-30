@@ -25,7 +25,6 @@ import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { Combobox } from '@/components/ui/combobox';
 
 
 const transactionFormSchema = z.object({
@@ -270,13 +269,16 @@ export default function AddTransactionPage() {
                                 name="category"
                                 control={form.control}
                                 render={({ field }) => (
-                                    <Combobox
-                                        options={categoriesToShow}
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                        placeholder="Category"
-                                        inputClassName="p-0 h-auto bg-transparent border-none focus-visible:ring-0 text-xs w-full"
-                                    />
+                                    <Select onValueChange={field.onChange} value={field.value}>
+                                        <SelectTrigger className="w-full p-0 h-auto bg-transparent border-none focus:ring-0 text-xs">
+                                             <SelectValue placeholder="Category" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {categoriesToShow.map(cat => (
+                                                <SelectItem key={cat.value} value={cat.label}>{cat.label}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
                                 )}
                             />
                              {form.formState.errors.category && (
