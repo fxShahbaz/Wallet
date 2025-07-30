@@ -18,7 +18,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { Input } from "@/components/ui/input"
 
 interface ComboboxProps {
   options: { value: string; label: string }[];
@@ -30,36 +29,70 @@ interface ComboboxProps {
 
 export function Combobox({ options, value, onChange, placeholder, inputClassName }: ComboboxProps) {
   const [open, setOpen] = React.useState(false)
+  const [inputValue, setInputValue] = React.useState(value)
+  const [isCustom, setIsCustom] = React.useState(false);
+
+  React.useEffect(() => {
+    setInputValue(value)
+    const isExistingOption = options.some(option => option.value.toLowerCase() === value.toLowerCase());
+    setIsCustom(!isExistingOption && value !== '');
+  }, [value, options]);
+
+
+  const handleSelect = (currentValue: string) => {
+    const newValue = currentValue === value ? "" : currentValue;
+    onChange(newValue);
+    setInputValue(newValue);
+    setOpen(false);
+  };
+  
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const text = e.target.value;
+    setInputValue(text);
+    onChange(text);
+    const isExistingOption = options.some(option => option.value.toLowerCase() === text.toLowerCase());
+    setIsCustom(!isExistingOption && text !== '');
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <div className="flex items-center w-full">
-        <Input
-          placeholder={placeholder}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className={cn("w-full", inputClassName)}
-        />
-        <PopoverTrigger asChild>
-          <Button variant="ghost" size="sm" className="ml-2 px-2">
-            <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
-          </Button>
-        </PopoverTrigger>
-      </div>
+      <PopoverTrigger asChild>
+        <div className="flex w-full items-center relative">
+            <input
+                placeholder={placeholder}
+                value={inputValue}
+                onChange={handleInputChange}
+                className={cn("w-full pr-8", inputClassName)}
+                onClick={() => setOpen(true)}
+            />
+            <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50 absolute right-2" />
+        </div>
+      </PopoverTrigger>
       <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
         <Command>
-          <CommandInput placeholder="Search or add category..." />
+          <CommandInput 
+            placeholder="Search or add category..." 
+            value={inputValue}
+            onValueChange={(search) => {
+              setInputValue(search);
+              onChange(search);
+            }}
+          />
           <CommandList>
-            <CommandEmpty>No category found.</CommandEmpty>
+            <CommandEmpty>
+                {inputValue && (
+                    <CommandItem onSelect={() => handleSelect(inputValue)}>
+                       Add "{inputValue}"
+                    </CommandItem>
+                )}
+                {!inputValue && "No category found."}
+            </CommandEmpty>
             <CommandGroup>
               {options.map((option) => (
                 <CommandItem
                   key={option.value}
                   value={option.value}
-                  onSelect={(currentValue) => {
-                    onChange(currentValue === value ? "" : currentValue)
-                    setOpen(false)
-                  }}
+                  onSelect={() => handleSelect(option.value)}
                 >
                   <Check
                     className={cn(
