@@ -11,13 +11,14 @@ import {
 } from '@/components/ui/sidebar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
-import { Calendar as CalendarIcon } from 'lucide-react';
+import { Calendar as CalendarIcon, CalendarDays } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { useApp } from '@/context/app-context';
 import { Transaction } from '@/lib/types';
 import { isWithinInterval, startOfDay, endOfDay } from 'date-fns';
 import { RecentTransactions } from '@/components/dashboard/recent-transactions';
+import { motion } from 'framer-motion';
 
 
 export default function AnalysisPage() {
@@ -87,9 +88,15 @@ export default function AnalysisPage() {
                             {filteredTransactions.length > 0 ? (
                                 <RecentTransactions transactions={filteredTransactions} showTypeIndicator={true} />
                             ) : (
-                                <div className="text-center text-muted-foreground py-12">
-                                    <p>Select a date range to view transactions.</p>
-                                </div>
+                                <motion.div 
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.5 }}
+                                    className="flex flex-col items-center justify-center text-center text-muted-foreground py-12 gap-4"
+                                >
+                                    <CalendarDays className="w-16 h-16 text-gray-300" />
+                                    <p className="text-xl">Select a date range to view transactions.</p>
+                                </motion.div>
                             )}
                         </div>
                     </ScrollArea>
