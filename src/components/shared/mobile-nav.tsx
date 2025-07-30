@@ -17,20 +17,6 @@ const links = [
   { href: '/settings', label: 'Settings', icon: Settings },
 ];
 
-const iconVariants = {
-  inactive: {
-    scale: 1,
-    y: 0,
-    transition: { type: 'spring', stiffness: 300, damping: 20 }
-  },
-  active: {
-    scale: 1.1,
-    y: -2,
-    transition: { type: 'spring', stiffness: 300, damping: 20 }
-  },
-};
-
-
 export function MobileNav() {
   const pathname = usePathname();
   const router = useRouter();
@@ -120,17 +106,17 @@ export function MobileNav() {
               );
             }
             
-            const MotionIcon = motion(link.icon);
-
             return (
-              <Link key={link.href} href={link.href} className="flex flex-col items-center justify-center text-xs gap-1 p-3">
-                <motion.div
-                  variants={iconVariants}
-                  animate={isActive ? "active" : "inactive"}
-                >
-                  <link.icon className={cn("w-5 h-5", isActive ? "text-primary" : "text-muted-foreground")} />
-                </motion.div>
+              <Link key={link.href} href={link.href} className="relative flex flex-col items-center justify-center text-xs gap-1 p-3 h-full">
+                <link.icon className={cn("w-5 h-5", isActive ? "text-primary" : "text-muted-foreground")} />
                 <span className={cn("text-xs", isActive ? "text-primary" : "text-muted-foreground")}>{link.label}</span>
+                {isActive && (
+                    <motion.div
+                        className="absolute bottom-1 left-0 right-0 h-0.5 bg-primary"
+                        layoutId="underline"
+                        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    />
+                )}
               </Link>
             );
           })}
