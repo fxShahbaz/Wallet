@@ -1,8 +1,9 @@
 "use client"
-import { useApp } from '@/context/app-context';
 import { useMemo } from 'react';
 import { format } from 'date-fns';
 import { ShoppingBag } from 'lucide-react';
+import { Transaction } from '@/lib/types';
+
 
 const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', minimumFractionDigits: 0 }).format(amount);
@@ -41,8 +42,7 @@ const getIconForCategory = (category: string) => {
 }
 
 
-export function RecentTransactions() {
-    const { transactions } = useApp();
+export function RecentTransactions({ transactions }: { transactions: Transaction[] }) {
 
     const groupedTransactions = useMemo(() => {
         return transactions.reduce((acc, t) => {

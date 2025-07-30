@@ -1,11 +1,13 @@
 
 "use client";
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { UserNav } from '@/components/shared/user-nav';
 import { RecentTransactions } from '@/components/dashboard/recent-transactions';
 import { useApp } from '@/context/app-context';
+import { Transaction } from '@/lib/types';
+import { startOfDay, startOfWeek, startOfMonth, isWithinInterval } from 'date-fns';
 
 const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', minimumFractionDigits: 2 }).format(amount);
@@ -15,7 +17,27 @@ export default function DashboardPage() {
     const [activeFilter, setActiveFilter] = useState('Today');
     const { transactions } = useApp();
 
-    const spendSoFar = transactions
+    const filteredTransactions = useMemo(() => {
+        const now = new Date();
+        let interval;
+
+        switch (activeFilter) {
+            case 'This week':
+                interval = { start: startOfWeek(now), end: now };
+                break;
+            case 'This month':
+                interval = { start: startOfMonth(now), end: now };
+                break;
+            case 'Today':
+            default:
+                interval = { start: startOfDay(now), end: now };
+                break;
+        }
+
+        return transactions.filter(t => isWithinInterval(t.date, interval));
+    }, [transactions, activeFilter]);
+
+    const spendSoFar = filteredTransactions
         .filter(t => t.type === 'expense')
         .reduce((sum, t) => sum + t.amount, 0);
 
@@ -26,7 +48,7 @@ export default function DashboardPage() {
                     <div className="flex items-center gap-3">
                         <UserNav />
                         <div>
-                            <p className="font-semibold text-sm">Good morning, Jon</p>
+                            <p className="font-semibold text-xs">Good morning, Jon</p>
                             <p className="text-xs text-muted-foreground">Track your expenses, start your day right</p>
                         </div>
                     </div>
@@ -46,11 +68,11 @@ export default function DashboardPage() {
                         </Button>
                     ))}
                 </div>
-                <div className="p-4 rounded-2xl bg-card text-card-foreground">
-                    <p className="text-sm text-muted-foreground">Spend so far</p>
+                <div className="p-4 rounded-2xl bg-gray-900 text-white">
+                    <p className="text-sm text-gray-400">Spend so far</p>
                     <p className="text-2xl font-bold">{formatCurrency(spendSoFar)}</p>
                 </div>
-                <RecentTransactions />
+                <RecentTransactions transactions={filteredTransactions} />
             </div>
         </div>
     );
