@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { DateRange } from 'react-day-picker';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
-import { Calendar as CalendarIcon, CalendarDays, X } from 'lucide-react';
+import { Calendar as CalendarIcon, CalendarDays, X, Heart } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { useApp } from '@/context/app-context';
@@ -15,6 +15,7 @@ import { RecentTransactions } from '@/components/dashboard/recent-transactions';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { SummaryCards } from '@/components/analysis/summary-cards';
+import Link from 'next/link';
 
 
 export default function AnalysisPage() {
@@ -80,11 +81,7 @@ export default function AnalysisPage() {
             
             <AnimatePresence>
             {appliedDate && (
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3 }}
+                <div
                     className="absolute top-24 z-10 w-full flex justify-center"
                 >
                     <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary text-sm font-medium shadow-lg">
@@ -99,7 +96,7 @@ export default function AnalysisPage() {
                             <span className="sr-only">Clear filter</span>
                         </button>
                     </div>
-                </motion.div>
+                </div>
             )}
             </AnimatePresence>
 
@@ -117,6 +114,18 @@ export default function AnalysisPage() {
                             >
                                 <CalendarDays className="w-10 h-10 text-gray-300" />
                                 <p className="text-sm">Select a date range to view transactions from top right corner.</p>
+                            </div>
+                            <div className="text-center p-4 border-t">
+                                <p className="text-sm text-muted-foreground mb-4">
+                                    Enjoy the app. Buy a coffee for the developer.
+                                    <br/>
+                                    Made with <Heart className="inline w-4 h-4 text-red-500 fill-current" /> by Shahbaz
+                                </p>
+                                <Button asChild>
+                                    <Link href="https://buymeacoffee.com/howdyshahbaz" target="_blank">
+                                        Buy me a coffee
+                                    </Link>
+                                </Button>
                             </div>
                         </div>
                     )}
