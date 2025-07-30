@@ -103,7 +103,7 @@ export default function AddTransactionPage() {
             form.handleSubmit(onSubmit)();
             setSubmitTransactionForm(false); 
         }
-    }, [submitTransactionForm]);
+    }, [submitTransactionForm, form, setSubmitTransactionForm]);
 
     const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value.replace(/[^0-9.]/g, '');
@@ -137,7 +137,13 @@ export default function AddTransactionPage() {
     };
     
     return (
-        <div className="bg-white pb-24">
+        <motion.div 
+            className="bg-white pb-24 h-full"
+            initial={{ y: '100vh' }}
+            animate={{ y: 0 }}
+            exit={{ y: '100vh' }}
+            transition={{ type: 'spring', stiffness: 260, damping: 30 }}
+        >
              <header className="flex items-center justify-between p-4">
                 <Button variant="ghost" size="icon" onClick={() => router.back()}>
                     <X className="w-5 h-5" />
@@ -332,7 +338,7 @@ export default function AddTransactionPage() {
                     </div>
                 </div>
             </form>
-        </div>
+        </motion.div>
     );
 }
 
