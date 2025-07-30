@@ -119,7 +119,7 @@ export default function AnalysisPage() {
                                 className="flex flex-col items-center justify-center text-center text-muted-foreground py-8 gap-3"
                             >
                                 <CalendarDays className="w-10 h-10 text-gray-300" />
-                                <p className="text-sm">Select a date range to view transactions.</p>
+                                <p className="text-sm">Select a date range to view transactions from top right corner.</p>
                             </motion.div>
                         </div>
                     )}
