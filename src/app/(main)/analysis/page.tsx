@@ -119,14 +119,14 @@ export default function AnalysisPage() {
                                 <CalendarDays className="w-10 h-10 text-gray-300" />
                                 <p className="text-sm">Select a date range to view transactions from top right corner.</p>
                             </div>
-                            <div className="text-center p-4 border rounded-lg">
-                                <p className="font-semibold mb-2">Enjoying the app?</p>
-                                <p className="text-sm text-muted-foreground mb-4">
+                            <div className="text-center p-6 border rounded-xl">
+                                <p className="text-lg font-semibold mb-2">Enjoying the app?</p>
+                                <p className="text-sm text-muted-foreground mb-6">
                                     Buy a coffee for the developer.
                                     <br/>
                                     Made with <Heart className="inline w-4 h-4 text-red-500 fill-current" /> by Shahbaz
                                 </p>
-                                <Button asChild>
+                                <Button asChild className="bg-gray-900 text-white hover:bg-gray-800 rounded-lg">
                                     <Link href="https://buymeacoffee.com/howdyshahbaz" target="_blank">
                                         Buy me a coffee
                                     </Link>
