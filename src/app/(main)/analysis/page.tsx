@@ -81,7 +81,7 @@ export default function AnalysisPage() {
 
     return (
         <div className="flex flex-col h-svh bg-background text-foreground">
-            <header className="flex items-center justify-between p-2 border-b">
+            <header className="flex items-center justify-between p-2 border-b h-14">
                 <Button variant="ghost" size="icon" className="h-8 w-8">
                     <X className="w-5 h-5" />
                 </Button>
@@ -102,10 +102,10 @@ export default function AnalysisPage() {
                     }}
                     classNames={{
                         head_row: "grid grid-cols-7",
-                        row: "grid grid-cols-7 gap-y-1",
+                        row: "grid grid-cols-7",
                         head_cell: "w-full text-center font-normal text-sm",
-                        cell: "w-full h-10",
-                        day: "w-full h-10 rounded-lg",
+                        cell: "w-full h-10 p-0",
+                        day: "w-full h-full rounded-lg",
                         day_selected: "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground",
                         day_range_start: "rounded-r-none",
                         day_range_end: "rounded-l-none",
