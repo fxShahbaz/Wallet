@@ -338,9 +338,7 @@ export default function AddTransactionPage() {
                            <button type="button" className="text-xs text-gray-700">Attach Photo</button>
                         </div>
 
-                        <div className="pb-24"></div>
-
-                        <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t">
+                        <div className="p-4 bg-white border-t">
                             <Button type="submit" size="lg" className="w-full h-12 text-base font-semibold rounded-full bg-gray-900 text-white hover:bg-gray-800">
                                 Add Transaction
                             </Button>
@@ -351,5 +349,3 @@ export default function AddTransactionPage() {
         </div>
     );
 }
-
-    
