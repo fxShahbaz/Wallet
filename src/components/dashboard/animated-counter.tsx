@@ -3,14 +3,14 @@
 import { motion, AnimatePresence } from 'framer-motion';
 
 const formatCurrencyForAnimation = (amount: number) => {
-    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 2 }).format(amount);
+    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(amount);
 };
 
 export const AnimatedCounter = ({ value }: { value: number }) => {
     const formattedValue = formatCurrencyForAnimation(value);
     
     return (
-        <div className="flex items-center text-2xl font-bold overflow-hidden">
+        <div className="flex items-center text-3xl font-bold overflow-hidden">
             {formattedValue.split('').map((char, index) => {
                 if (char.match(/[0-9]/)) {
                     return (

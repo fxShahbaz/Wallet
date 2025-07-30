@@ -8,6 +8,7 @@ import { AddAccountSheet } from '@/components/accounts/add-account-sheet';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { AccountCard } from '@/components/accounts/account-card';
 import { Account } from '@/lib/types';
+import { AnimatedCounter } from '@/components/dashboard/animated-counter';
 
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(amount);
@@ -33,7 +34,9 @@ export default function WalletsPage() {
                                 <span>Total Balance</span>
                                 <PiggyBank className="w-4 h-4" />
                             </div>
-                            <p className="text-3xl font-bold mt-1">{formatCurrency(totalBalance)}</p>
+                            <div className="mt-1">
+                                <AnimatedCounter value={totalBalance} />
+                            </div>
                         </CardContent>
                     </Card>
 
