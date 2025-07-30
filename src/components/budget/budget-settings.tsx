@@ -17,7 +17,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Category, Transaction } from '@/lib/types';
-import { HelpCircle, Edit } from 'lucide-react';
+import { HelpCircle, Pencil } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 import { startOfMonth, endOfMonth } from 'date-fns';
 import { cn } from '@/lib/utils';
@@ -112,7 +112,7 @@ export function BudgetSettings({ transactions }: { transactions: Transaction[] }
                                 </div>
                                 <SetBudgetDialog category={category}>
                                     <Button variant="ghost" size="icon">
-                                        <Edit className="w-4 h-4" />
+                                        <Pencil className="w-4 h-4" />
                                     </Button>
                                 </SetBudgetDialog>
                             </div>
