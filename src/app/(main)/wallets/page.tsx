@@ -26,7 +26,7 @@ export default function WalletsPage() {
                </div>
             </header>
             <ScrollArea className="flex-1">
-                <div className="p-4 space-y-6 pb-32">
+                <div className="p-4 space-y-4 pb-32">
                     <Card>
                         <CardContent className="p-4">
                             <div className="flex items-center justify-between text-sm text-muted-foreground">
@@ -37,7 +37,7 @@ export default function WalletsPage() {
                         </CardContent>
                     </Card>
 
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                         <h2 className="text-sm font-semibold text-muted-foreground px-1">Your Accounts</h2>
                         <div className="grid grid-cols-2 gap-4">
                             {accounts.map(account => (
