@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -75,7 +75,7 @@ const SegmentedControl = ({ value, onChange, options }: { value: string, onChang
 
 export default function AddTransactionPage() {
     const router = useRouter();
-    const { categories, addTransaction, accounts } = useApp();
+    const { categories, addTransaction, accounts, submitTransactionForm, setSubmitTransactionForm } = useApp();
     const [amount, setAmount] = useState('0.00');
 
     const form = useForm<TransactionFormValues>({
@@ -97,6 +97,13 @@ export default function AddTransactionPage() {
     });
 
     const transactionType = form.watch('type');
+
+    useEffect(() => {
+        if (submitTransactionForm) {
+            form.handleSubmit(onSubmit)();
+            setSubmitTransactionForm(false); 
+        }
+    }, [submitTransactionForm]);
 
     const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value.replace(/[^0-9.]/g, '');
@@ -124,13 +131,13 @@ export default function AddTransactionPage() {
     const onSubmit = (data: TransactionFormValues) => {
         addTransaction({
             ...data,
-            description: data.description || '', // Ensure description is not undefined
+            category: data.category,
+            description: data.note || '',
         });
-        router.push('/');
     };
     
     return (
-        <div className="bg-white">
+        <div className="bg-white pb-24">
              <header className="flex items-center justify-between p-4">
                 <Button variant="ghost" size="icon" onClick={() => router.back()}>
                     <X className="w-5 h-5" />
@@ -140,13 +147,15 @@ export default function AddTransactionPage() {
             </header>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <div className="p-4 pt-6 flex justify-center">
-                    <input 
-                        type="text"
-                        value={amount}
-                        onChange={handleAmountChange}
-                        className="text-3xl font-bold bg-transparent border-none focus:ring-0 outline-none text-center"
-                        style={{ minWidth: '1ch' }}
-                    />
+                   <div className="flex items-center justify-center">
+                        <input
+                            type="text"
+                            value={amount}
+                            onChange={handleAmountChange}
+                            className="text-3xl font-bold bg-transparent border-none focus:ring-0 outline-none text-center"
+                            style={{ minWidth: '1ch' }}
+                        />
+                   </div>
                 </div>
                 <div className="p-4 pt-6 space-y-4">
                     <Controller
@@ -243,7 +252,7 @@ export default function AddTransactionPage() {
                      <div className="flex items-center gap-3 p-2 bg-gray-50 border rounded-xl">
                         <FileText className="w-4 h-4 text-gray-400 shrink-0 mt-2 self-start" />
                         <Controller
-                            name="description"
+                            name="note"
                             control={form.control}
                             render={({ field }) => (
                                 <Textarea {...field} placeholder="Description" className="p-0 h-auto bg-transparent border-none focus-visible:ring-0 text-xs w-full" rows={2}/>
@@ -289,7 +298,7 @@ export default function AddTransactionPage() {
                             name="status"
                             control={form.control}
                             render={({ field }) => (
-                                <Select onValuechange={field.onChange} defaultValue={field.value}>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <SelectTrigger className="w-full p-0 h-auto bg-transparent border-none focus:ring-0 text-xs">
                                         <div className="flex items-center gap-3">
                                             <CheckCircle className="w-4 h-4 text-gray-400 shrink-0" />
@@ -321,13 +330,10 @@ export default function AddTransactionPage() {
                        <Camera className="w-4 h-4 text-gray-400 shrink-0" />
                        <button type="button" className="text-xs text-gray-700">Attach Photo</button>
                     </div>
-                    <div className="pb-24 pt-4">
-                         <Button type="submit" size="lg" className="w-full h-12 text-base font-semibold rounded-full bg-gray-900 text-white hover:bg-gray-800">
-                            Add Transaction
-                        </Button>
-                    </div>
                 </div>
             </form>
         </div>
     );
 }
+
+    

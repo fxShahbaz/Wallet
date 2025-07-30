@@ -1,6 +1,7 @@
+
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, Dispatch, SetStateAction } from 'react';
 import type { Account, Transaction, Category } from '@/lib/types';
 import { Landmark, PiggyBank, Wallet } from 'lucide-react';
 
@@ -49,6 +50,8 @@ interface AppContextType {
   categories: Category[];
   addTransaction: (transaction: Omit<Transaction, 'id'>) => void;
   addAccount: (account: Omit<Account, 'id' | 'balance'>) => void;
+  submitTransactionForm: boolean;
+  setSubmitTransactionForm: Dispatch<SetStateAction<boolean>>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -57,6 +60,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [accounts, setAccounts] = useState<Account[]>(sampleAccounts);
   const [transactions, setTransactions] = useState<Transaction[]>(sampleTransactions);
   const [categories, setCategories] = useState<Category[]>(sampleCategories);
+  const [submitTransactionForm, setSubmitTransactionForm] = useState(false);
 
   const addAccount = (accountData: Omit<Account, 'id' | 'balance'>) => {
     const newAccount: Account = {
@@ -98,6 +102,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     categories,
     addTransaction,
     addAccount,
+    submitTransactionForm,
+    setSubmitTransactionForm,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
@@ -110,3 +116,5 @@ export const useApp = () => {
   }
   return context;
 };
+
+    
