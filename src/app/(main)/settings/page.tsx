@@ -55,9 +55,22 @@ export default function SettingsPage() {
   return (
     <div className="flex flex-col h-full bg-background">
       <header className="flex items-center justify-between p-4 border-b h-14 shrink-0">
-        <div className="flex items-center gap-2">
-          <h1 className="font-semibold text-lg">Settings</h1>
-        </div>
+        <h1 className="font-semibold text-lg">Settings</h1>
+        {mounted && (
+            isLoggedIn ? (
+                <div className="flex items-center gap-2">
+                    <UserNav />
+                    <Button variant="outline" size="sm" onClick={() => setIsLoggedIn(false)}>
+                        <LogOut className="w-4 h-4" />
+                    </Button>
+                </div>
+            ) : (
+                <Button size="sm" onClick={() => setIsLoggedIn(true)}>
+                    <LogIn className="w-4 h-4 mr-2" />
+                    Login
+                </Button>
+            )
+        )}
       </header>
       <ScrollArea className="flex-1">
         <div className="p-4 space-y-8 pb-24">
@@ -73,18 +86,10 @@ export default function SettingsPage() {
                         <p className="text-sm text-muted-foreground">shahbaz@example.com</p>
                     </div>
                 </div>
-                <Button variant="outline" size="sm" onClick={() => setIsLoggedIn(false)}>
-                    <LogOut className="w-4 h-4 mr-2" />
-                    Logout
-                </Button>
               </div>
             ) : (
                 <div className="flex items-center justify-between p-2 rounded-lg">
                     <p className="text-sm text-muted-foreground">You are not logged in.</p>
-                    <Button size="sm" onClick={() => setIsLoggedIn(true)}>
-                        <LogIn className="w-4 h-4 mr-2" />
-                        Login
-                    </Button>
                 </div>
             )}
           </div>
