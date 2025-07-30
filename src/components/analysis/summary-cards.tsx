@@ -16,14 +16,14 @@ const SummaryCard = ({ title, value, icon, colorClass, dark }: { title: string, 
     const [titlePart1, titlePart2] = title.split(' ');
 
     return (
-        <Card className={cn("bg-gray-900 text-white flex flex-col justify-between", dark && "bg-gray-900 text-white")}>
+        <Card className={cn("bg-gray-900 text-white flex flex-col justify-between h-32", dark && "bg-gray-900 text-white")}>
             <CardHeader className="flex flex-row items-start justify-between pb-2 space-y-0">
                 <CardTitle className="text-sm font-medium">
                     {titlePart1}
                     {titlePart2 && <br />}
                     {titlePart2}
                 </CardTitle>
-                <div className={cn("w-4 h-4 text-muted-foreground", colorClass)}>
+                <div className={cn("w-5 h-5", colorClass)}>
                     {icon}
                 </div>
             </CardHeader>
