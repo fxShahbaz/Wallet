@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import { useState, useMemo, useEffect } from 'react';
@@ -133,7 +131,7 @@ export default function DashboardPage() {
             </header>
             <div className="flex-1 flex flex-col">
                 <div className="sticky top-0 z-10 p-4 pt-0">
-                        <div className="relative flex items-center gap-2 bg-background p-1 rounded-full">
+                        <div className="relative flex items-center gap-2 p-1 rounded-full">
                             {filters.map((filter) => (
                                 <button
                                     key={filter}
@@ -163,9 +161,11 @@ export default function DashboardPage() {
                             <AnimatedCounter value={cardValue} />
                         </div>
                     </div>
-                    <ScrollArea className="flex-1 px-4">
-                        <RecentTransactions transactions={filteredTransactions} showTypeIndicator={transactionFilter === 'all'} />
-                    </ScrollArea>
+                    <div className="flex-1 flex flex-col">
+                        <ScrollArea className="flex-1 px-4">
+                            <RecentTransactions transactions={filteredTransactions} showTypeIndicator={transactionFilter === 'all'} />
+                        </ScrollArea>
+                    </div>
                 </div>
             </div>
         </div>
