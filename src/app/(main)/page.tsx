@@ -137,7 +137,7 @@ export default function DashboardPage() {
                         </div>
                     </div>
                     <ScrollArea className="flex-1 px-4">
-                        <RecentTransactions transactions={filteredTransactions} />
+                        <RecentTransactions transactions={filteredTransactions} showTypeIndicator={transactionFilter === 'all'} />
                     </ScrollArea>
                 </div>
             </div>

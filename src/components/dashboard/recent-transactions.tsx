@@ -1,7 +1,7 @@
 "use client"
 import { useMemo, useEffect, useRef } from 'react';
 import { format } from 'date-fns';
-import { ShoppingBag } from 'lucide-react';
+import { ArrowDownLeft, ArrowUpRight, ShoppingBag } from 'lucide-react';
 import { Transaction } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
@@ -42,7 +42,7 @@ const getIconForCategory = (category: string) => {
     }
 }
 
-function TransactionItem({ transaction, index }: { transaction: Transaction, index: number }) {
+function TransactionItem({ transaction, index, showTypeIndicator }: { transaction: Transaction, index: number, showTypeIndicator: boolean }) {
     const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -84,13 +84,20 @@ function TransactionItem({ transaction, index }: { transaction: Transaction, ind
                     <p className="text-xs text-muted-foreground">{format(transaction.date, "p")}</p>
                 </div>
             </div>
-            <p className="font-semibold text-sm">{formatCurrency(transaction.amount)}</p>
+            <div className="flex items-center gap-1">
+                {showTypeIndicator && (
+                    transaction.type === 'income' ? 
+                    <ArrowUpRight className="w-4 h-4 text-green-500" /> :
+                    <ArrowDownLeft className="w-4 h-4 text-red-500" />
+                )}
+                <p className="font-semibold text-sm">{formatCurrency(transaction.amount)}</p>
+            </div>
         </div>
     );
 }
 
 
-export function RecentTransactions({ transactions }: { transactions: Transaction[] }) {
+export function RecentTransactions({ transactions, showTypeIndicator }: { transactions: Transaction[], showTypeIndicator: boolean }) {
 
     const groupedTransactions = useMemo(() => {
         return transactions.reduce((acc, t) => {
@@ -110,7 +117,7 @@ export function RecentTransactions({ transactions }: { transactions: Transaction
                     <h3 className="text-sm text-muted-foreground mb-2">{date}</h3>
                     <div className="space-y-2">
                         {trans.map((t, index) => (
-                           <TransactionItem key={t.id} transaction={t} index={index} />
+                           <TransactionItem key={t.id} transaction={t} index={index} showTypeIndicator={showTypeIndicator} />
                         ))}
                     </div>
                 </div>
