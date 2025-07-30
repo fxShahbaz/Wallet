@@ -5,22 +5,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Account, Transaction } from '@/lib/types';
 import {
   BarChart,
-  Calendar,
   Wallet,
-  TrendingUp,
   TrendingDown,
-  ArrowRightLeft,
-  Receipt,
 } from 'lucide-react';
 import {
-  startOfMonth,
-  endOfMonth,
-  subMonths,
-  isWithinInterval,
   isToday,
   differenceInDays,
   startOfDay,
-  format,
 } from 'date-fns';
 
 const formatCurrency = (amount: number) => {
@@ -61,26 +52,9 @@ export function StatisticsDashboard({
 }) {
   const summary = useMemo(() => {
     const now = new Date();
-    const today = startOfDay(now);
-
-    // Time Ranges
-    const thisMonthInterval = {
-      start: startOfMonth(now),
-      end: endOfMonth(now),
-    };
-    const lastMonthInterval = {
-      start: startOfMonth(subMonths(now, 1)),
-      end: endOfMonth(subMonths(now, 1)),
-    };
 
     // Filter transactions
     const todaysTransactions = transactions.filter((t) => isToday(t.date));
-    const thisMonthTransactions = transactions.filter((t) =>
-      isWithinInterval(t.date, thisMonthInterval)
-    );
-    const lastMonthTransactions = transactions.filter((t) =>
-      isWithinInterval(t.date, lastMonthInterval)
-    );
     
     const firstTransactionDate = transactions.length > 0
         ? transactions.reduce((min, t) => t.date < min ? t.date : min, new Date())
@@ -101,14 +75,6 @@ export function StatisticsDashboard({
         .reduce((sum, t) => sum + t.amount, 0);
 
     const overallToday = todaysIncome - todaysExpense;
-
-    const totalExpenseThisMonth = thisMonthTransactions
-      .filter((t) => t.type === 'expense')
-      .reduce((sum, t) => sum + t.amount, 0);
-
-    const totalExpenseLastMonth = lastMonthTransactions
-      .filter((t) => t.type === 'expense')
-      .reduce((sum, t) => sum + t.amount, 0);
       
     const totalExpenseAllTime = transactions
         .filter((t) => t.type === 'expense')
@@ -116,25 +82,11 @@ export function StatisticsDashboard({
 
     const dailyAvgSpent = totalExpenseAllTime / daysSinceFirstTransaction;
 
-    const incomeThisMonth = thisMonthTransactions
-      .filter((t) => t.type === 'income')
-      .reduce((sum, t) => sum + t.amount, 0);
-    const cashFlowThisMonth = incomeThisMonth - totalExpenseThisMonth;
-
-    const incomeLastMonth = lastMonthTransactions
-      .filter((t) => t.type === 'income')
-      .reduce((sum, t) => sum + t.amount, 0);
-    const cashFlowLastMonth = incomeLastMonth - totalExpenseLastMonth;
-
     return {
       currentBalance,
       dailyAvgSpent,
       overallToday,
       todaysExpense,
-      totalExpenseThisMonth,
-      totalExpenseLastMonth,
-      cashFlowThisMonth,
-      cashFlowLastMonth,
     };
   }, [accounts, transactions]);
 
@@ -162,7 +114,7 @@ export function StatisticsDashboard({
   ];
 
   return (
-    <div className="grid gap-4 md:grid-cols-2">
+    <div className="grid grid-cols-2 gap-4">
       {stats.map((stat) => (
         <StatCard
           key={stat.title}
