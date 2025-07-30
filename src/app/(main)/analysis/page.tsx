@@ -55,9 +55,9 @@ export default function AnalysisPage() {
                </div>
                <Popover open={isOpen} onOpenChange={setIsOpen}>
                 <PopoverTrigger asChild>
-                    <Button variant="outline" size="icon">
+                    <Button variant="outline" size="sm" className="flex items-center gap-2">
                         <CalendarIcon className="w-4 h-4" />
-                        <span className="sr-only">Filter by date</span>
+                        <span>Filter by date</span>
                     </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="end">
@@ -134,3 +134,4 @@ export default function AnalysisPage() {
         </div>
     );
 }
+
