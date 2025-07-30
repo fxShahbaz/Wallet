@@ -46,7 +46,7 @@ type TransactionFormValues = z.infer<typeof transactionFormSchema>;
 
 const SegmentedControl = ({ value, onChange, options }: { value: string, onChange: (val: string) => void, options: { value: string, label: string, icon: React.ReactNode }[]}) => {
     return (
-        <div className="relative flex items-center gap-2 p-1 rounded-xl bg-gray-100">
+        <div className="relative flex items-center gap-2 p-1 rounded-xl bg-muted">
             {options.map(option => (
                 <button
                     key={option.value}
@@ -54,7 +54,7 @@ const SegmentedControl = ({ value, onChange, options }: { value: string, onChang
                     onClick={() => onChange(option.value)}
                     className={cn(
                         "relative flex-1 py-1.5 px-3 text-xs font-medium rounded-lg transition-colors",
-                         value !== option.value ? "text-gray-500 hover:bg-gray-200" : "text-gray-900"
+                         value !== option.value ? "text-muted-foreground hover:bg-background/50" : "text-foreground"
                     )}
                 >
                     <span className="relative z-10 flex items-center justify-center gap-2">
@@ -64,7 +64,7 @@ const SegmentedControl = ({ value, onChange, options }: { value: string, onChang
                     {value === option.value && (
                         <motion.div
                             layoutId="segmented-control-active"
-                            className="absolute inset-0 bg-white rounded-lg shadow-sm"
+                            className="absolute inset-0 bg-background rounded-lg shadow-sm"
                             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                         />
                     )}
@@ -159,7 +159,7 @@ export default function AddTransactionPage() {
     
     return (
         <motion.div 
-            className="bg-white pb-24 h-full"
+            className="bg-background pb-24 h-full"
             initial={{ y: '100vh' }}
             animate={{ y: 0 }}
             exit={{ y: '100vh' }}
@@ -191,12 +191,12 @@ export default function AddTransactionPage() {
                         render={({ field }) => (
                             <Popover>
                                 <PopoverTrigger asChild>
-                                    <button type="button" className="w-full text-left p-2 rounded-xl border bg-gray-50 flex justify-between items-center">
+                                    <button type="button" className="w-full text-left p-2 rounded-xl border bg-muted flex justify-between items-center">
                                         <div>
-                                            <p className="text-[10px] text-gray-500">Date</p>
+                                            <p className="text-[10px] text-muted-foreground">Date</p>
                                             <p className="font-medium text-xs">{format(field.value, 'PPP')}</p>
                                         </div>
-                                        <CalendarIcon className="w-4 h-4 text-gray-400" />
+                                        <CalendarIcon className="w-4 h-4 text-muted-foreground" />
                                     </button>
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto p-0" align="center">
@@ -227,7 +227,7 @@ export default function AddTransactionPage() {
                         )}
                     />
                     
-                    <div className="flex items-center gap-3 p-2 bg-gray-50 border rounded-xl">
+                    <div className="flex items-center gap-3 p-2 bg-muted border rounded-xl">
                         <Controller
                             name="accountId"
                             control={form.control}
@@ -235,7 +235,7 @@ export default function AddTransactionPage() {
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <SelectTrigger className="w-full p-0 h-auto bg-transparent border-none focus:ring-0 text-xs">
                                         <div className="flex items-center gap-3">
-                                            <Landmark className="w-4 h-4 text-gray-400 shrink-0" />
+                                            <Landmark className="w-4 h-4 text-muted-foreground shrink-0" />
                                             <SelectValue placeholder="Select Bank Account" />
                                         </div>
                                     </SelectTrigger>
@@ -252,8 +252,8 @@ export default function AddTransactionPage() {
                         )}
                     </div>
 
-                    <div className="flex items-center gap-3 p-2 bg-gray-50 border rounded-xl">
-                        <Folder className="w-4 h-4 text-gray-400 shrink-0" />
+                    <div className="flex items-center gap-3 p-2 bg-muted border rounded-xl">
+                        <Folder className="w-4 h-4 text-muted-foreground shrink-0" />
                         <Controller
                             name="category"
                             control={form.control}
@@ -265,8 +265,8 @@ export default function AddTransactionPage() {
                             <p className="text-xs text-red-500 mt-1">{form.formState.errors.category.message}</p>
                         )}
                     </div>
-                     <div className="flex items-center gap-3 p-2 bg-gray-50 border rounded-xl">
-                        <Tag className="w-4 h-4 text-gray-400 shrink-0" />
+                     <div className="flex items-center gap-3 p-2 bg-muted border rounded-xl">
+                        <Tag className="w-4 h-4 text-muted-foreground shrink-0" />
                         <Controller
                             name="label"
                             control={form.control}
@@ -276,8 +276,8 @@ export default function AddTransactionPage() {
                         />
                     </div>
 
-                     <div className="flex items-center gap-3 p-2 bg-gray-50 border rounded-xl">
-                        <FileText className="w-4 h-4 text-gray-400 shrink-0 mt-2 self-start" />
+                     <div className="flex items-center gap-3 p-2 bg-muted border rounded-xl">
+                        <FileText className="w-4 h-4 text-muted-foreground shrink-0 mt-2 self-start" />
                         <Controller
                             name="note"
                             control={form.control}
@@ -287,8 +287,8 @@ export default function AddTransactionPage() {
                         />
                     </div>
                     
-                    <div className="flex items-center gap-3 p-2 bg-gray-50 border rounded-xl">
-                        <Users className="w-4 h-4 text-gray-400 shrink-0" />
+                    <div className="flex items-center gap-3 p-2 bg-muted border rounded-xl">
+                        <Users className="w-4 h-4 text-muted-foreground shrink-0" />
                         <Controller
                             name="payee"
                             control={form.control}
@@ -298,7 +298,7 @@ export default function AddTransactionPage() {
                         />
                     </div>
 
-                    <div className="flex items-center gap-3 p-2 bg-gray-50 border rounded-xl">
+                    <div className="flex items-center gap-3 p-2 bg-muted border rounded-xl">
                         <Controller
                             name="paymentType"
                             control={form.control}
@@ -306,7 +306,7 @@ export default function AddTransactionPage() {
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <SelectTrigger className="w-full p-0 h-auto bg-transparent border-none focus:ring-0 text-xs">
                                         <div className="flex items-center gap-3">
-                                            <CreditCard className="w-4 h-4 text-gray-400 shrink-0" />
+                                            <CreditCard className="w-4 h-4 text-muted-foreground shrink-0" />
                                             <SelectValue placeholder="Payment Type" />
                                         </div>
                                     </SelectTrigger>
@@ -320,7 +320,7 @@ export default function AddTransactionPage() {
                         />
                     </div>
                     
-                     <div className="flex items-center gap-3 p-2 bg-gray-50 border rounded-xl">
+                     <div className="flex items-center gap-3 p-2 bg-muted border rounded-xl">
                         <Controller
                             name="status"
                             control={form.control}
@@ -328,7 +328,7 @@ export default function AddTransactionPage() {
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <SelectTrigger className="w-full p-0 h-auto bg-transparent border-none focus:ring-0 text-xs">
                                         <div className="flex items-center gap-3">
-                                            <CheckCircle className="w-4 h-4 text-gray-400 shrink-0" />
+                                            <CheckCircle className="w-4 h-4 text-muted-foreground shrink-0" />
                                             <SelectValue placeholder="Status" />
                                         </div>
                                     </SelectTrigger>
@@ -342,8 +342,8 @@ export default function AddTransactionPage() {
                         />
                     </div>
                     
-                    <div className="flex items-center gap-3 p-2 bg-gray-50 border rounded-xl">
-                        <MapPin className="w-4 h-4 text-gray-400 shrink-0" />
+                    <div className="flex items-center gap-3 p-2 bg-muted border rounded-xl">
+                        <MapPin className="w-4 h-4 text-muted-foreground shrink-0" />
                         <Controller
                             name="location"
                             control={form.control}
@@ -360,9 +360,9 @@ export default function AddTransactionPage() {
                         accept="image/*"
                         onChange={handlePhotoChange}
                     />
-                    <div className="flex items-center gap-3 p-2 bg-gray-50 border rounded-xl">
-                       <Camera className="w-4 h-4 text-gray-400 shrink-0" />
-                       <button type="button" onClick={handleAttachPhotoClick} className="text-xs text-gray-700">Attach Photo</button>
+                    <div className="flex items-center gap-3 p-2 bg-muted border rounded-xl">
+                       <Camera className="w-4 h-4 text-muted-foreground shrink-0" />
+                       <button type="button" onClick={handleAttachPhotoClick} className="text-xs text-foreground">Attach Photo</button>
                     </div>
 
                     {photoPreview && (
