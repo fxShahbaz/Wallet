@@ -217,23 +217,12 @@ export default function AddTransactionPage() {
                     </div>
 
                     <div className="flex items-center gap-3 p-2 bg-gray-50 border rounded-xl">
+                        <Folder className="w-4 h-4 text-gray-400 shrink-0" />
                         <Controller
                             name="category"
                             control={form.control}
                             render={({ field }) => (
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <SelectTrigger className="w-full p-0 h-auto bg-transparent border-none focus:ring-0 text-xs">
-                                        <div className="flex items-center gap-3">
-                                            <Folder className="w-4 h-4 text-gray-400 shrink-0" />
-                                            <SelectValue placeholder="Category" />
-                                        </div>
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {categories.map(cat => (
-                                            <SelectItem key={cat.value} value={cat.value}>{cat.label}</SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
+                                <Input {...field} placeholder="Category" className="p-0 h-auto bg-transparent border-none focus-visible:ring-0 text-xs w-full" />
                             )}
                         />
                          {form.formState.errors.category && (
@@ -254,10 +243,10 @@ export default function AddTransactionPage() {
                      <div className="flex items-center gap-3 p-2 bg-gray-50 border rounded-xl">
                         <FileText className="w-4 h-4 text-gray-400 shrink-0 mt-2 self-start" />
                         <Controller
-                            name="note"
+                            name="description"
                             control={form.control}
                             render={({ field }) => (
-                                <Textarea {...field} placeholder="Note" className="p-0 h-auto bg-transparent border-none focus-visible:ring-0 text-xs w-full" rows={2}/>
+                                <Textarea {...field} placeholder="Description" className="p-0 h-auto bg-transparent border-none focus-visible:ring-0 text-xs w-full" rows={2}/>
                             )}
                         />
                     </div>

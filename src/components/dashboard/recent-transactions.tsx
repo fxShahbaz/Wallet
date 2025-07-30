@@ -79,8 +79,8 @@ function TransactionItem({ transaction, index, showTypeIndicator }: { transactio
                     {getIconForCategory(transaction.category)}
                 </div>
                 <div>
-                    <p className="font-medium text-sm">{transaction.description}</p>
-                    <p className="text-xs text-muted-foreground">{format(transaction.date, "p")}</p>
+                    <p className="font-medium text-sm">{transaction.category}</p>
+                    <p className="text-xs text-muted-foreground">{transaction.description ? transaction.description : format(transaction.date, "p")}</p>
                 </div>
             </div>
             <div className="flex items-center gap-1">
@@ -140,5 +140,3 @@ export function RecentTransactions({ transactions, showTypeIndicator }: { transa
         </div>
     );
 }
-
-    
