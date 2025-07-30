@@ -140,18 +140,17 @@ export default function AddTransactionPage() {
             </header>
 
             <div className="flex-grow overflow-y-auto">
-                <div className="p-4 pt-6 flex justify-center">
-                    <input 
-                        type="text"
-                        value={amount}
-                        onChange={handleAmountChange}
-                        className="text-3xl font-bold bg-transparent border-none focus:ring-0 outline-none text-center"
-                        style={{ minWidth: '1ch' }} // to prevent it from collapsing
-                    />
-                </div>
-
-                <div className="p-4 pt-6 space-y-4">
-                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                    <div className="p-4 pt-6 flex justify-center">
+                        <input 
+                            type="text"
+                            value={amount}
+                            onChange={handleAmountChange}
+                            className="text-3xl font-bold bg-transparent border-none focus:ring-0 outline-none text-center"
+                            style={{ minWidth: '1ch' }} // to prevent it from collapsing
+                        />
+                    </div>
+                    <div className="p-4 pt-6 space-y-4">
                         <Controller
                             name="date"
                             control={form.control}
@@ -303,7 +302,7 @@ export default function AddTransactionPage() {
                                 name="status"
                                 control={form.control}
                                 render={({ field }) => (
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <Select onValuechange={field.onChange} defaultValue={field.value}>
                                         <SelectTrigger className="w-full p-0 h-auto bg-transparent border-none focus:ring-0 text-xs">
                                             <div className="flex items-center gap-3">
                                                 <CheckCircle className="w-4 h-4 text-gray-400 shrink-0" />
@@ -336,13 +335,14 @@ export default function AddTransactionPage() {
                            <button type="button" className="text-xs text-gray-700">Attach Photo</button>
                         </div>
                         <div className="pb-24 pt-4">
-                            <Button type="submit" size="lg" className="w-full h-12 text-base font-semibold rounded-full bg-gray-900 text-white hover:bg-gray-800">
+                             <Button type="submit" size="lg" className="w-full h-12 text-base font-semibold rounded-full bg-gray-900 text-white hover:bg-gray-800">
                                 Add Transaction
                             </Button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     );
-}
+
+    
