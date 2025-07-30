@@ -29,6 +29,13 @@ interface ComboboxProps {
 
 export function Combobox({ options, value, onChange, placeholder, inputClassName }: ComboboxProps) {
   const [open, setOpen] = React.useState(false)
+  const [inputValue, setInputValue] = React.useState("")
+
+  const filteredOptions = options.filter(option => 
+    option.label.toLowerCase().includes(inputValue.toLowerCase())
+  );
+
+  const showCreateNew = inputValue && !filteredOptions.some(option => option.label.toLowerCase() === inputValue.toLowerCase());
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -49,21 +56,25 @@ export function Combobox({ options, value, onChange, placeholder, inputClassName
         <Command>
           <CommandInput 
             placeholder="Search or add category..."
+            value={inputValue}
+            onValueChange={setInputValue}
           />
           <CommandList>
-            <CommandEmpty
-                onSelect={() => {
-                    const inputValue = (document.querySelector('[cmdk-input]') as HTMLInputElement)?.value;
-                    onChange(inputValue);
-                    setOpen(false);
-                }}
-            >
-                <div className="p-2 text-sm cursor-pointer">
-                    Add new category
-                </div>
-            </CommandEmpty>
+            <CommandEmpty>No category found.</CommandEmpty>
             <CommandGroup>
-              {options.map((option) => (
+              {showCreateNew && (
+                  <CommandItem
+                    value={inputValue}
+                    onSelect={(currentValue) => {
+                      onChange(currentValue)
+                      setOpen(false)
+                      setInputValue("")
+                    }}
+                  >
+                    Create "{inputValue}"
+                  </CommandItem>
+              )}
+              {filteredOptions.map((option) => (
                 <CommandItem
                   key={option.value}
                   value={option.label}
@@ -71,6 +82,7 @@ export function Combobox({ options, value, onChange, placeholder, inputClassName
                     const label = options.find(opt => opt.label.toLowerCase() === currentValue.toLowerCase())?.label || currentValue
                     onChange(label === value ? "" : label)
                     setOpen(false)
+                    setInputValue("")
                   }}
                 >
                   <Check
