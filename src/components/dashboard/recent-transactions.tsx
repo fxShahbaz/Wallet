@@ -1,3 +1,4 @@
+
 "use client"
 import { useMemo, useEffect, useRef } from 'react';
 import { format } from 'date-fns';
@@ -74,7 +75,7 @@ function TransactionItem({ transaction, index, showTypeIndicator }: { transactio
             style={{ animationDelay: `${index * 50}ms`, willChange: 'transform, opacity' }}
         >
             <div className="flex items-center gap-3">
-                <div className="p-2 bg-secondary rounded-full">
+                <div className="flex items-center justify-center p-2 bg-background rounded-full w-10 h-10">
                     {getIconForCategory(transaction.category)}
                 </div>
                 <div>
@@ -98,6 +99,11 @@ function TransactionItem({ transaction, index, showTypeIndicator }: { transactio
 export function RecentTransactions({ transactions, showTypeIndicator }: { transactions: Transaction[], showTypeIndicator: boolean }) {
 
     const groupedTransactions = useMemo(() => {
+        // Group by day, but if showTypeIndicator is false, we just want a flat list
+        if (!showTypeIndicator) {
+            return { 'transactions': transactions };
+        }
+
         return transactions.reduce((acc, t) => {
             const dateKey = format(t.date, "EEEE, d MMM");
             if (!acc[dateKey]) {
@@ -106,7 +112,18 @@ export function RecentTransactions({ transactions, showTypeIndicator }: { transa
             acc[dateKey].push(t);
             return acc;
         }, {} as Record<string, typeof transactions>);
-    }, [transactions]);
+    }, [transactions, showTypeIndicator]);
+    
+    // if we are not showing the type indicator (as in the calendar view), we don't group by date
+    if (!showTypeIndicator) {
+        return (
+            <div className="space-y-2">
+                {transactions.map((t, index) => (
+                    <TransactionItem key={t.id} transaction={t} index={index} showTypeIndicator={false} />
+                ))}
+            </div>
+        )
+    }
 
     return (
         <div className="space-y-4">
