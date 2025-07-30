@@ -74,7 +74,7 @@ export function SummaryCards({ transactions }: { transactions: Transaction[] }) 
     }
 
     return (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2">
             <SummaryCard title="Total Income" value={summary.income} icon={<ArrowUpRight />} colorClass="text-green-500" />
             <SummaryCard title="Total Expenses" value={summary.expense} icon={<ArrowDownLeft />} colorClass="text-red-500" />
             <SummaryCard title="Total Transferred" value={summary.transferred} icon={<Landmark />} />
