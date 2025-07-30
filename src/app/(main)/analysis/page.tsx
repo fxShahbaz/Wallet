@@ -112,12 +112,14 @@ export default function AnalysisPage() {
                             <RecentTransactions transactions={filteredTransactions} showTypeIndicator={true} />
                         </>
                     ) : (
-                        <div className="pt-12">
-                            <div 
-                                className="flex flex-col items-center justify-center text-center text-muted-foreground py-8 gap-3"
-                            >
-                                <CalendarDays className="w-10 h-10 text-gray-300" />
-                                <p className="text-sm">Select a date range to view transactions from top right corner.</p>
+                        <div className="pt-12 space-y-4">
+                            <div className="text-center p-6 border rounded-xl">
+                                <div 
+                                    className="flex flex-col items-center justify-center text-center text-muted-foreground py-8 gap-3"
+                                >
+                                    <CalendarDays className="w-10 h-10 text-gray-300" />
+                                    <p className="text-sm">Select a date range to view transactions from top right corner.</p>
+                                </div>
                             </div>
                             <div className="text-center p-6 border rounded-xl">
                                 <p className="text-lg font-semibold mb-2">Enjoying the app?</p>
