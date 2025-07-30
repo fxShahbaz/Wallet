@@ -22,6 +22,11 @@ export function MobileNav() {
   const router = useRouter();
   const { setSubmitTransactionForm } = useApp();
   const [isSaved, setIsSaved] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   useEffect(() => {
     if (pathname !== '/add') {
@@ -49,7 +54,7 @@ export function MobileNav() {
   const Icon = getIcon();
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 h-16 flex justify-center items-center md:hidden z-50">
+    <div className={cn("fixed bottom-0 left-0 right-0 h-16 flex justify-center items-center z-50", isClient ? "md:hidden" : "hidden")}>
       <div className="relative w-full">
         <nav className="flex items-center justify-around h-full bg-card shadow-lg">
           {links.map((link) => {
