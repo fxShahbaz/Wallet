@@ -27,7 +27,7 @@ const getIconForCategory = (category: string) => {
         case 'transportation':
             return (
                 <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M19.333 11.1667H4.66667C3.9303 11.1667 3.33333 11.7636 3.33333 12.5V18.3333C3.33333 19.0697 3.9303 19.6667 4.66667 19.6667H19.3333C20.0697 19.6667 20.6667 19.0697 20.6667 18.3333V12.5C20.6667 11.7636 20.0697 11.1667 19.333 11.1667Z" fill="#FFD449" stroke="#1C274C" strokeWidth="1.5"/>
+                    <path d="M19.333 11.1667H4.66667C3.9303 11.1667 3.33333 11.7636 3.33333 12.5V18.3333C3.33333 19.0697 3.9303 19.6667 4.66667 19.6667H19.3333C20.0697 19.6667 20.6667 19.0697 20.6667 18.3333V12.5C20.6667 11.7636 20.0697 11.1667 19.333 11.1667Z" stroke="#1C274C" strokeWidth="1.5"/>
                     <path d="M17 19.5V21.5" stroke="#1C274C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                     <path d="M7 19.5V21.5" stroke="#1C274C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                     <path d="M3.5 15H2" stroke="#1C274C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
