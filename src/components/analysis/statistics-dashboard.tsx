@@ -142,22 +142,22 @@ export function StatisticsDashboard({
     {
       title: 'Current Balance',
       value: formatCurrency(summary.currentBalance),
-      icon: <Wallet className="h-3 w-3" />,
+      icon: <Wallet className="h-4 w-4" />,
     },
     {
       title: 'Daily Avg. Spent',
       value: formatCurrency(summary.dailyAvgSpent),
-      icon: <TrendingDown className="h-3 w-3" />,
+      icon: <TrendingDown className="h-4 w-4" />,
     },
     {
       title: 'Overall Today',
       value: formatCurrency(summary.overallToday),
-      icon: <BarChart className="h-3 w-3" />,
+      icon: <BarChart className="h-4 w-4" />,
     },
     {
       title: "Today's Expense",
       value: formatCurrency(summary.todaysExpense),
-      icon: <Wallet className="h-3 w-3" />,
+      icon: <Wallet className="h-4 w-4" />,
     },
   ];
 
