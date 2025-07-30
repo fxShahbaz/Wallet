@@ -159,31 +159,6 @@ export function StatisticsDashboard({
       value: formatCurrency(summary.todaysExpense),
       icon: <Wallet className="h-5 w-5" />,
     },
-    {
-      title: 'Total Expense (This Month)',
-      value: formatCurrency(summary.totalExpenseThisMonth),
-      icon: <Calendar className="h-5 w-5" />,
-    },
-    {
-      title: 'Total Expense (Last Month)',
-      value: formatCurrency(summary.totalExpenseLastMonth),
-      icon: <Calendar className="h-5 w-5" />,
-    },
-    {
-      title: 'Cash Flow (This Month)',
-      value: formatCurrency(summary.cashFlowThisMonth),
-      icon: <ArrowRightLeft className="h-5 w-5" />,
-    },
-    {
-      title: 'Cash Flow (Last Month)',
-      value: formatCurrency(summary.cashFlowLastMonth),
-      icon: <ArrowRightLeft className="h-5 w-5" />,
-    },
-    {
-        title: `Expense Control (${format(new Date(), 'MMMM')})`,
-        value: formatCurrency(0),
-        icon: <Receipt className="h-5 w-5" />
-    }
   ];
 
   return (
