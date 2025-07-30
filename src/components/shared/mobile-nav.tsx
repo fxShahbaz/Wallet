@@ -30,12 +30,9 @@ export function MobileNav() {
   
   useEffect(() => {
     if (isSaved) {
-       const timer = setTimeout(() => {
-        router.push('/');
-      }, 800);
-      return () => clearTimeout(timer);
+      router.push('/');
     }
-  }, [isSaved, router, transactions]);
+  }, [isSaved, router]);
 
   useEffect(() => {
     if (pathname !== '/add') {
