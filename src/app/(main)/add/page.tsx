@@ -29,7 +29,6 @@ const transactionFormSchema = z.object({
     type: z.enum(['expense', 'income', 'investment']),
     description: z.string().optional(),
     category: z.string().min(1, { message: "Please select a category." }),
-    recurring: z.boolean(),
 });
 
 type TransactionFormValues = z.infer<typeof transactionFormSchema>;
@@ -42,7 +41,7 @@ const SegmentedControl = ({ value, onChange, options }: { value: string, onChang
                     key={option.value}
                     onClick={() => onChange(option.value)}
                     className={cn(
-                        "flex-1 flex items-center justify-center gap-2 py-2 px-3 text-sm font-medium rounded-lg transition-colors",
+                        "flex-1 flex items-center justify-center gap-2 py-1.5 px-3 text-xs font-medium rounded-lg transition-colors",
                         value === option.value ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:bg-gray-200"
                     )}
                 >
@@ -67,7 +66,6 @@ export default function AddTransactionPage() {
             type: 'expense',
             description: '',
             category: '',
-            recurring: false,
         },
     });
 
@@ -121,9 +119,9 @@ export default function AddTransactionPage() {
                         type="text"
                         value={amount}
                         onChange={handleAmountChange}
-                        className="text-4xl font-bold text-center bg-transparent border-none focus:ring-0 outline-none w-full"
+                        className="text-3xl font-bold text-center bg-transparent border-none focus:ring-0 outline-none w-full"
                     />
-                    <span className="absolute right-0 top-1/2 -translate-y-1/2 text-3xl font-bold text-gray-300 -mr-7">€</span>
+                    <span className="absolute right-0 top-1/2 -translate-y-1/2 text-2xl font-bold text-gray-300 -mr-6">€</span>
                 </div>
             </div>
 
@@ -135,12 +133,12 @@ export default function AddTransactionPage() {
                         render={({ field }) => (
                             <Popover>
                                 <PopoverTrigger asChild>
-                                    <button className="w-full text-left p-3 rounded-xl border bg-gray-50 flex justify-between items-center">
+                                    <button className="w-full text-left p-2 rounded-xl border bg-gray-50 flex justify-between items-center">
                                         <div>
-                                            <p className="text-xs text-gray-500">Date</p>
-                                            <p className="font-medium text-sm">{format(field.value, 'PPP')}</p>
+                                            <p className="text-[10px] text-gray-500">Date</p>
+                                            <p className="font-medium text-xs">{format(field.value, 'PPP')}</p>
                                         </div>
-                                        <CalendarIcon className="w-5 h-5 text-gray-400" />
+                                        <CalendarIcon className="w-4 h-4 text-gray-400" />
                                     </button>
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto p-0" align="center">
@@ -163,33 +161,33 @@ export default function AddTransactionPage() {
                                 value={field.value}
                                 onChange={field.onChange}
                                 options={[
-                                    { value: 'expense', label: 'Expense', icon: <ArrowLeft className="w-4 h-4" /> },
-                                    { value: 'income', label: 'Income', icon: <ArrowRight className="w-4 h-4" /> },
-                                    { value: 'investment', label: 'Investment', icon: <TrendingUp className="w-4 h-4" /> },
+                                    { value: 'expense', label: 'Expense', icon: <ArrowLeft className="w-3 h-3" /> },
+                                    { value: 'income', label: 'Income', icon: <ArrowRight className="w-3 h-3" /> },
+                                    { value: 'investment', label: 'Investment', icon: <TrendingUp className="w-3 h-3" /> },
                                 ]}
                            />
                         )}
                     />
                     
                     <div className="relative">
-                        <StickyNote className="w-5 h-5 text-gray-400 absolute top-1/2 left-3 -translate-y-1/2" />
+                        <StickyNote className="w-4 h-4 text-gray-400 absolute top-1/2 left-3 -translate-y-1/2" />
                         <Controller
                             name="description"
                             control={form.control}
                             render={({ field }) => (
-                                <Input {...field} placeholder="Description" className="pl-10 p-3 h-11 bg-gray-50 border rounded-xl" />
+                                <Input {...field} placeholder="Description" className="pl-9 p-2 h-10 bg-gray-50 border rounded-xl" />
                             )}
                         />
                     </div>
                     
                     <div className="relative">
-                        <Folders className="w-5 h-5 text-gray-400 absolute top-1/2 left-3 -translate-y-1/2" />
+                        <Folders className="w-4 h-4 text-gray-400 absolute top-1/2 left-3 -translate-y-1/2" />
                         <Controller
                             name="category"
                             control={form.control}
                             render={({ field }) => (
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <SelectTrigger className="w-full pl-10 p-3 h-11 bg-gray-50 border rounded-xl">
+                                    <SelectTrigger className="w-full pl-9 p-2 h-10 bg-gray-50 border rounded-xl text-xs">
                                         <SelectValue placeholder="Category" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -207,7 +205,7 @@ export default function AddTransactionPage() {
 
                     <div className="flex-grow"></div>
 
-                    <Button type="submit" size="lg" className="w-full h-14 text-lg font-semibold rounded-full bg-gray-900 text-white hover:bg-gray-800">
+                    <Button type="submit" size="lg" className="w-full h-12 text-base font-semibold rounded-full bg-gray-900 text-white hover:bg-gray-800">
                         Add Transaction
                     </Button>
                 </form>
