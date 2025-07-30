@@ -95,8 +95,8 @@ export function AddTransactionSheet() {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-         <Button size="icon" className="w-16 h-16 rounded-full bg-primary text-primary-foreground shadow-lg">
-            <Plus className="w-8 h-8"/>
+         <Button size="icon" className="w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg">
+            <Plus className="w-7 h-7"/>
             <span className="sr-only">Add Transaction</span>
         </Button>
       </SheetTrigger>

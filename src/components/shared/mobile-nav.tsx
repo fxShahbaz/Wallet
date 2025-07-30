@@ -18,12 +18,12 @@ export function MobileNav() {
   const pathname = usePathname();
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 h-20 bg-card/80 backdrop-blur-sm border-t md:hidden">
+    <div className="fixed bottom-0 left-0 right-0 h-16 bg-card/80 backdrop-blur-sm border-t md:hidden">
       <nav className="flex items-center justify-around h-full">
         {links.map((link, index) => {
           if (link.label === 'Add') {
             return (
-              <div key="add-transaction" className="relative -top-8">
+              <div key="add-transaction" className="relative -top-6">
                 <AddTransactionSheet />
               </div>
             );
@@ -31,8 +31,8 @@ export function MobileNav() {
           const isActive = pathname === link.href;
           return (
             <Link key={link.href} href={link.href} className="flex flex-col items-center justify-center text-xs gap-1">
-              <link.icon className={cn("w-6 h-6", isActive ? "text-primary-foreground" : "text-muted-foreground")} />
-              <span className={cn(isActive ? "text-primary-foreground" : "text-muted-foreground")}>{link.label}</span>
+              <link.icon className={cn("w-5 h-5", isActive ? "text-primary-foreground" : "text-muted-foreground")} />
+              <span className={cn("text-xs", isActive ? "text-primary-foreground" : "text-muted-foreground")}>{link.label}</span>
             </Link>
           );
         })}

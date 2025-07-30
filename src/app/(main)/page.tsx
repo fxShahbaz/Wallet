@@ -21,37 +21,38 @@ export default function DashboardPage() {
 
     return (
         <div className="flex flex-col h-full bg-secondary text-foreground">
-            <header className="p-6">
+            <header className="p-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <UserNav />
                         <div>
-                            <p className="font-semibold text-lg">Good morning, Jon</p>
-                            <p className="text-sm text-muted-foreground">Track your expenses, start your day right</p>
+                            <p className="font-semibold text-base">Good morning, Jon</p>
+                            <p className="text-xs text-muted-foreground">Track your expenses, start your day right</p>
                         </div>
                     </div>
                 </div>
             </header>
-            <div className="flex-1 p-6 pt-0 space-y-6 overflow-auto">
+            <div className="flex-1 p-4 pt-0 space-y-4 overflow-auto">
                 <div className="flex items-center gap-2">
                     {['Today', 'This week', 'This month'].map((filter) => (
                         <Button
                             key={filter}
                             variant={activeFilter === filter ? 'primary' : 'secondary'}
+                            size="sm"
                             className="rounded-full"
                             onClick={() => setActiveFilter(filter)}
                         >
                             {filter}
                         </Button>
                     ))}
-                    <Button variant="secondary" className="rounded-full">
+                    <Button variant="secondary" size="sm" className="rounded-full">
                         <Calendar className="w-4 h-4 mr-2" />
                         Calendar
                     </Button>
                 </div>
-                <div className="p-6 rounded-2xl bg-card text-card-foreground">
+                <div className="p-4 rounded-2xl bg-card text-card-foreground">
                     <p className="text-sm text-muted-foreground">Spend so far</p>
-                    <p className="text-3xl font-bold">{formatCurrency(spendSoFar)}</p>
+                    <p className="text-2xl font-bold">{formatCurrency(spendSoFar)}</p>
                 </div>
                 <RecentTransactions />
             </div>
