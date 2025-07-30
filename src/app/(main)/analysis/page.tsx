@@ -92,10 +92,10 @@ export default function AnalysisPage() {
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.5 }}
-                                    className="flex flex-col items-center justify-center text-center text-muted-foreground py-12 gap-4"
+                                    className="flex flex-col items-center justify-center text-center text-muted-foreground py-8 gap-3"
                                 >
-                                    <CalendarDays className="w-16 h-16 text-gray-300" />
-                                    <p className="text-xl">Select a date range to view transactions.</p>
+                                    <CalendarDays className="w-12 h-12 text-gray-300" />
+                                    <p className="text-base">Select a date range to view transactions.</p>
                                 </motion.div>
                             )}
                         </div>
