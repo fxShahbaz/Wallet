@@ -61,8 +61,8 @@ export function RecentTransactions({ transactions }: { transactions: Transaction
                 <div key={date}>
                     <h3 className="text-sm text-muted-foreground mb-2">{date}</h3>
                     <div className="space-y-2">
-                        {trans.map(t => (
-                            <div key={t.id} className="flex items-center justify-between p-3 rounded-xl bg-card text-card-foreground">
+                        {trans.map((t, index) => (
+                            <div key={t.id} className="flex items-center justify-between p-3 rounded-xl bg-card text-card-foreground animate-transaction-in" style={{ animationDelay: `${index * 100}ms`}}>
                                 <div className="flex items-center gap-3">
                                     <div className="p-2 bg-secondary rounded-full">
                                         {getIconForCategory(t.category)}
