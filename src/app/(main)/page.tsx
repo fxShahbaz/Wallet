@@ -8,6 +8,7 @@ import { RecentTransactions } from '@/components/dashboard/recent-transactions';
 import { useApp } from '@/context/app-context';
 import { Transaction } from '@/lib/types';
 import { startOfDay, startOfWeek, startOfMonth, isWithinInterval } from 'date-fns';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', minimumFractionDigits: 2 }).format(amount);
@@ -43,7 +44,7 @@ export default function DashboardPage() {
 
     return (
         <div className="flex flex-col h-full bg-secondary text-foreground">
-            <header className="p-4">
+            <header className="p-4 shrink-0">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <UserNav />
@@ -54,7 +55,7 @@ export default function DashboardPage() {
                     </div>
                 </div>
             </header>
-            <div className="flex-1 p-4 pt-0 space-y-4 overflow-auto">
+            <div className="p-4 pt-0 space-y-4 shrink-0">
                 <div className="flex items-center gap-2">
                     {['Today', 'This week', 'This month'].map((filter) => (
                         <Button
@@ -72,8 +73,10 @@ export default function DashboardPage() {
                     <p className="text-sm text-gray-400">Spend so far</p>
                     <p className="text-2xl font-bold">{formatCurrency(spendSoFar)}</p>
                 </div>
-                <RecentTransactions transactions={filteredTransactions} />
             </div>
+            <ScrollArea className="flex-1 px-4">
+                <RecentTransactions transactions={filteredTransactions} />
+            </ScrollArea>
         </div>
     );
 }
