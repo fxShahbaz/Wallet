@@ -114,14 +114,6 @@ export default function AnalysisPage() {
                     ) : (
                         <div className="pt-12 space-y-4">
                             <div className="text-center p-6 border rounded-xl">
-                                <div 
-                                    className="flex flex-row items-center justify-center text-center text-muted-foreground gap-3"
-                                >
-                                    <CalendarDays className="w-10 h-10 text-gray-300" />
-                                    <p className="text-sm">Select a date range to view transactions from top right corner.</p>
-                                </div>
-                            </div>
-                            <div className="text-center p-6 border rounded-xl">
                                 <p className="text-lg font-semibold mb-2">Enjoying the app?</p>
                                 <p className="text-sm text-muted-foreground mb-6">
                                     Buy a coffee for the developer.
