@@ -147,7 +147,7 @@ export default function AddTransactionPage() {
                             type="text"
                             value={amount}
                             onChange={handleAmountChange}
-                            className="w-auto text-3xl font-bold bg-transparent border-none focus:ring-0 outline-none"
+                            className="text-3xl font-bold bg-transparent border-none focus:ring-0 outline-none w-auto"
                             style={{ minWidth: '1ch' }} // to prevent it from collapsing
                         />
                     </div>
@@ -348,4 +348,5 @@ export default function AddTransactionPage() {
             </div>
         </div>
     );
-}
+
+    
