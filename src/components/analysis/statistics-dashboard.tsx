@@ -112,7 +112,7 @@ export function StatisticsDashboard({
       
     const totalExpenseAllTime = transactions
         .filter((t) => t.type === 'expense')
-        .reduce((sum, t) => sum + t.amount, 0);
+        .reduce((sum, t) => t.amount, 0);
 
     const dailyAvgSpent = totalExpenseAllTime / daysSinceFirstTransaction;
 
@@ -142,22 +142,22 @@ export function StatisticsDashboard({
     {
       title: 'Current Balance',
       value: formatCurrency(summary.currentBalance),
-      icon: <Wallet className="h-4 w-4" />,
+      icon: <Wallet className="h-3 w-3" />,
     },
     {
       title: 'Daily Avg. Spent',
       value: formatCurrency(summary.dailyAvgSpent),
-      icon: <TrendingDown className="h-4 w-4" />,
+      icon: <TrendingDown className="h-3 w-3" />,
     },
     {
       title: 'Overall Today',
       value: formatCurrency(summary.overallToday),
-      icon: <BarChart className="h-4 w-4" />,
+      icon: <BarChart className="h-3 w-3" />,
     },
     {
       title: "Today's Expense",
       value: formatCurrency(summary.todaysExpense),
-      icon: <Wallet className="h-4 w-4" />,
+      icon: <Wallet className="h-3 w-3" />,
     },
   ];
 
