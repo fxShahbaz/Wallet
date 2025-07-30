@@ -12,6 +12,7 @@ import {
   isToday,
   differenceInDays,
   startOfDay,
+  format
 } from 'date-fns';
 
 const formatCurrency = (amount: number) => {
@@ -38,7 +39,7 @@ const StatCard = ({
       <div className="text-muted-foreground">{icon}</div>
     </CardHeader>
     <CardContent>
-      <div className="text-xl font-bold">{value}</div>
+      <div className="text-lg font-bold">{value}</div>
     </CardContent>
   </Card>
 );
