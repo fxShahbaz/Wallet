@@ -113,7 +113,7 @@ export default function AnalysisPage() {
                         <>
                             <StatisticsDashboard transactions={transactions} accounts={accounts} />
                             <IncomeExpenseChart transactions={transactions} />
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="space-y-6">
                                 <ExpenseCategoryChart transactions={transactions} />
                                 <IncomeCategoryChart transactions={transactions} />
                             </div>
@@ -136,5 +136,3 @@ export default function AnalysisPage() {
         </div>
     );
 }
-
-    
