@@ -103,12 +103,23 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-  const [accounts, setAccounts] = useState<Account[]>(sampleAccounts);
-  const [transactions, setTransactions] = useState<Transaction[]>(sampleTransactions);
-  const [expenseCategories, setExpenseCategories] = useState<Category[]>(initialExpenseCategories);
+  const [accounts, setAccounts] = useState<Account[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [expenseCategories, setExpenseCategories] = useState<Category[]>([]);
   const [submitTransactionForm, setSubmitTransactionForm] = useState(false);
   const [transactionType, setTransactionType] = useState<'income' | 'expense' | 'investment'>('expense');
   const { toast } = useToast();
+
+  useEffect(() => {
+    // Simulate loading data
+    const timer = setTimeout(() => {
+      setAccounts(sampleAccounts);
+      setTransactions(sampleTransactions);
+      setExpenseCategories(initialExpenseCategories);
+    }, 500); // 0.5 second delay
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const addAccount = (accountData: Omit<Account, 'id' | 'balance' | 'icon'>) => {
     const newAccount: Account = {
@@ -232,3 +243,5 @@ export const useApp = () => {
   }
   return context;
 };
+
+    
