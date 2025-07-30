@@ -23,10 +23,12 @@ export function ExpensePieChart({ data }: { data: Transaction[] }) {
       return acc;
     }, {} as Record<string, number>);
 
-    return Object.entries(groupedData).map(([category, amount], index) => ({
-      category,
-      amount,
-      fill: `var(--chart-${(index % 5) + 1})`,
+    return Object.entries(groupedData)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([category, amount], index) => ({
+        category,
+        amount,
+        fill: `var(--chart-${(index % 5) + 1})`,
     }));
   }, [data]);
 
@@ -40,7 +42,7 @@ export function ExpensePieChart({ data }: { data: Transaction[] }) {
   }, [chartData]);
   
   const pieChartData = useMemo(() => {
-    return chartData.map(item => ({...item, category: item.category.replace(/\s+/g, '-')}))
+    return chartData.map(item => ({...item, name: item.category.replace(/\s+/g, '-')}))
   }, [chartData]);
 
   return (
@@ -57,7 +59,7 @@ export function ExpensePieChart({ data }: { data: Transaction[] }) {
                 cursor={false}
                 content={<ChartTooltipContent hideLabel />}
               />
-              <Pie data={pieChartData} dataKey="amount" nameKey="category" innerRadius={60} strokeWidth={5} />
+              <Pie data={pieChartData} dataKey="amount" nameKey="name" innerRadius={60} strokeWidth={5} />
               <ChartLegend
                 content={<ChartLegendContent nameKey="category" />}
                 className="-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center"
