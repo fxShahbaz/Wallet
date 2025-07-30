@@ -107,7 +107,7 @@ export default function DashboardPage() {
 
     return (
         <div className="flex flex-col h-full bg-secondary text-foreground">
-            <header className="p-4">
+            <header className="p-4 pb-6">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <UserNav />
