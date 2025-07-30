@@ -5,7 +5,7 @@ import { useState, useEffect } from "react"
 import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { ChevronRight, FileUp, Sun, Moon, Laptop, Trash2, HelpCircle, LogIn, LogOut } from "lucide-react"
+import { ChevronRight, FileUp, Sun, Moon, Laptop, Trash2, HelpCircle, LogIn, LogOut, Phone, Mail, Coffee } from "lucide-react"
 import { UserNav } from "@/components/shared/user-nav"
 import { useApp } from "@/context/app-context"
 import {
@@ -21,10 +21,12 @@ import {
   } from "@/components/ui/alert-dialog"
 import { cn } from "@/lib/utils"
 import { motion } from "framer-motion"
+import Link from "next/link"
 
 export default function SettingsPage() {
     const { accounts, transactions, clearAllData } = useApp();
     const [isAlertOpen, setIsAlertOpen] = useState(false);
+    const [isContactOpen, setIsContactOpen] = useState(false);
     const { theme, setTheme } = useTheme()
     const [isLoggedIn, setIsLoggedIn] = useState(true);
     const [mounted, setMounted] = useState(false);
@@ -174,13 +176,36 @@ export default function SettingsPage() {
           <div>
             <h2 className="text-base font-semibold text-muted-foreground mb-4 px-2">About</h2>
             <div className="space-y-1">
-               <button className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-secondary text-sm font-medium">
-                <div className="flex items-center gap-3">
-                  <HelpCircle className="w-4 h-4 text-muted-foreground" />
-                  <span>Help & Support</span>
-                </div>
-                <ChevronRight className="w-4 h-4 text-muted-foreground" />
-              </button>
+               <AlertDialog open={isContactOpen} onOpenChange={setIsContactOpen}>
+                <AlertDialogTrigger asChild>
+                    <button className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-secondary text-sm font-medium">
+                        <div className="flex items-center gap-3">
+                        <HelpCircle className="w-4 h-4 text-muted-foreground" />
+                        <span>Help & Support</span>
+                        </div>
+                        <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                    </button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                    <AlertDialogTitle>Contact Developer</AlertDialogTitle>
+                    </AlertDialogHeader>
+                    <div className="space-y-3 py-2">
+                        <Button asChild className="w-full" variant="outline">
+                            <Link href="tel:+917979057085"><Phone className="mr-2"/>Call</Link>
+                        </Button>
+                        <Button asChild className="w-full" variant="outline">
+                            <Link href="mailto:howdyshahbaz@gmail.com"><Mail className="mr-2"/>Email</Link>
+                        </Button>
+                        <Button asChild className="w-full">
+                            <Link href="https://www.buymeacoffee.com/shahbaz" target="_blank"><Coffee className="mr-2"/>Buy a Coffee</Link>
+                        </Button>
+                    </div>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Close</AlertDialogCancel>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+               </AlertDialog>
               <div className="flex items-center justify-between p-3 text-sm">
                 <span className="font-medium">Version</span>
                 <span className="text-muted-foreground">1.0.0</span>
