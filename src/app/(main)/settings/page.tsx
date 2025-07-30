@@ -95,32 +95,35 @@ export default function SettingsPage() {
             <div className="space-y-2">
               <div className="flex items-center justify-between p-2 rounded-lg hover:bg-secondary">
                 <span className="font-medium text-sm">Theme</span>
-                <div className="relative flex items-center gap-1 rounded-full bg-secondary p-1">
-                  
-                  <Button variant="ghost" size="icon" onClick={() => setTheme('light')} className={cn("relative rounded-full h-8 w-8 z-10", theme !== 'light' && 'text-muted-foreground')}>
-                    <Sun className="w-4 h-4" />
-                  </Button>
-                  <Button variant="ghost" size="icon" onClick={() => setTheme('dark')} className={cn("relative rounded-full h-8 w-8 z-10", theme !== 'dark' && 'text-muted-foreground')}>
-                    <Moon className="w-4 h-4" />
-                  </Button>
-                  <Button variant="ghost" size="icon" onClick={() => setTheme('system')} className={cn("relative rounded-full h-8 w-8 z-10", theme !== 'system' && 'text-muted-foreground')}>
-                    <Laptop className="w-4 h-4" />
-                  </Button>
-                  
-                  {mounted && theme && (
-                    <motion.div
-                      layoutId="theme-switcher-active"
-                      className="absolute inset-0 bg-background rounded-full shadow-sm"
-                      style={{ 
-                        left: theme === 'light' ? '4px' : theme === 'dark' ? '44px' : '84px',
-                        width: '32px',
-                        height: '32px',
-                        top: '4px'
-                      }}
-                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                    />
-                  )}
-                </div>
+                {mounted ? (
+                  <div className="relative flex items-center gap-1 rounded-full bg-secondary p-1">
+                    <Button variant="ghost" size="icon" onClick={() => setTheme('light')} className={cn("relative rounded-full h-8 w-8 z-10", theme !== 'light' && 'text-muted-foreground')}>
+                      <Sun className="w-4 h-4" />
+                    </Button>
+                    <Button variant="ghost" size="icon" onClick={() => setTheme('dark')} className={cn("relative rounded-full h-8 w-8 z-10", theme !== 'dark' && 'text-muted-foreground')}>
+                      <Moon className="w-4 h-4" />
+                    </Button>
+                    <Button variant="ghost" size="icon" onClick={() => setTheme('system')} className={cn("relative rounded-full h-8 w-8 z-10", theme !== 'system' && 'text-muted-foreground')}>
+                      <Laptop className="w-4 h-4" />
+                    </Button>
+                    
+                    {theme && (
+                      <motion.div
+                        layoutId="theme-switcher-active"
+                        className="absolute bg-background rounded-full shadow-sm"
+                        style={{ 
+                          left: theme === 'light' ? '4px' : theme === 'dark' ? '44px' : '84px',
+                          width: '32px',
+                          height: '32px',
+                          top: '4px'
+                        }}
+                        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                      />
+                    )}
+                  </div>
+                ) : (
+                  <div className="relative flex items-center gap-1 rounded-full bg-secondary p-1 h-[40px] w-[116px]"></div>
+                )}
               </div>
             </div>
           </div>
