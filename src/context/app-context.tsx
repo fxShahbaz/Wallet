@@ -49,7 +49,7 @@ interface AppContextType {
   transactions: Transaction[];
   categories: Category[];
   addTransaction: (transaction: Omit<Transaction, 'id'>) => void;
-  addAccount: (account: Omit<Account, 'id' | 'balance'>) => void;
+  addAccount: (account: Omit<Account, 'id' | 'balance' | 'icon'>) => void;
   submitTransactionForm: boolean;
   setSubmitTransactionForm: Dispatch<SetStateAction<boolean>>;
 }
@@ -62,11 +62,12 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [categories, setCategories] = useState<Category[]>(sampleCategories);
   const [submitTransactionForm, setSubmitTransactionForm] = useState(false);
 
-  const addAccount = (accountData: Omit<Account, 'id' | 'balance'>) => {
+  const addAccount = (accountData: Omit<Account, 'id' | 'balance' | 'icon'>) => {
     const newAccount: Account = {
       ...accountData,
       id: new Date().getTime().toString(),
       balance: accountData.initialBalance,
+      icon: Landmark,
     };
     setAccounts(prev => [...prev, newAccount]);
   };
