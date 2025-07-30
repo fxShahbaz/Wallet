@@ -4,7 +4,7 @@
 import { useApp } from '@/context/app-context';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { PlusCircle, Wallet } from 'lucide-react';
+import { PlusCircle, Wallet, PiggyBank } from 'lucide-react';
 import { AddAccountSheet } from '@/components/accounts/add-account-sheet';
 
 const formatCurrency = (amount: number) => {
@@ -25,11 +25,12 @@ export default function WalletsPage() {
             </header>
             <div className="flex-1 p-4 space-y-6 overflow-y-auto pb-32">
                 <Card>
-                    <CardHeader>
+                    <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
                         <CardTitle className="text-sm font-medium text-muted-foreground">Total Balance</CardTitle>
+                        <PiggyBank className="w-4 h-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        <p className="text-3xl font-bold">{formatCurrency(totalBalance)}</p>
+                        <p className="text-3xl font-bold pt-4">{formatCurrency(totalBalance)}</p>
                     </CardContent>
                 </Card>
 
