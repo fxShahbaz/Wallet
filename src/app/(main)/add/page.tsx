@@ -191,7 +191,7 @@ export default function AddTransactionPage() {
                         render={({ field }) => (
                             <Popover>
                                 <PopoverTrigger asChild>
-                                    <button type="button" className="w-full text-left p-2 rounded-xl border bg-muted flex justify-between items-center">
+                                    <button type="button" className="w-full text-left p-2 rounded-xl border bg-background flex justify-between items-center">
                                         <div>
                                             <p className="text-[10px] text-muted-foreground">Date</p>
                                             <p className="font-medium text-xs">{format(field.value, 'PPP')}</p>
@@ -227,7 +227,7 @@ export default function AddTransactionPage() {
                         )}
                     />
                     
-                    <div className="flex items-center gap-3 p-2 bg-muted border rounded-xl">
+                    <div className="flex items-center gap-3 p-2 bg-background border rounded-xl">
                         <Controller
                             name="accountId"
                             control={form.control}
@@ -252,7 +252,7 @@ export default function AddTransactionPage() {
                         )}
                     </div>
 
-                    <div className="flex items-center gap-3 p-2 bg-muted border rounded-xl">
+                    <div className="flex items-center gap-3 p-2 bg-background border rounded-xl">
                         <Folder className="w-4 h-4 text-muted-foreground shrink-0" />
                         <Controller
                             name="category"
@@ -265,7 +265,7 @@ export default function AddTransactionPage() {
                             <p className="text-xs text-red-500 mt-1">{form.formState.errors.category.message}</p>
                         )}
                     </div>
-                     <div className="flex items-center gap-3 p-2 bg-muted border rounded-xl">
+                     <div className="flex items-center gap-3 p-2 bg-background border rounded-xl">
                         <Tag className="w-4 h-4 text-muted-foreground shrink-0" />
                         <Controller
                             name="label"
@@ -276,7 +276,7 @@ export default function AddTransactionPage() {
                         />
                     </div>
 
-                     <div className="flex items-center gap-3 p-2 bg-muted border rounded-xl">
+                     <div className="flex items-center gap-3 p-2 bg-background border rounded-xl">
                         <FileText className="w-4 h-4 text-muted-foreground shrink-0 mt-2 self-start" />
                         <Controller
                             name="note"
@@ -287,7 +287,7 @@ export default function AddTransactionPage() {
                         />
                     </div>
                     
-                    <div className="flex items-center gap-3 p-2 bg-muted border rounded-xl">
+                    <div className="flex items-center gap-3 p-2 bg-background border rounded-xl">
                         <Users className="w-4 h-4 text-muted-foreground shrink-0" />
                         <Controller
                             name="payee"
@@ -298,7 +298,7 @@ export default function AddTransactionPage() {
                         />
                     </div>
 
-                    <div className="flex items-center gap-3 p-2 bg-muted border rounded-xl">
+                    <div className="flex items-center gap-3 p-2 bg-background border rounded-xl">
                         <Controller
                             name="paymentType"
                             control={form.control}
@@ -320,7 +320,7 @@ export default function AddTransactionPage() {
                         />
                     </div>
                     
-                     <div className="flex items-center gap-3 p-2 bg-muted border rounded-xl">
+                     <div className="flex items-center gap-3 p-2 bg-background border rounded-xl">
                         <Controller
                             name="status"
                             control={form.control}
@@ -342,7 +342,7 @@ export default function AddTransactionPage() {
                         />
                     </div>
                     
-                    <div className="flex items-center gap-3 p-2 bg-muted border rounded-xl">
+                    <div className="flex items-center gap-3 p-2 bg-background border rounded-xl">
                         <MapPin className="w-4 h-4 text-muted-foreground shrink-0" />
                         <Controller
                             name="location"
@@ -360,7 +360,7 @@ export default function AddTransactionPage() {
                         accept="image/*"
                         onChange={handlePhotoChange}
                     />
-                    <div className="flex items-center gap-3 p-2 bg-muted border rounded-xl">
+                    <div className="flex items-center gap-3 p-2 bg-background border rounded-xl">
                        <Camera className="w-4 h-4 text-muted-foreground shrink-0" />
                        <button type="button" onClick={handleAttachPhotoClick} className="text-xs text-foreground">Attach Photo</button>
                     </div>
