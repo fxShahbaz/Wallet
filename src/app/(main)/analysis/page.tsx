@@ -52,12 +52,12 @@ export default function AnalysisPage() {
 
     return (
         <div className="flex flex-col h-svh bg-background text-foreground">
-            <header className="flex items-center justify-between p-4 border-b">
-                <Button variant="ghost" size="icon">
+            <header className="flex items-center justify-between p-2 border-b">
+                <Button variant="ghost" size="icon" className="h-8 w-8">
                     <X className="w-5 h-5" />
                 </Button>
-                <h1 className="text-lg font-semibold">Calendar view</h1>
-                <div className="w-9"></div>
+                <h1 className="font-semibold text-base">Calendar view</h1>
+                <div className="w-8"></div>
             </header>
             
             <div className="p-4">
@@ -73,9 +73,9 @@ export default function AnalysisPage() {
                     }}
                     classNames={{
                         head_cell: "w-full",
-                        nav_button_previous: 'absolute left-1 h-8 w-8',
-                        nav_button_next: 'absolute right-1 h-8 w-8',
-                        caption_label: "font-medium",
+                        nav_button_previous: 'absolute left-1 h-7 w-7',
+                        nav_button_next: 'absolute right-1 h-7 w-7',
+                        caption_label: "font-medium text-sm",
                         day: "w-full h-10 rounded-full",
                         day_selected: "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground"
                     }}
@@ -102,4 +102,3 @@ export default function AnalysisPage() {
         </div>
     );
 }
-
