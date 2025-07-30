@@ -110,7 +110,7 @@ export default function AnalysisPage() {
                                     <span className="sr-only">Clear filter</span>
                                 </Button>
                             </div>
-                       </motion.iv>
+                       </motion.div>
                     )}
                     </AnimatePresence>
 
