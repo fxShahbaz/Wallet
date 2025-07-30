@@ -1,12 +1,47 @@
 
 "use client"
 
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Bell, ChevronRight, FileUp, Sun, Moon, Laptop, Trash2, HelpCircle } from "lucide-react"
 import { UserNav } from "@/components/shared/user-nav"
+import { useApp } from "@/context/app-context"
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+  } from "@/components/ui/alert-dialog"
 
 export default function SettingsPage() {
+    const { accounts, transactions, clearAllData } = useApp();
+    const [isAlertOpen, setIsAlertOpen] = useState(false);
+
+    const handleExportData = () => {
+        const dataToExport = {
+            accounts,
+            transactions,
+        };
+        const jsonString = `data:text/json;charset=utf-8,${encodeURIComponent(
+            JSON.stringify(dataToExport, null, 2)
+        )}`;
+        const link = document.createElement("a");
+        link.href = jsonString;
+        link.download = "trackease-data.json";
+        link.click();
+    };
+
+    const handleDeleteData = () => {
+        clearAllData();
+        setIsAlertOpen(false);
+    };
+
   return (
     <div className="flex flex-col h-full bg-background">
       <header className="flex items-center justify-between p-4 border-b h-14 shrink-0">
@@ -48,20 +83,38 @@ export default function SettingsPage() {
           <div>
             <h2 className="text-base font-semibold text-muted-foreground mb-4 px-2">Data Management</h2>
             <div className="space-y-1">
-              <button className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-secondary text-sm font-medium">
+              <button onClick={handleExportData} className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-secondary text-sm font-medium">
                 <div className="flex items-center gap-3">
                   <FileUp className="w-4 h-4 text-muted-foreground" />
                   <span>Export Data</span>
                 </div>
                 <ChevronRight className="w-4 h-4 text-muted-foreground" />
               </button>
-              <button className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-secondary text-sm font-medium text-destructive">
-                <div className="flex items-center gap-3">
-                  <Trash2 className="w-4 h-4" />
-                  <span>Delete All Data</span>
-                </div>
-                <ChevronRight className="w-4 h-4" />
-              </button>
+              <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
+                <AlertDialogTrigger asChild>
+                    <button className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-secondary text-sm font-medium text-destructive">
+                        <div className="flex items-center gap-3">
+                        <Trash2 className="w-4 h-4" />
+                        <span>Delete All Data</span>
+                        </div>
+                        <ChevronRight className="w-4 h-4" />
+                    </button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                        This action cannot be undone. This will permanently delete all your accounts and transactions data.
+                    </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={handleDeleteData} className="bg-destructive hover:bg-destructive/90">
+                        Delete
+                    </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
           </div>
 

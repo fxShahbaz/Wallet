@@ -52,6 +52,7 @@ interface AppContextType {
   addAccount: (account: Omit<Account, 'id' | 'balance' | 'icon'>) => void;
   editAccount: (updatedAccount: Pick<Account, 'id' | 'name' | 'initialBalance'>) => void;
   deleteAccount: (accountId: string) => void;
+  clearAllData: () => void;
   submitTransactionForm: boolean;
   setSubmitTransactionForm: Dispatch<SetStateAction<boolean>>;
 }
@@ -97,6 +98,11 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     setAccounts(prevAccounts => prevAccounts.filter(acc => acc.id !== accountId));
     setTransactions(prevTransactions => prevTransactions.filter(t => t.accountId !== accountId));
   };
+  
+  const clearAllData = () => {
+    setAccounts([]);
+    setTransactions([]);
+  };
 
 
   const addTransaction = (transactionData: Omit<Transaction, 'id'>) => {
@@ -132,6 +138,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     addAccount,
     editAccount,
     deleteAccount,
+    clearAllData,
     submitTransactionForm,
     setSubmitTransactionForm,
   };
