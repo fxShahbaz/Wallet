@@ -3,8 +3,24 @@
 
 import React, { createContext, useContext, useState, ReactNode, Dispatch, SetStateAction, useEffect } from 'react';
 import type { Account, Transaction, Category } from '@/lib/types';
-import { Landmark, PiggyBank, Wallet } from 'lucide-react';
+import { Landmark, PiggyBank, Wallet, ShoppingBag, Utensils, Car, Home, Dumbbell, Briefcase, Gift, HeartHandshake, Film, BookOpen, Truck, Fuel, Wrench, Shirt, ShoppingCart, Drama, HandCoins, Repeat, HelpCircle, UserRound, ArrowRightLeft, CircleDollarSign, PlusCircle, Ban, Laptop, Pencil, Beer as BeerLucide, Bike } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+
+// Helper components for icons not in lucide-react
+const Apple = (props: any) => (
+  <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M14 12.062C14 11.028 14.733 10.203 15.66 10.025C15.766 10.009 15.858 9.927 15.875 9.82C16.053 8.749 16.924 8 18 8C19.105 8 20 8.895 20 10C20 11.105 19.105 12 18 12H17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M15.5 5.5C14.833 3.667 12.6 1 8.5 1 5.5 1 2.5 4.5 2.5 8.5C2.5 13.5 6.5 16 8.5 22C10.5 16 12 13.625 12.5 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+const Beer = (props: any) => (
+  <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8 21L12 3M8 21H4L3 12H13L12 3M8 21V12M12 3H21L20 12H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M12 8H16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+  </svg>
+);
+
 
 // Sample data
 const sampleAccounts: Account[] = [
@@ -16,10 +32,10 @@ const sampleAccounts: Account[] = [
 
 const today = new Date();
 const sampleTransactions: Transaction[] = [
-    { id: 't1', type: 'expense', amount: 2500, date: new Date(new Date().setHours(9, 15, 0, 0)), category: 'Suya and garri', description: 'Suya and garri', accountId: '1' },
-    { id: 't2', type: 'expense', amount: 5300, date: new Date(new Date().setHours(10, 30, 0, 0)), category: 'Bolt fee', description: 'Bolt fee', accountId: '2' },
-    { id: 't3', type: 'expense', amount: 25000, date: new Date(new Date().setHours(14, 0, 0, 0)), category: 'Lumber Jacket', description: 'Lumber Jacket', accountId: '1' },
-    { id: 't4', type: 'expense', amount: 1800, date: new Date(new Date().setDate(today.getDate() - 1)), category: 'Uber', description: 'Uber', accountId: '3' },
+    { id: 't1', type: 'expense', amount: 2500, date: new Date(new Date().setHours(9, 15, 0, 0)), category: 'Food', description: 'Suya and garri', accountId: '1' },
+    { id: 't2', type: 'expense', amount: 5300, date: new Date(new Date().setHours(10, 30, 0, 0)), category: 'Transportation', description: 'Bolt fee', accountId: '2' },
+    { id: 't3', type: 'expense', amount: 25000, date: new Date(new Date().setHours(14, 0, 0, 0)), category: 'Shopping', description: 'Lumber Jacket', accountId: '1' },
+    { id: 't4', type: 'expense', amount: 1800, date: new Date(new Date().setDate(today.getDate() - 1)), category: 'Transportation', description: 'Uber', accountId: '3' },
     { id: 't5', type: 'income', amount: 1500, date: new Date(new Date().setDate(today.getDate() - 2)), category: 'Freelance', description: 'Logo design project', accountId: '2' },
     { id: 't6', type: 'income', amount: 85000, date: new Date(new Date(today).setDate(1)), category: 'Salary', description: 'Monthly Salary', accountId: '1' },
     { id: 't7', type: 'income', amount: 12000, date: new Date(new Date().setDate(today.getDate() - 5)), category: 'Freelance', description: 'Web design gig', accountId: '2' },
@@ -28,43 +44,44 @@ const sampleTransactions: Transaction[] = [
 ];
 
 const expenseCategories: Category[] = [
-    { value: 'Groceries', label: 'Groceries' },
-    { value: 'Fruits or Vegetables', label: 'Fruits or Vegetables' },
-    { value: 'Home', label: 'Home' },
-    { value: 'Personal Care', label: 'Personal Care' },
-    { value: 'Electronics & Accessories', label: 'Electronics & Accessories' },
-    { value: 'Utilities', label: 'Utilities' },
-    { value: 'Learning', label: 'Learning' },
-    { value: 'Entertainment', label: 'Entertainment' },
-    { value: 'Private', label: 'Private' },
-    { value: 'Travelling', label: 'Travelling' },
-    { value: 'Bar, Cafe & Drinks', label: 'Bar, Cafe & Drinks' },
-    { value: 'Shopping', label: 'Shopping' },
-    { value: 'Money Lending', label: 'Money Lending' },
-    { value: 'Unknown', label: 'Unknown' },
-    { value: 'Unwanted', label: 'Unwanted' },
-    { value: 'Bike', label: 'Bike' },
-    { value: 'Fuel', label: 'Fuel' },
-    { value: 'Maintenance', label: 'Maintenance' },
-    { value: 'Health & Fitness', label: 'Health & Fitness' },
-    { value: 'Bike Maintenance', label: 'Bike Maintenance' },
-    { value: 'Food', label: 'Food'},
-    { value: 'Transportation', label: 'Transportation'},
+    { value: 'food', label: 'Food', icon: Utensils },
+    { value: 'groceries', label: 'Groceries', icon: ShoppingCart },
+    { value: 'fruits_or_vegetables', label: 'Fruits or Vegetables', icon: Apple },
+    { value: 'home', label: 'Home', icon: Home },
+    { value: 'personal_care', label: 'Personal Care', icon: HeartHandshake },
+    { value: 'electronics_accessories', label: 'Electronics & Accessories', icon: Laptop },
+    { value: 'utilities', label: 'Utilities', icon: Wrench },
+    { value: 'learning', label: 'Learning', icon: BookOpen },
+    { value: 'entertainment', label: 'Entertainment', icon: Film },
+    { value: 'private', label: 'Private', icon: UserRound },
+    { value: 'travelling', label: 'Travelling', icon: Truck },
+    { value: 'bar_cafe_drinks', label: 'Bar, Cafe & Drinks', icon: BeerLucide },
+    { value: 'shopping', label: 'Shopping', icon: Shirt },
+    { value: 'money_lending', label: 'Money Lending', icon: HandCoins },
+    { value: 'bike', label: 'Bike', icon: Bike },
+    { value: 'fuel', label: 'Fuel', icon: Fuel },
+    { value: 'maintenance', label: 'Maintenance', icon: Wrench },
+    { value: 'health_fitness', label: 'Health & Fitness', icon: Dumbbell },
+    { value: 'bike_maintenance', label: 'Bike Maintenance', icon: Wrench },
+    { value: 'transportation', label: 'Transportation', icon: Car },
+    { value: 'unknown', label: 'Unknown', icon: HelpCircle },
+    { value: 'unwanted', label: 'Unwanted', icon: Ban },
 ];
 
 const incomeCategories: Category[] = [
-    { value: 'Salary', label: 'Salary' },
-    { value: 'Freelance', label: 'Freelance' },
-    { value: 'Refund', label: 'Refund' },
-    { value: 'Investment', label: 'Investment' },
-    { value: 'Unknown', label: 'Unknown' },
-    { value: 'Unwanted', label: 'Unwanted' },
-    { value: 'Bike', label: 'Bike' },
-    { value: 'Fuel', label: 'Fuel' },
-    { value: 'Maintenance', label: 'Maintenance' },
-    { value: 'Health & Fitness', label: 'Health & Fitness' },
-    { value: 'Bike Maintenance', label: 'Bike Maintenance' },
+    { value: 'salary', label: 'Salary', icon: Briefcase },
+    { value: 'freelance', label: 'Freelance', icon: Pencil },
+    { value: 'refund', label: 'Refund', icon: Repeat },
+    { value: 'investment', label: 'Investment', icon: CircleDollarSign },
+    { value: 'bike', label: 'Bike', icon: Bike },
+    { value: 'fuel', label: 'Fuel', icon: Fuel },
+    { value: 'maintenance', label: 'Maintenance', icon: Wrench },
+    { value: 'health_fitness', label: 'Health & Fitness', icon: Dumbbell },
+    { value: 'bike_maintenance', label: 'Bike Maintenance', icon: Wrench },
+    { value: 'unknown', label: 'Unknown', icon: HelpCircle },
+    { value: 'unwanted', label: 'Unwanted', icon: Ban },
 ];
+
 
 // Context Type
 interface AppContextType {

@@ -29,10 +29,12 @@ interface ComboboxProps {
 
 export function Combobox({ options, value, onChange, placeholder, inputClassName }: ComboboxProps) {
   const [open, setOpen] = React.useState(false)
+  const [inputValue, setInputValue] = React.useState(value || "")
 
   const handleSelect = (currentValue: string) => {
-    const newValue = currentValue === value ? "" : currentValue;
-    onChange(newValue);
+    const label = options.find(opt => opt.value.toLowerCase() === currentValue.toLowerCase())?.label || currentValue;
+    onChange(label);
+    setInputValue(label);
     setOpen(false);
   };
 
@@ -46,7 +48,7 @@ export function Combobox({ options, value, onChange, placeholder, inputClassName
             className={cn("w-full justify-between font-normal", inputClassName)}
             >
             {value
-                ? options.find((option) => option.value.toLowerCase() === value.toLowerCase())?.label || value
+                ? options.find((option) => option.label.toLowerCase() === value.toLowerCase())?.label || value
                 : placeholder || "Select..."}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -55,31 +57,31 @@ export function Combobox({ options, value, onChange, placeholder, inputClassName
         <Command>
           <CommandInput 
             placeholder="Search or add category..."
+            value={inputValue}
+            onValueChange={setInputValue}
           />
           <CommandList>
-            <CommandEmpty>
-                <CommandItem onSelect={() => {
-                  const inputValue = (document.querySelector('[cmdk-input]') as HTMLInputElement)?.value;
-                  if(inputValue) {
-                    handleSelect(inputValue);
-                  }
-                }}>
-                    Add category
-                </CommandItem>
+            <CommandEmpty
+                onSelect={() => handleSelect(inputValue)}
+            >
+                <div className="p-2">
+                    Add new category: <span className="font-bold">{inputValue}</span>
+                </div>
             </CommandEmpty>
             <CommandGroup>
               {options.map((option) => (
                 <CommandItem
                   key={option.value}
-                  value={option.value}
+                  value={option.label}
                   onSelect={(currentValue) => {
-                    handleSelect(currentValue)
+                    const label = options.find(opt => opt.label.toLowerCase() === currentValue.toLowerCase())?.label || currentValue
+                    handleSelect(label)
                   }}
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value && value.toLowerCase() === option.value.toLowerCase() ? "opacity-100" : "opacity-0"
+                      value && value.toLowerCase() === option.label.toLowerCase() ? "opacity-100" : "opacity-0"
                     )}
                   />
                   {option.label}
