@@ -105,7 +105,7 @@ export default function AnalysisPage() {
             </AnimatePresence>
 
             <ScrollArea className="flex-1">
-                <div className={cn("px-4 pb-4 space-y-6", appliedDate && 'pt-16')}>
+                <div className={cn("px-4 pt-4 pb-4 space-y-6", appliedDate && 'pt-16')}>
                     {!appliedDate ? (
                         <StatisticsDashboard transactions={transactions} accounts={accounts} />
                     ) : filteredTransactions.length > 0 ? (
