@@ -1,8 +1,9 @@
 "use client"
-import { useMemo } from 'react';
+import { useMemo, useEffect, useRef } from 'react';
 import { format } from 'date-fns';
 import { ShoppingBag } from 'lucide-react';
 import { Transaction } from '@/lib/types';
+import { cn } from '@/lib/utils';
 
 
 const formatCurrency = (amount: number) => {
@@ -41,6 +42,53 @@ const getIconForCategory = (category: string) => {
     }
 }
 
+function TransactionItem({ transaction, index }: { transaction: Transaction, index: number }) {
+    const ref = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-transaction-in');
+                } else {
+                    entry.target.classList.remove('animate-transaction-in');
+                }
+            },
+            { threshold: 0.1 }
+        );
+
+        if (ref.current) {
+            observer.observe(ref.current);
+        }
+
+        return () => {
+            if (ref.current) {
+                observer.unobserve(ref.current);
+            }
+        };
+    }, []);
+
+    return (
+        <div 
+            ref={ref}
+            key={transaction.id} 
+            className="flex items-center justify-between p-3 rounded-xl bg-card text-card-foreground opacity-0"
+            style={{ animationDelay: `${index * 50}ms`}}
+        >
+            <div className="flex items-center gap-3">
+                <div className="p-2 bg-secondary rounded-full">
+                    {getIconForCategory(transaction.category)}
+                </div>
+                <div>
+                    <p className="font-medium text-sm">{transaction.description}</p>
+                    <p className="text-xs text-muted-foreground">{format(transaction.date, "p")}</p>
+                </div>
+            </div>
+            <p className="font-semibold text-sm">{formatCurrency(transaction.amount)}</p>
+        </div>
+    );
+}
+
 
 export function RecentTransactions({ transactions }: { transactions: Transaction[] }) {
 
@@ -62,18 +110,7 @@ export function RecentTransactions({ transactions }: { transactions: Transaction
                     <h3 className="text-sm text-muted-foreground mb-2">{date}</h3>
                     <div className="space-y-2">
                         {trans.map((t, index) => (
-                            <div key={t.id} className="flex items-center justify-between p-3 rounded-xl bg-card text-card-foreground animate-transaction-in" style={{ animationDelay: `${index * 100}ms`}}>
-                                <div className="flex items-center gap-3">
-                                    <div className="p-2 bg-secondary rounded-full">
-                                        {getIconForCategory(t.category)}
-                                    </div>
-                                    <div>
-                                        <p className="font-medium text-sm">{t.description}</p>
-                                        <p className="text-xs text-muted-foreground">{format(t.date, "p")}</p>
-                                    </div>
-                                </div>
-                                <p className="font-semibold text-sm">{formatCurrency(t.amount)}</p>
-                            </div>
+                           <TransactionItem key={t.id} transaction={t} index={index} />
                         ))}
                     </div>
                 </div>
