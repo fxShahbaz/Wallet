@@ -3,7 +3,7 @@
 import { useMemo } from 'react';
 import type { Transaction } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowDownLeft, ArrowUpRight, Landmark, HandCoins, PiggyBank, Receipt, TrendingUp, Wallet } from 'lucide-react';
+import { ArrowDownLeft, ArrowUpRight, TrendingUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const formatCurrency = (amount: number) => {
@@ -13,10 +13,16 @@ const formatCurrency = (amount: number) => {
 const SummaryCard = ({ title, value, icon, colorClass, dark }: { title: string, value: number, icon: React.ReactNode, colorClass?: string, dark?: boolean }) => {
     if (value === 0) return null;
 
+    const [titlePart1, titlePart2] = title.split(' ');
+
     return (
-        <Card className={cn(dark && "bg-gray-900 text-white")}>
-            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-                <CardTitle className="text-sm font-medium">{title}</CardTitle>
+        <Card className={cn("bg-gray-900 text-white flex flex-col justify-between", dark && "bg-gray-900 text-white")}>
+            <CardHeader className="flex flex-row items-start justify-between pb-2 space-y-0">
+                <CardTitle className="text-sm font-medium">
+                    {titlePart1}
+                    {titlePart2 && <br />}
+                    {titlePart2}
+                </CardTitle>
                 <div className={cn("w-4 h-4 text-muted-foreground", colorClass)}>
                     {icon}
                 </div>
@@ -27,7 +33,6 @@ const SummaryCard = ({ title, value, icon, colorClass, dark }: { title: string, 
         </Card>
     )
 };
-
 
 export function SummaryCards({ transactions }: { transactions: Transaction[] }) {
     const summary = useMemo(() => {
@@ -73,5 +78,3 @@ export function SummaryCards({ transactions }: { transactions: Transaction[] }) 
         </div>
     );
 }
-
-    
