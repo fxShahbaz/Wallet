@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { UserNav } from '@/components/shared/user-nav';
 import { RecentTransactions } from '@/components/dashboard/recent-transactions';
 import { useApp } from '@/context/app-context';
-import { Calendar } from 'lucide-react';
 
 const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', minimumFractionDigits: 2 }).format(amount);
@@ -34,11 +33,11 @@ export default function DashboardPage() {
                 </div>
             </header>
             <div className="flex-1 p-4 pt-0 space-y-4 overflow-auto">
-                <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap pb-2">
-                    {['Today', 'This week', 'This month', 'This Year', 'All Time'].map((filter) => (
+                <div className="flex items-center gap-2">
+                    {['Today', 'This week', 'This month'].map((filter) => (
                         <Button
                             key={filter}
-                            variant={activeFilter === filter ? 'primary' : 'secondary'}
+                            variant={activeFilter === filter ? 'primary' : 'ghost'}
                             size="sm"
                             className="rounded-full shrink-0"
                             onClick={() => setActiveFilter(filter)}
@@ -46,10 +45,6 @@ export default function DashboardPage() {
                             {filter}
                         </Button>
                     ))}
-                    <Button variant="secondary" size="sm" className="rounded-full shrink-0">
-                        <Calendar className="w-4 h-4 mr-2" />
-                        Calendar
-                    </Button>
                 </div>
                 <div className="p-4 rounded-2xl bg-card text-card-foreground">
                     <p className="text-sm text-muted-foreground">Spend so far</p>
