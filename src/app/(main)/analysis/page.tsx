@@ -91,26 +91,26 @@ export default function AnalysisPage() {
                     
                     <AnimatePresence>
                     {appliedDate && (
-                       <motion.div 
-                         initial={{ opacity: 0, y: -20 }}
-                         animate={{ opacity: 1, y: 0 }}
-                         exit={{ opacity: 0, y: -20 }}
-                         transition={{ duration: 0.3 }}
-                         className="sticky top-0 z-10 p-2 bg-background/80 backdrop-blur-sm border-b"
-                       >
-                            <div className="flex items-center justify-between max-w-4xl mx-auto">
-                                <p className="text-sm font-medium text-muted-foreground">
-                                    <span className="font-semibold text-foreground">
-                                        {format(appliedDate.from!, 'd MMM')}
+                        <motion.div
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ duration: 0.3 }}
+                            className="sticky top-2 z-10 flex justify-center"
+                        >
+                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary text-sm font-medium shadow-md">
+                                <p className="text-muted-foreground">
+                                    <span className="text-foreground">
+                                        {format(appliedDate.from!, 'MMM d, yyyy')}
                                     </span>
-                                    {appliedDate.to && appliedDate.from?.getTime() !== appliedDate.to?.getTime() ? ` - ${format(appliedDate.to, 'd MMM, yyyy')}` : `, ${format(appliedDate.from!, 'yyyy')}`}
+                                    {appliedDate.to && appliedDate.from?.getTime() !== appliedDate.to?.getTime() ? ` - ${format(appliedDate.to, 'MMM d, yyyy')}` : ''}
                                 </p>
-                                <Button variant="ghost" size="icon" className="w-6 h-6" onClick={handleClear}>
-                                    <X className="w-4 h-4" />
+                                <button onClick={handleClear} className="p-1 rounded-full bg-background hover:bg-muted">
+                                    <X className="w-3 h-3" />
                                     <span className="sr-only">Clear filter</span>
-                                </Button>
+                                </button>
                             </div>
-                       </motion.div>
+                        </motion.div>
                     )}
                     </AnimatePresence>
 
