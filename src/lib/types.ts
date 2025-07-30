@@ -1,3 +1,4 @@
+
 export interface Account {
   id: string;
   name: string;
@@ -36,4 +37,7 @@ export interface Label {
   name: string;
 }
 
-    
+export interface User {
+  name: string;
+  email: string;
+}

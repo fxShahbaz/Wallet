@@ -30,7 +30,7 @@ const transactionFilters = {
 
 export default function DashboardPage() {
     const [activeFilter, setActiveFilter] = useState(filters[0]);
-    const { transactions } = useApp();
+    const { transactions, user } = useApp();
     const [greeting, setGreeting] = useState('');
     const [isClient, setIsClient] = useState(false);
     const [transactionFilter, setTransactionFilter] = useState<keyof typeof transactionFilters>('all');
@@ -112,7 +112,7 @@ export default function DashboardPage() {
                     <div className="flex items-center gap-3">
                         <UserNav />
                         <div>
-                            <p className="font-semibold text-xs">{greeting}, Shahbaz</p>
+                            <p className="font-semibold text-xs">{greeting}, {user?.name}</p>
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Button variant="ghost" className="h-auto p-0 text-xs text-muted-foreground hover:bg-transparent focus-visible:ring-0">

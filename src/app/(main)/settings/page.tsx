@@ -25,11 +25,10 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 
 export default function SettingsPage() {
-    const { accounts, transactions, clearAllData } = useApp();
+    const { accounts, transactions, clearAllData, user, logout } = useApp();
     const [isAlertOpen, setIsAlertOpen] = useState(false);
     const [isContactOpen, setIsContactOpen] = useState(false);
     const { theme, setTheme } = useTheme()
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
     const [mounted, setMounted] = useState(false);
     const router = useRouter();
 
@@ -38,7 +37,7 @@ export default function SettingsPage() {
     }, []);
 
     const handleLogout = () => {
-      setIsLoggedIn(false);
+      logout();
       router.push('/login');
     }
 
@@ -66,7 +65,7 @@ export default function SettingsPage() {
       <header className="flex items-center justify-between p-4 border-b h-14 shrink-0">
         <h1 className="font-semibold text-lg">Settings</h1>
         {mounted && (
-            isLoggedIn ? (
+            user ? (
                 <div className="flex items-center gap-2">
                     <UserNav />
                     <Button variant="outline" size="sm" onClick={handleLogout}>
@@ -86,13 +85,13 @@ export default function SettingsPage() {
           
           <div className="space-y-2">
             <h2 className="text-base font-semibold text-muted-foreground mb-4 px-2">Account</h2>
-             {isLoggedIn ? (
+             {user ? (
               <div className="flex items-center justify-between p-2 rounded-lg">
                 <div className="flex items-center gap-3">
                     <UserNav />
                     <div>
-                        <p className="font-semibold text-base">Shahbaz</p>
-                        <p className="text-sm text-muted-foreground">shahbaz@example.com</p>
+                        <p className="font-semibold text-base">{user.name}</p>
+                        <p className="text-sm text-muted-foreground">{user.email}</p>
                     </div>
                 </div>
               </div>

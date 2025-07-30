@@ -2,7 +2,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, ReactNode, Dispatch, SetStateAction, useEffect } from 'react';
-import type { Account, Transaction, Category } from '@/lib/types';
+import type { Account, Transaction, Category, User } from '@/lib/types';
 import { Landmark, PiggyBank, Wallet, ShoppingBag, Utensils, Car, Home, Dumbbell, Briefcase, Gift, HeartHandshake, Film, BookOpen, Truck, Fuel, Wrench, Shirt, ShoppingCart, Drama, HandCoins, Repeat, HelpCircle, UserRound, ArrowRightLeft, CircleDollarSign, PlusCircle, Ban, Laptop, Pencil, Beer as BeerLucide, Bike } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
@@ -84,6 +84,9 @@ const incomeCategories: Category[] = [
 
 // Context Type
 interface AppContextType {
+  user: User | null;
+  login: (userData: User) => void;
+  logout: () => void;
   accounts: Account[];
   transactions: Transaction[];
   expenseCategories: Category[];
@@ -103,6 +106,7 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
+  const [user, setUser] = useState<User | null>(null);
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [expenseCategories, setExpenseCategories] = useState<Category[]>([]);
@@ -116,10 +120,20 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       setAccounts(sampleAccounts);
       setTransactions(sampleTransactions);
       setExpenseCategories(initialExpenseCategories);
+      // set a default user
+      setUser({ name: 'User', email: 'user@example.com' });
     }, 500); // 0.5 second delay
 
     return () => clearTimeout(timer);
   }, []);
+
+  const login = (userData: User) => {
+    setUser(userData);
+  };
+
+  const logout = () => {
+    setUser(null);
+  };
 
   const addAccount = (accountData: Omit<Account, 'id' | 'balance' | 'icon'>) => {
     const newAccount: Account = {
@@ -217,6 +231,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const value = {
+    user,
+    login,
+    logout,
     accounts,
     transactions,
     expenseCategories,
@@ -243,5 +260,3 @@ export const useApp = () => {
   }
   return context;
 };
-
-    
