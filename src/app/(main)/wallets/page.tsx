@@ -10,13 +10,14 @@ import { AccountCard } from '@/components/accounts/account-card';
 import { Account } from '@/lib/types';
 import { AnimatedCounter } from '@/components/dashboard/animated-counter';
 import { BudgetSettings } from '@/components/budget/budget-settings';
+import { BudgetComparisonChart } from '@/components/analysis/budget-comparison-chart';
 
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(amount);
 };
 
 export default function WalletsPage() {
-    const { accounts } = useApp();
+    const { accounts, transactions, expenseCategories } = useApp();
 
     const totalBalance = accounts.reduce((sum, acc) => sum + acc.balance, 0);
 
@@ -51,6 +52,8 @@ export default function WalletsPage() {
                         </div>
                     </div>
                     
+                    <BudgetComparisonChart transactions={transactions} categories={expenseCategories} />
+
                     <BudgetSettings />
 
                 </div>
