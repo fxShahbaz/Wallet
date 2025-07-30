@@ -33,9 +33,14 @@ export function ExpensePieChart({ data }: { data: Transaction[] }) {
   const chartConfig = useMemo(() => {
     const config: ChartConfig = {};
     chartData.forEach(item => {
-      config[item.category] = { label: item.category, color: item.fill };
+      const key = item.category.replace(/\s+/g, '-');
+      config[key] = { label: item.category, color: item.fill };
     });
     return config;
+  }, [chartData]);
+  
+  const pieChartData = useMemo(() => {
+    return chartData.map(item => ({...item, category: item.category.replace(/\s+/g, '-')}))
   }, [chartData]);
 
   return (
@@ -52,7 +57,7 @@ export function ExpensePieChart({ data }: { data: Transaction[] }) {
                 cursor={false}
                 content={<ChartTooltipContent hideLabel />}
               />
-              <Pie data={chartData} dataKey="amount" nameKey="category" innerRadius={60} strokeWidth={5} />
+              <Pie data={pieChartData} dataKey="amount" nameKey="category" innerRadius={60} strokeWidth={5} />
               <ChartLegend
                 content={<ChartLegendContent nameKey="category" />}
                 className="-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center"
