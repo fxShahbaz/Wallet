@@ -20,13 +20,22 @@ const links = [
 export function MobileNav() {
   const pathname = usePathname();
   const router = useRouter();
-  const { setSubmitTransactionForm } = useApp();
+  const { setSubmitTransactionForm, addTransaction, transactions } = useApp();
   const [isSaved, setIsSaved] = useState(false);
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+  
+  useEffect(() => {
+    if (isSaved) {
+       const timer = setTimeout(() => {
+        router.push('/');
+      }, 800);
+      return () => clearTimeout(timer);
+    }
+  }, [isSaved, router, transactions]);
 
   useEffect(() => {
     if (pathname !== '/add') {
@@ -39,9 +48,6 @@ export function MobileNav() {
       e.preventDefault();
       setSubmitTransactionForm(true);
       setIsSaved(true);
-      setTimeout(() => {
-        router.push('/');
-      }, 1500);
     }
   };
   
@@ -71,7 +77,8 @@ export function MobileNav() {
                   <Link href={link.href} onClick={handleAddClick}>
                       <div className={cn(
                           "flex items-center justify-center w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg transition-transform-colors",
-                          isActive && "bg-foreground"
+                          isActive && "bg-green-500",
+                          isSaved && "bg-green-500",
                           )}>
                           <AnimatePresence mode="wait">
                             <motion.div

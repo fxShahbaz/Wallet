@@ -1,9 +1,10 @@
 
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode, Dispatch, SetStateAction } from 'react';
+import React, { createContext, useContext, useState, ReactNode, Dispatch, SetStateAction, useEffect } from 'react';
 import type { Account, Transaction, Category } from '@/lib/types';
 import { Landmark, PiggyBank, Wallet } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 // Sample data
 const sampleAccounts: Account[] = [
@@ -64,6 +65,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [transactions, setTransactions] = useState<Transaction[]>(sampleTransactions);
   const [categories, setCategories] = useState<Category[]>(sampleCategories);
   const [submitTransactionForm, setSubmitTransactionForm] = useState(false);
+  const { toast } = useToast();
 
   const addAccount = (accountData: Omit<Account, 'id' | 'balance' | 'icon'>) => {
     const newAccount: Account = {
@@ -73,6 +75,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       icon: Landmark,
     };
     setAccounts(prev => [...prev, newAccount]);
+    toast({
+        title: "Account Added",
+        description: `${newAccount.name} has been successfully added.`,
+    });
   };
 
   const editAccount = (updatedAccount: Pick<Account, 'id' | 'name' | 'initialBalance'>) => {
@@ -90,6 +96,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         return account;
       })
     );
+     toast({
+        title: "Account Updated",
+        description: `Your account has been successfully updated.`,
+    });
   };
 
   const deleteAccount = (accountId: string) => {
@@ -97,11 +107,21 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     // what happens to transactions associated with this account.
     setAccounts(prevAccounts => prevAccounts.filter(acc => acc.id !== accountId));
     setTransactions(prevTransactions => prevTransactions.filter(t => t.accountId !== accountId));
+     toast({
+        title: "Account Deleted",
+        description: `Your account has been permanently deleted.`,
+        variant: 'destructive'
+    });
   };
   
   const clearAllData = () => {
     setAccounts([]);
     setTransactions([]);
+     toast({
+        title: "Data Cleared",
+        description: "All your data has been successfully deleted.",
+        variant: 'destructive'
+    });
   };
 
 
