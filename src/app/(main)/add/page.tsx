@@ -42,12 +42,14 @@ const SegmentedControl = ({ value, onChange, options }: { value: string, onChang
                     key={option.value}
                     onClick={() => onChange(option.value)}
                     className={cn(
-                        "relative z-10 flex-1 flex items-center justify-center gap-2 py-1.5 px-3 text-xs font-medium rounded-lg transition-colors",
-                        value !== option.value ? "text-gray-500 hover:bg-gray-200" : "text-gray-900"
+                        "relative flex-1 py-1.5 px-3 text-xs font-medium rounded-lg transition-colors",
+                         value !== option.value ? "text-gray-500 hover:bg-gray-200" : "text-gray-900"
                     )}
                 >
-                    {option.icon}
-                    {option.label}
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                      {option.icon}
+                      {option.label}
+                    </span>
                     {value === option.value && (
                         <motion.div
                             layoutId="segmented-control-active"
