@@ -3,7 +3,7 @@
 "use client";
 
 import { useState, useMemo, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
+import { AnimatePresence, motion } from 'framer-motion';
 import { UserNav } from '@/components/shared/user-nav';
 import { RecentTransactions } from '@/components/dashboard/recent-transactions';
 import { useApp } from '@/context/app-context';
@@ -12,12 +12,10 @@ import { startOfDay, startOfWeek, startOfMonth, isWithinInterval } from 'date-fn
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { AnimatedCounter } from '@/components/dashboard/animated-counter';
 
-const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 2 }).format(amount);
-};
+const filters = ['Today', 'This week', 'This month'];
 
 export default function DashboardPage() {
-    const [activeFilter, setActiveFilter] = useState('Today');
+    const [activeFilter, setActiveFilter] = useState(filters[0]);
     const { transactions } = useApp();
     const [greeting, setGreeting] = useState('');
     const [isClient, setIsClient] = useState(false);
@@ -73,28 +71,36 @@ export default function DashboardPage() {
                     </div>
                 </div>
             </header>
-            <div className="p-4 pt-0 space-y-4">
-                <div className="flex items-center gap-2">
-                    {['Today', 'This week', 'This month'].map((filter) => (
-                        <Button
-                            key={filter}
-                            variant={activeFilter === filter ? 'primary' : 'ghost'}
-                            size="sm"
-                            className="rounded-full shrink-0"
-                            onClick={() => setActiveFilter(filter)}
-                        >
-                            {filter}
-                        </Button>
-                    ))}
+            <div className="flex-1 flex flex-col">
+                <div className="p-4 pt-0 space-y-4 sticky top-0 bg-secondary z-10">
+                    <div className="relative flex items-center gap-2 bg-background p-1 rounded-full">
+                        {filters.map((filter) => (
+                            <button
+                                key={filter}
+                                onClick={() => setActiveFilter(filter)}
+                                className="relative flex-1 py-1.5 text-sm font-medium text-center text-muted-foreground rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            >
+                                {activeFilter === filter && (
+                                    <motion.span
+                                        layoutId="active-filter-bubble"
+                                        className="absolute inset-0 bg-primary"
+                                        style={{ borderRadius: 9999 }}
+                                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                                    />
+                                )}
+                                <span className="relative z-10 mix-blend-exclusion">{filter}</span>
+                            </button>
+                        ))}
+                    </div>
+                    <div className="p-4 rounded-2xl bg-gray-900 text-white">
+                        <p className="text-sm text-gray-400">Spend so far</p>
+                        <AnimatedCounter value={spendSoFar} />
+                    </div>
                 </div>
-                <div className="p-4 rounded-2xl bg-gray-900 text-white">
-                    <p className="text-sm text-gray-400">Spend so far</p>
-                    <AnimatedCounter value={spendSoFar} />
-                </div>
+                <ScrollArea className="flex-1 px-4">
+                    <RecentTransactions transactions={filteredTransactions} />
+                </ScrollArea>
             </div>
-            <ScrollArea className="flex-1 px-4">
-                <RecentTransactions transactions={filteredTransactions} />
-            </ScrollArea>
         </div>
     );
 }
