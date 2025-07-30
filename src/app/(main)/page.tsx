@@ -34,19 +34,19 @@ export default function DashboardPage() {
                 </div>
             </header>
             <div className="flex-1 p-4 pt-0 space-y-4 overflow-auto">
-                <div className="flex items-center gap-2">
-                    {['Today', 'This week', 'This month'].map((filter) => (
+                <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap pb-2">
+                    {['Today', 'This week', 'This month', 'This Year', 'All Time'].map((filter) => (
                         <Button
                             key={filter}
                             variant={activeFilter === filter ? 'primary' : 'secondary'}
                             size="sm"
-                            className="rounded-full"
+                            className="rounded-full shrink-0"
                             onClick={() => setActiveFilter(filter)}
                         >
                             {filter}
                         </Button>
                     ))}
-                    <Button variant="secondary" size="sm" className="rounded-full">
+                    <Button variant="secondary" size="sm" className="rounded-full shrink-0">
                         <Calendar className="w-4 h-4 mr-2" />
                         Calendar
                     </Button>
