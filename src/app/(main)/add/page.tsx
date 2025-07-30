@@ -179,26 +179,28 @@ export default function AddTransactionPage() {
                         )}
                     />
                     
-                    <div className="relative">
-                        <FileText className="w-4 h-4 text-gray-400 absolute top-1/2 left-3 -translate-y-1/2" />
+                    <div className="flex items-center gap-3 p-2 h-10 bg-gray-50 border rounded-xl">
+                        <FileText className="w-4 h-4 text-gray-400 shrink-0" />
                         <Controller
                             name="description"
                             control={form.control}
                             render={({ field }) => (
-                                <Input {...field} placeholder="Description" className="pl-9 p-2 h-10 bg-gray-50 border rounded-xl text-xs" />
+                                <Input {...field} placeholder="Description" className="p-0 h-auto bg-transparent border-none focus-visible:ring-0 text-xs w-full" />
                             )}
                         />
                     </div>
                     
-                    <div className="relative">
-                        <Folder className="w-4 h-4 text-gray-400 absolute top-1/2 left-3 -translate-y-1/2" />
+                    <div className="flex items-center gap-3 h-10 bg-gray-50 border rounded-xl">
                         <Controller
                             name="category"
                             control={form.control}
                             render={({ field }) => (
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <SelectTrigger className="w-full pl-9 p-2 h-10 bg-gray-50 border rounded-xl text-xs">
-                                        <SelectValue placeholder="Category" />
+                                    <SelectTrigger className="w-full p-0 h-auto bg-transparent border-none focus:ring-0 text-xs">
+                                        <div className="flex items-center gap-3 pl-2">
+                                            <Folder className="w-4 h-4 text-gray-400 shrink-0" />
+                                            <SelectValue placeholder="Category" />
+                                        </div>
                                     </SelectTrigger>
                                     <SelectContent>
                                         {categories.map(cat => (
