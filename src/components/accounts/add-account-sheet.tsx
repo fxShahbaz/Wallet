@@ -26,6 +26,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { PlusCircle } from 'lucide-react';
+import { Card } from '@/components/ui/card';
 
 const accountFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -55,10 +56,12 @@ export function AddAccountSheet() {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline" className="justify-start w-full gap-2">
-            <PlusCircle className="w-4 h-4"/>
-            <span className="text-sm font-medium">Add Account</span>
-        </Button>
+        <Card className="p-3 bg-card flex items-center justify-center h-24 cursor-pointer hover:bg-muted/50 transition-colors border-dashed">
+            <div className="flex items-center gap-2 text-muted-foreground">
+                <PlusCircle className="w-4 h-4"/>
+                <span className="text-sm font-medium">Add Account</span>
+            </div>
+        </Card>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>

@@ -55,10 +55,9 @@ export default function WalletsPage() {
                                     </Card>
                                 </EditAccountDialog>
                             ))}
+                             <AddAccountSheet />
                         </div>
                     </div>
-                    
-                    <AddAccountSheet />
                 </div>
             </ScrollArea>
         </div>
