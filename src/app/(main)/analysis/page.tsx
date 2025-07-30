@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from 'react';
@@ -17,6 +18,7 @@ import { Calendar } from '@/components/ui/calendar';
 
 export default function AnalysisPage() {
     const [date, setDate] = useState<DateRange | undefined>();
+    const [isOpen, setIsOpen] = useState(false);
 
     const handleClear = () => {
         setDate(undefined);
@@ -26,6 +28,7 @@ export default function AnalysisPage() {
         // You can add your apply logic here.
         // For now, we can just log the date range.
         console.log('Applied date range:', date);
+        setIsOpen(false);
     }
 
     return (
@@ -40,7 +43,7 @@ export default function AnalysisPage() {
                         <SidebarTrigger className="md:hidden"/>
                         <h1 className="font-semibold text-lg">Reports</h1>
                        </div>
-                       <Popover>
+                       <Popover open={isOpen} onOpenChange={setIsOpen}>
                         <PopoverTrigger asChild>
                             <Button variant="outline" size="icon">
                                 <CalendarIcon className="w-4 h-4" />
