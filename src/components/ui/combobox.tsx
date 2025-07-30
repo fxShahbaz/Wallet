@@ -31,6 +31,13 @@ export function Combobox({ options, value, onChange, placeholder, inputClassName
   const [open, setOpen] = React.useState(false)
   const [inputValue, setInputValue] = React.useState("")
 
+  const handleSelect = (currentValue: string) => {
+    const label = options.find(opt => opt.label.toLowerCase() === currentValue.toLowerCase())?.label || currentValue;
+    onChange(label);
+    setOpen(false);
+    setInputValue("");
+  };
+
   const filteredOptions = options.filter(option => 
     option.label.toLowerCase().includes(inputValue.toLowerCase())
   );
@@ -60,16 +67,23 @@ export function Combobox({ options, value, onChange, placeholder, inputClassName
             onValueChange={setInputValue}
           />
           <CommandList>
-            <CommandEmpty>No category found.</CommandEmpty>
+            <CommandEmpty>
+              {showCreateNew ? (
+                <div
+                  className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none"
+                  onClick={() => handleSelect(inputValue)}
+                >
+                  Create "{inputValue}"
+                </div>
+              ) : (
+                "No category found."
+              )}
+            </CommandEmpty>
             <CommandGroup>
-              {showCreateNew && (
+              {showCreateNew && !filteredOptions.length && (
                   <CommandItem
                     value={inputValue}
-                    onSelect={(currentValue) => {
-                      onChange(currentValue)
-                      setOpen(false)
-                      setInputValue("")
-                    }}
+                    onSelect={() => handleSelect(inputValue)}
                   >
                     Create "{inputValue}"
                   </CommandItem>
@@ -78,12 +92,7 @@ export function Combobox({ options, value, onChange, placeholder, inputClassName
                 <CommandItem
                   key={option.value}
                   value={option.label}
-                  onSelect={(currentValue) => {
-                    const label = options.find(opt => opt.label.toLowerCase() === currentValue.toLowerCase())?.label || currentValue
-                    onChange(label === value ? "" : label)
-                    setOpen(false)
-                    setInputValue("")
-                  }}
+                  onSelect={handleSelect}
                 >
                   <Check
                     className={cn(
