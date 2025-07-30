@@ -56,6 +56,8 @@ interface AppContextType {
   clearAllData: () => void;
   submitTransactionForm: boolean;
   setSubmitTransactionForm: Dispatch<SetStateAction<boolean>>;
+  transactionType: 'income' | 'expense' | 'investment';
+  setTransactionType: Dispatch<SetStateAction<'income' | 'expense' | 'investment'>>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -65,6 +67,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [transactions, setTransactions] = useState<Transaction[]>(sampleTransactions);
   const [categories, setCategories] = useState<Category[]>(sampleCategories);
   const [submitTransactionForm, setSubmitTransactionForm] = useState(false);
+  const [transactionType, setTransactionType] = useState<'income' | 'expense' | 'investment'>('expense');
   const { toast } = useToast();
 
   const addAccount = (accountData: Omit<Account, 'id' | 'balance' | 'icon'>) => {
@@ -161,6 +164,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     clearAllData,
     submitTransactionForm,
     setSubmitTransactionForm,
+    transactionType,
+    setTransactionType,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
@@ -173,3 +178,5 @@ export const useApp = () => {
   }
   return context;
 };
+
+    

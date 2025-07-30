@@ -20,7 +20,7 @@ const links = [
 export function MobileNav() {
   const pathname = usePathname();
   const router = useRouter();
-  const { setSubmitTransactionForm, addTransaction, transactions } = useApp();
+  const { setSubmitTransactionForm, transactionType } = useApp();
   const [isSaved, setIsSaved] = useState(false);
   const [isClient, setIsClient] = useState(false);
 
@@ -29,9 +29,13 @@ export function MobileNav() {
   }, []);
   
   useEffect(() => {
+    let timer: NodeJS.Timeout;
     if (isSaved) {
-      router.push('/');
+      timer = setTimeout(() => {
+        router.push('/');
+      }, 500);
     }
+    return () => clearTimeout(timer);
   }, [isSaved, router]);
 
   useEffect(() => {
@@ -59,6 +63,14 @@ export function MobileNav() {
   if (!isClient) {
     return null;
   }
+  
+  const getButtonBgColor = () => {
+    if (pathname === '/add') {
+        if (isSaved) return 'bg-green-500';
+        return transactionType === 'expense' ? 'bg-destructive' : 'bg-green-500';
+    }
+    return 'bg-primary';
+  }
 
   return (
     <div className="fixed bottom-0 left-0 right-0 h-16 flex justify-center items-center z-50">
@@ -73,9 +85,8 @@ export function MobileNav() {
                 <div key="add-transaction" className="relative -top-5">
                   <Link href={link.href} onClick={handleAddClick}>
                       <div className={cn(
-                          "flex items-center justify-center w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg transition-transform-colors",
-                          isActive && "bg-green-500",
-                          isSaved && "bg-green-500",
+                          "flex items-center justify-center w-14 h-14 rounded-full text-primary-foreground shadow-lg transition-colors duration-300",
+                          getButtonBgColor()
                           )}>
                           <AnimatePresence mode="wait">
                             <motion.div
@@ -107,3 +118,5 @@ export function MobileNav() {
     </div>
   );
 }
+
+    
