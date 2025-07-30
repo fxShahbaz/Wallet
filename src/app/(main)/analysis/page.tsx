@@ -18,6 +18,7 @@ import { SummaryCards } from '@/components/analysis/summary-cards';
 import { StatisticsDashboard } from '@/components/analysis/statistics-dashboard';
 import { IncomeExpenseChart } from '@/components/analysis/income-expense-chart';
 import { ExpenseCategoryChart } from '@/components/analysis/expense-category-chart';
+import { IncomeCategoryChart } from '@/components/analysis/income-category-chart';
 
 
 export default function AnalysisPage() {
@@ -112,7 +113,10 @@ export default function AnalysisPage() {
                         <>
                             <StatisticsDashboard transactions={transactions} accounts={accounts} />
                             <IncomeExpenseChart transactions={transactions} />
-                            <ExpenseCategoryChart transactions={transactions} />
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <ExpenseCategoryChart transactions={transactions} />
+                                <IncomeCategoryChart transactions={transactions} />
+                            </div>
                         </>
                     ) : filteredTransactions.length > 0 ? (
                         <>
