@@ -105,7 +105,7 @@ export default function AnalysisPage() {
             </AnimatePresence>
 
             <ScrollArea className="flex-1">
-                <div className={cn("p-4 space-y-6", appliedDate && 'pt-16')}>
+                <div className={cn("px-4 pb-4 space-y-6", appliedDate && 'pt-16')}>
                     {filteredTransactions.length > 0 ? (
                         <>
                             <SummaryCards transactions={filteredTransactions} />
