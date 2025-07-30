@@ -95,12 +95,12 @@ export function AddTransactionSheet() {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button className="w-full gap-2 md:w-auto">
-            <Plus className="w-4 h-4"/>
-            <span>Add Transaction</span>
+         <Button size="icon" className="w-16 h-16 rounded-full bg-primary text-primary-foreground shadow-lg">
+            <Plus className="w-8 h-8"/>
+            <span className="sr-only">Add Transaction</span>
         </Button>
       </SheetTrigger>
-      <SheetContent className="overflow-y-auto w-full sm:w-[540px]">
+      <SheetContent className="overflow-y-auto w-full sm:w-[540px] bg-background text-foreground">
         <SheetHeader>
           <SheetTitle>Add a New Transaction</SheetTitle>
           <SheetDescription>
