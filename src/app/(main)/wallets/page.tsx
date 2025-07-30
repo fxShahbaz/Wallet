@@ -38,14 +38,16 @@ export default function WalletsPage() {
 
                     <div className="space-y-4">
                         <h2 className="text-sm font-semibold text-muted-foreground px-1">Your Accounts</h2>
-                        <div className="space-y-2">
+                        <div className="grid grid-cols-2 gap-4">
                             {accounts.map(account => (
-                                <Card key={account.id} className="flex items-center justify-between p-4 bg-card">
-                                <div className="flex items-center gap-4">
-                                        {account.icon && <div className="flex items-center justify-center p-2 bg-background rounded-full w-10 h-10"><account.icon className="w-5 h-5 text-muted-foreground" /></div>}
-                                        <p className="font-semibold text-sm">{account.name}</p>
-                                </div>
-                                <p className="font-mono text-base font-semibold">{formatCurrency(account.balance)}</p>
+                                <Card key={account.id} className="p-4 bg-card flex flex-col justify-between">
+                                    <div className="flex items-start gap-4">
+                                        {account.icon && <div className="flex items-center justify-center p-2 bg-background rounded-full w-10 h-10 shrink-0"><account.icon className="w-5 h-5 text-muted-foreground" /></div>}
+                                        <div className="flex flex-col">
+                                            <p className="font-semibold text-sm">{account.name}</p>
+                                        </div>
+                                    </div>
+                                    <p className="font-mono text-base font-semibold text-right mt-4">{formatCurrency(account.balance)}</p>
                                 </Card>
                             ))}
                         </div>
