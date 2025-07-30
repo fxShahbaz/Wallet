@@ -195,14 +195,14 @@ export default function AddTransactionPage() {
                         )}
                     />
                     
-                    <div className="flex items-center gap-3 h-10 bg-gray-50 border rounded-xl">
+                    <div className="flex items-center gap-3 p-2 bg-gray-50 border rounded-xl">
                         <Controller
                             name="accountId"
                             control={form.control}
                             render={({ field }) => (
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <SelectTrigger className="w-full p-0 h-auto bg-transparent border-none focus:ring-0 text-xs">
-                                        <div className="flex items-center gap-3 pl-2">
+                                        <div className="flex items-center gap-3">
                                             <Landmark className="w-4 h-4 text-gray-400 shrink-0" />
                                             <SelectValue placeholder="Select Bank Account" />
                                         </div>
@@ -220,14 +220,14 @@ export default function AddTransactionPage() {
                         )}
                     </div>
 
-                    <div className="flex items-center gap-3 h-10 bg-gray-50 border rounded-xl">
+                    <div className="flex items-center gap-3 p-2 bg-gray-50 border rounded-xl">
                         <Controller
                             name="category"
                             control={form.control}
                             render={({ field }) => (
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <SelectTrigger className="w-full p-0 h-auto bg-transparent border-none focus:ring-0 text-xs">
-                                        <div className="flex items-center gap-3 pl-2">
+                                        <div className="flex items-center gap-3">
                                             <Folder className="w-4 h-4 text-gray-400 shrink-0" />
                                             <SelectValue placeholder="Category" />
                                         </div>
@@ -244,7 +244,7 @@ export default function AddTransactionPage() {
                             <p className="text-xs text-red-500 mt-1">{form.formState.errors.category.message}</p>
                         )}
                     </div>
-                     <div className="flex items-center gap-3 p-2 h-10 bg-gray-50 border rounded-xl">
+                     <div className="flex items-center gap-3 p-2 bg-gray-50 border rounded-xl">
                         <Tag className="w-4 h-4 text-gray-400 shrink-0" />
                         <Controller
                             name="label"
@@ -266,7 +266,7 @@ export default function AddTransactionPage() {
                         />
                     </div>
                     
-                    <div className="flex items-center gap-3 p-2 h-10 bg-gray-50 border rounded-xl">
+                    <div className="flex items-center gap-3 p-2 bg-gray-50 border rounded-xl">
                         <Users className="w-4 h-4 text-gray-400 shrink-0" />
                         <Controller
                             name="payee"
@@ -277,14 +277,14 @@ export default function AddTransactionPage() {
                         />
                     </div>
 
-                    <div className="flex items-center gap-3 h-10 bg-gray-50 border rounded-xl">
+                    <div className="flex items-center gap-3 p-2 bg-gray-50 border rounded-xl">
                         <Controller
                             name="paymentType"
                             control={form.control}
                             render={({ field }) => (
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <SelectTrigger className="w-full p-0 h-auto bg-transparent border-none focus:ring-0 text-xs">
-                                        <div className="flex items-center gap-3 pl-2">
+                                        <div className="flex items-center gap-3">
                                             <CreditCard className="w-4 h-4 text-gray-400 shrink-0" />
                                             <SelectValue placeholder="Payment Type" />
                                         </div>
@@ -299,14 +299,14 @@ export default function AddTransactionPage() {
                         />
                     </div>
                     
-                     <div className="flex items-center gap-3 h-10 bg-gray-50 border rounded-xl">
+                     <div className="flex items-center gap-3 p-2 bg-gray-50 border rounded-xl">
                         <Controller
                             name="status"
                             control={form.control}
                             render={({ field }) => (
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <SelectTrigger className="w-full p-0 h-auto bg-transparent border-none focus:ring-0 text-xs">
-                                        <div className="flex items-center gap-3 pl-2">
+                                        <div className="flex items-center gap-3">
                                             <CheckCircle className="w-4 h-4 text-gray-400 shrink-0" />
                                             <SelectValue placeholder="Status" />
                                         </div>
@@ -321,7 +321,7 @@ export default function AddTransactionPage() {
                         />
                     </div>
                     
-                    <div className="flex items-center gap-3 p-2 h-10 bg-gray-50 border rounded-xl">
+                    <div className="flex items-center gap-3 p-2 bg-gray-50 border rounded-xl">
                         <MapPin className="w-4 h-4 text-gray-400 shrink-0" />
                         <Controller
                             name="location"
@@ -332,7 +332,7 @@ export default function AddTransactionPage() {
                         />
                     </div>
 
-                    <div className="flex items-center gap-3 p-2 h-10 bg-gray-50 border rounded-xl">
+                    <div className="flex items-center gap-3 p-2 bg-gray-50 border rounded-xl">
                        <Camera className="w-4 h-4 text-gray-400 shrink-0" />
                        <button type="button" className="text-xs text-gray-700">Attach Photo</button>
                     </div>
