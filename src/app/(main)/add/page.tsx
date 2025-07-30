@@ -141,16 +141,13 @@ export default function AddTransactionPage() {
 
             <div className="flex-grow overflow-y-auto">
                 <div className="p-4 pt-6 flex justify-center">
-                    <div className="flex items-center">
-                        <span className="text-3xl font-bold text-gray-400">₹</span>
-                        <input 
-                            type="text"
-                            value={amount}
-                            onChange={handleAmountChange}
-                            className="text-3xl font-bold bg-transparent border-none focus:ring-0 outline-none w-auto"
-                            style={{ minWidth: '1ch' }} // to prevent it from collapsing
-                        />
-                    </div>
+                    <input 
+                        type="text"
+                        value={amount}
+                        onChange={handleAmountChange}
+                        className="text-3xl font-bold bg-transparent border-none focus:ring-0 outline-none text-center"
+                        style={{ minWidth: '1ch' }} // to prevent it from collapsing
+                    />
                 </div>
 
                 <div className="p-4 pt-6 space-y-4">
@@ -348,5 +345,4 @@ export default function AddTransactionPage() {
             </div>
         </div>
     );
-
-    
+}
