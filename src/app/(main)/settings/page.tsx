@@ -190,18 +190,20 @@ export default function SettingsPage() {
                     <AlertDialogHeader>
                         <AlertDialogTitle>Contact Developer</AlertDialogTitle>
                     </AlertDialogHeader>
-                    <div className="space-y-3 pt-2 pb-4">
-                        <Button asChild className="w-full" variant="outline">
-                            <Link href="tel:+917979057085"><Phone className="mr-2"/>Call</Link>
-                        </Button>
-                        <Button asChild className="w-full" variant="outline">
-                            <Link href="mailto:howdyshahbaz@gmail.com"><Mail className="mr-2"/>Email</Link>
-                        </Button>
+                    <div className="space-y-3 pt-2">
+                        <div className="flex items-center gap-3">
+                            <Button asChild className="w-full" variant="outline">
+                                <Link href="tel:+917979057085"><Phone className="mr-2"/>Call</Link>
+                            </Button>
+                            <Button asChild className="w-full" variant="outline">
+                                <Link href="mailto:howdyshahbaz@gmail.com"><Mail className="mr-2"/>Email</Link>
+                            </Button>
+                        </div>
                         <Button asChild className="w-full">
                             <Link href="https://www.buymeacoffee.com/shahbaz" target="_blank"><Coffee className="mr-2"/>Buy a Coffee</Link>
                         </Button>
                     </div>
-                    <AlertDialogFooter>
+                    <AlertDialogFooter className="pt-2">
                         <AlertDialogCancel className="w-full">Close</AlertDialogCancel>
                     </AlertDialogFooter>
                 </AlertDialogContent>
