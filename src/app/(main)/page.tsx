@@ -11,7 +11,7 @@ import { startOfDay, startOfWeek, startOfMonth, isWithinInterval } from 'date-fn
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', minimumFractionDigits: 2 }).format(amount);
+    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 2 }).format(amount);
 };
 
 export default function DashboardPage() {
@@ -44,7 +44,7 @@ export default function DashboardPage() {
 
     return (
         <div className="flex flex-col h-full bg-secondary text-foreground">
-            <header className="p-4 shrink-0">
+            <header className="p-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <UserNav />
@@ -55,7 +55,7 @@ export default function DashboardPage() {
                     </div>
                 </div>
             </header>
-            <div className="p-4 pt-0 space-y-4 shrink-0">
+            <div className="p-4 pt-0 space-y-4">
                 <div className="flex items-center gap-2">
                     {['Today', 'This week', 'This month'].map((filter) => (
                         <Button

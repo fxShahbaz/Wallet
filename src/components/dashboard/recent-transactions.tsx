@@ -6,7 +6,7 @@ import { Transaction } from '@/lib/types';
 
 
 const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', minimumFractionDigits: 0 }).format(amount);
+    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(amount);
 };
 
 const getIconForCategory = (category: string) => {
