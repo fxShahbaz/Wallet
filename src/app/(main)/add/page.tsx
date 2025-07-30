@@ -140,14 +140,14 @@ export default function AddTransactionPage() {
             </header>
 
             <div className="flex-grow overflow-y-auto">
-                <div className="flex flex-col items-center p-4 pt-6">
-                     <div className="flex items-center">
+                <div className="p-4 pt-6">
+                     <div className="flex items-center justify-center">
                         <span className="text-3xl font-bold text-gray-400">₹</span>
                         <input 
                             type="text"
                             value={amount}
                             onChange={handleAmountChange}
-                            className="text-3xl font-bold bg-transparent border-none focus:ring-0 outline-none w-auto"
+                            className="text-3xl font-bold bg-transparent border-none focus:ring-0 outline-none w-auto text-center"
                         />
                     </div>
                 </div>
