@@ -22,11 +22,6 @@ export function MobileNav() {
   const router = useRouter();
   const { setSubmitTransactionForm } = useApp();
   const [isSaved, setIsSaved] = useState(false);
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   useEffect(() => {
     if (pathname !== '/add') {
@@ -54,7 +49,7 @@ export function MobileNav() {
   const Icon = getIcon();
 
   return (
-    <div className={cn("fixed bottom-0 left-0 right-0 h-16 flex justify-center items-center z-50", isClient ? "md:hidden" : "hidden")}>
+    <div className="fixed bottom-0 left-0 right-0 h-16 flex justify-center items-center z-50 md:hidden">
       <div className="relative w-full">
         <nav className="flex items-center justify-around h-full bg-card shadow-lg">
           {links.map((link) => {
@@ -71,7 +66,7 @@ export function MobileNav() {
                           )}>
                           <AnimatePresence mode="wait">
                             <motion.div
-                                key={Icon.displayName}
+                                key={Icon.displayName || 'add-icon'}
                                 initial={{ scale: 0.5, opacity: 0, rotate: -45 }}
                                 animate={{ scale: 1, opacity: 1, rotate: 0 }}
                                 exit={{ scale: 0.5, opacity: 0, rotate: 45 }}
