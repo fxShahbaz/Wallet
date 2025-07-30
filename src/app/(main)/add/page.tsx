@@ -340,7 +340,7 @@ export default function AddTransactionPage() {
 
                     <div className="flex-grow"></div>
 
-                    <Button type="submit" size="lg" className="w-full h-12 text-base font-semibold rounded-full bg-gray-900 text-white hover:bg-gray-800 sticky bottom-4">
+                    <Button type="submit" size="lg" className="w-full h-12 text-base font-semibold rounded-full bg-gray-900 text-white hover:bg-gray-800">
                         Add Transaction
                     </Button>
                 </form>
