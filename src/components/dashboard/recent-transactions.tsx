@@ -79,8 +79,8 @@ function TransactionItem({ transaction, index, showTypeIndicator }: { transactio
                     {getIconForCategory(transaction.category)}
                 </div>
                 <div>
-                    <p className="font-medium text-sm">{transaction.category}</p>
-                    <p className="text-xs text-muted-foreground">{transaction.description ? transaction.description : format(transaction.date, "p")}</p>
+                    <p className="font-semibold text-base">{transaction.category}</p>
+                    <p className="text-sm text-muted-foreground">{transaction.description ? transaction.description : format(transaction.date, "p")}</p>
                 </div>
             </div>
             <div className="flex items-center gap-1">
@@ -89,7 +89,7 @@ function TransactionItem({ transaction, index, showTypeIndicator }: { transactio
                     <ArrowUpRight className="w-4 h-4 text-green-500" /> :
                     <ArrowDownLeft className="w-4 h-4 text-red-500" />
                 )}
-                <p className="font-semibold text-sm">{formatCurrency(transaction.amount)}</p>
+                <p className="font-semibold text-base">{formatCurrency(transaction.amount)}</p>
             </div>
         </div>
     );
