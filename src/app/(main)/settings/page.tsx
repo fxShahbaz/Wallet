@@ -20,6 +20,7 @@ import {
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
 import { cn } from "@/lib/utils"
+import { motion } from "framer-motion"
 
 export default function SettingsPage() {
     const { accounts, transactions, clearAllData } = useApp();
@@ -68,16 +69,31 @@ export default function SettingsPage() {
             <div className="space-y-2">
               <div className="flex items-center justify-between p-2 rounded-lg hover:bg-secondary">
                 <span className="font-medium text-sm">Theme</span>
-                <div className="flex items-center gap-1 rounded-lg bg-secondary p-1">
-                  <Button variant="ghost" size="sm" onClick={() => setTheme('light')} className={cn("rounded-md px-2 py-1 h-auto", theme === 'light' && 'bg-background shadow-sm')}>
+                <div className="relative flex items-center gap-1 rounded-lg bg-secondary p-1">
+                  
+                  <Button variant="ghost" size="sm" onClick={() => setTheme('light')} className={cn("relative rounded-md px-2 py-1 h-auto z-10", theme !== 'light' && 'text-muted-foreground')}>
                     <Sun className="w-4 h-4" />
                   </Button>
-                  <Button variant="ghost" size="sm" onClick={() => setTheme('dark')} className={cn("rounded-md px-2 py-1 h-auto", theme === 'dark' && 'bg-background shadow-sm')}>
+                  <Button variant="ghost" size="sm" onClick={() => setTheme('dark')} className={cn("relative rounded-md px-2 py-1 h-auto z-10", theme !== 'dark' && 'text-muted-foreground')}>
                     <Moon className="w-4 h-4" />
                   </Button>
-                  <Button variant="ghost" size="sm" onClick={() => setTheme('system')} className={cn("rounded-md px-2 py-1 h-auto", theme === 'system' && 'bg-background shadow-sm')}>
+                  <Button variant="ghost" size="sm" onClick={() => setTheme('system')} className={cn("relative rounded-md px-2 py-1 h-auto z-10", theme !== 'system' && 'text-muted-foreground')}>
                     <Laptop className="w-4 h-4" />
                   </Button>
+                  
+                  {theme && (
+                    <motion.div
+                      layoutId="theme-switcher-active"
+                      className="absolute inset-0 bg-background rounded-md shadow-sm"
+                      style={{ 
+                        left: theme === 'light' ? '4px' : theme === 'dark' ? '44px' : '84px',
+                        width: '36px',
+                        height: 'calc(100% - 8px)',
+                        top: '4px'
+                      }}
+                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    />
+                  )}
                 </div>
               </div>
             </div>
