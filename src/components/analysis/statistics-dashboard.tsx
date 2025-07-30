@@ -39,7 +39,7 @@ const StatCard = ({
       <div className="text-muted-foreground">{icon}</div>
     </CardHeader>
     <CardContent>
-      <div className="text-lg font-bold">{value}</div>
+      <div className="text-base font-bold">{value}</div>
     </CardContent>
   </Card>
 );
