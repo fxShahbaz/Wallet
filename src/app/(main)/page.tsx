@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useState, useMemo, useEffect } from 'react';
@@ -9,6 +10,7 @@ import { useApp } from '@/context/app-context';
 import { Transaction } from '@/lib/types';
 import { startOfDay, startOfWeek, startOfMonth, isWithinInterval } from 'date-fns';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { AnimatedCounter } from '@/components/dashboard/animated-counter';
 
 const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 2 }).format(amount);
@@ -83,7 +85,7 @@ export default function DashboardPage() {
                 </div>
                 <div className="p-4 rounded-2xl bg-gray-900 text-white">
                     <p className="text-sm text-gray-400">Spend so far</p>
-                    <p className="text-2xl font-bold">{formatCurrency(spendSoFar)}</p>
+                    <AnimatedCounter value={spendSoFar} />
                 </div>
             </div>
             <ScrollArea className="flex-1 px-4">
