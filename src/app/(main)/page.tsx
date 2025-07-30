@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from 'react';
@@ -26,7 +27,7 @@ export default function DashboardPage() {
                     <div className="flex items-center gap-3">
                         <UserNav />
                         <div>
-                            <p className="font-semibold text-base">Good morning, Jon</p>
+                            <p className="font-semibold text-sm">Good morning, Jon</p>
                             <p className="text-xs text-muted-foreground">Track your expenses, start your day right</p>
                         </div>
                     </div>
