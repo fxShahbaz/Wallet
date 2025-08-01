@@ -2,10 +2,9 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { ChevronRight, FileUp, Sun, Moon, Laptop, Trash2, HelpCircle, LogIn, LogOut, Phone, Mail, Coffee } from "lucide-react"
+import { ChevronRight, FileUp, Trash2, HelpCircle, LogIn, LogOut, Phone, Mail, Coffee } from "lucide-react"
 import { UserNav } from "@/components/shared/user-nav"
 import { useApp } from "@/context/app-context"
 import {
@@ -20,7 +19,6 @@ import {
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
 import { cn } from "@/lib/utils"
-import { motion } from "framer-motion"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
@@ -28,7 +26,6 @@ export default function SettingsPage() {
     const { accounts, transactions, clearAllData, user, logout } = useApp();
     const [isAlertOpen, setIsAlertOpen] = useState(false);
     const [isContactOpen, setIsContactOpen] = useState(false);
-    const { theme, setTheme } = useTheme()
     const [mounted, setMounted] = useState(false);
     const router = useRouter();
 
@@ -102,44 +99,6 @@ export default function SettingsPage() {
             )}
           </div>
 
-
-          <div>
-            <h2 className="text-base font-semibold text-muted-foreground mb-4 px-2">Appearance</h2>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between p-2 rounded-lg hover:bg-secondary">
-                <span className="font-medium text-sm">Theme</span>
-                {mounted ? (
-                  <div className="relative flex items-center gap-1 rounded-full bg-secondary p-1">
-                    <Button variant="ghost" size="icon" onClick={() => setTheme('light')} className={cn("relative rounded-full h-8 w-8 z-10", theme !== 'light' && 'text-muted-foreground')}>
-                      <Sun className="w-4 h-4" />
-                    </Button>
-                    <Button variant="ghost" size="icon" onClick={() => setTheme('dark')} className={cn("relative rounded-full h-8 w-8 z-10", theme !== 'dark' && 'text-muted-foreground')}>
-                      <Moon className="w-4 h-4" />
-                    </Button>
-                    <Button variant="ghost" size="icon" onClick={() => setTheme('system')} className={cn("relative rounded-full h-8 w-8 z-10", theme !== 'system' && 'text-muted-foreground')}>
-                      <Laptop className="w-4 h-4" />
-                    </Button>
-                    
-                    {theme && (
-                      <motion.div
-                        layoutId="theme-switcher-active"
-                        className="absolute bg-background rounded-full shadow-sm"
-                        style={{ 
-                          left: theme === 'light' ? '4px' : theme === 'dark' ? '44px' : '84px',
-                          width: '32px',
-                          height: '32px',
-                          top: '4px'
-                        }}
-                        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                      />
-                    )}
-                  </div>
-                ) : (
-                  <div className="relative flex items-center gap-1 rounded-full bg-secondary p-1 h-[40px] w-[116px]"></div>
-                )}
-              </div>
-            </div>
-          </div>
 
           <div>
             <h2 className="text-base font-semibold text-muted-foreground mb-4 px-2">Data Management</h2>
