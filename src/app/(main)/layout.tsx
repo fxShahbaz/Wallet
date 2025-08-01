@@ -13,18 +13,16 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
   const [isChecking, setIsChecking] = React.useState(true);
 
   useEffect(() => {
-    // Wait for the app context to determine the user state
+    // If the user state is still loading, we wait.
+    if (user === undefined) {
+      return;
+    }
+    // If the user is null (not logged in), redirect to login.
     if (user === null) {
-      const timer = setTimeout(() => {
-        if (!user) {
-          router.push('/login');
-        } else {
-          setIsChecking(false);
-        }
-      }, 600); // A little more than the context loading delay
-      return () => clearTimeout(timer);
+      router.push('/login');
     } else {
-       setIsChecking(false);
+      // If user is logged in, stop checking.
+      setIsChecking(false);
     }
   }, [user, router]);
   
