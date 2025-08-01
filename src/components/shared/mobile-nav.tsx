@@ -75,7 +75,7 @@ export function MobileNav() {
             if (isAddButton) {
               return (
                 <div key="add-transaction" className="relative -top-5">
-                  <Link href={link.href} onClick={handleAddClick}>
+                  <Link href={link.href} onClick={handleAddClick} prefetch={true}>
                       <div className={cn(
                           "flex items-center justify-center w-14 h-14 rounded-full text-primary-foreground shadow-lg transition-colors duration-300",
                           getButtonBgColor()
@@ -99,7 +99,7 @@ export function MobileNav() {
             }
             
             return (
-              <Link key={link.href} href={link.href} className="relative flex flex-col items-center justify-center text-xs gap-1 p-3 h-full">
+              <Link key={link.href} href={link.href} prefetch={true} className="relative flex flex-col items-center justify-center text-xs gap-1 p-3 h-full">
                 <link.icon className={cn("w-5 h-5", isActive ? "text-primary" : "text-muted-foreground")} />
                 <span className={cn("text-xs", isActive ? "text-primary" : "text-muted-foreground")}>{link.label}</span>
                 {isActive && (
