@@ -64,9 +64,9 @@ export default function SettingsPage() {
         {mounted && (
             user ? (
                 <div className="flex items-center gap-2">
-                    <UserNav />
                     <Button variant="outline" size="sm" onClick={handleLogout}>
-                        <LogOut className="w-4 h-4" />
+                        <LogOut className="w-4 h-4 mr-2" />
+                        Logout
                     </Button>
                 </div>
             ) : (
