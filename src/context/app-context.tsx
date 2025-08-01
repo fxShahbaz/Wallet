@@ -118,16 +118,12 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Simulate loading data
-    const timer = setTimeout(() => {
-      setAccounts(sampleAccounts);
-      setTransactions(sampleTransactions);
-      setExpenseCategories(initialExpenseCategories);
-      // set a default user
-      setUser({ name: 'User', email: 'user@example.com' });
-    }, 500); // 0.5 second delay
-
-    return () => clearTimeout(timer);
+    // Load data immediately
+    setAccounts(sampleAccounts);
+    setTransactions(sampleTransactions);
+    setExpenseCategories(initialExpenseCategories);
+    // set a default user
+    setUser({ name: 'User', email: 'user@example.com' });
   }, []);
 
   useEffect(() => {
@@ -281,5 +277,3 @@ export const useApp = () => {
   }
   return context;
 };
-
-    
