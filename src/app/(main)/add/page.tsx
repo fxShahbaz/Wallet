@@ -334,24 +334,37 @@ export default function AddTransactionPage() {
                                                 className="w-full justify-between p-0 h-auto bg-transparent hover:bg-transparent border-none focus:ring-0 text-xs shadow-none font-normal"
                                               >
                                                 {field.value
-                                                  ? categoriesToShow.find((cat) => cat.label === field.value)?.label
+                                                  ? categoriesToShow.find((cat) => cat.label.toLowerCase() === field.value.toLowerCase())?.label
                                                   : "Select category"}
                                                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                               </Button>
                                             </PopoverTrigger>
                                             <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
-                                              <Command>
+                                              <Command
+                                                filter={(value, search) => {
+                                                  const category = categoriesToShow.find(c => c.value === value);
+                                                  if (category?.label.toLowerCase().includes(search.toLowerCase())) return 1;
+                                                  return 0;
+                                                }}
+                                              >
                                                 <CommandInput 
                                                     placeholder="Search or add category..." 
                                                     onKeyDown={(e) => {
                                                         if (e.key === 'Enter' && e.currentTarget.value) {
-                                                            field.onChange(e.currentTarget.value);
+                                                            const newValue = e.currentTarget.value;
+                                                            field.onChange(newValue);
+                                                            const existingCategory = categoriesToShow.find(c => c.label.toLowerCase() === newValue.toLowerCase());
+                                                            if (!existingCategory) {
+                                                                // You might want to add logic here to add it to your global categories list
+                                                            }
                                                             setComboboxOpen(false);
                                                         }
                                                     }}
                                                 />
                                                 <CommandList>
-                                                    <CommandEmpty>No category found.</CommandEmpty>
+                                                    <CommandEmpty>
+                                                      <p className="text-xs p-2">No category found. Press Enter to add a new one.</p>
+                                                    </CommandEmpty>
                                                     <CommandGroup>
                                                     {categoriesToShow.map((cat) => (
                                                         <CommandItem
@@ -365,7 +378,7 @@ export default function AddTransactionPage() {
                                                             <Check
                                                                 className={cn(
                                                                 "mr-2 h-4 w-4",
-                                                                field.value === cat.label ? "opacity-100" : "opacity-0"
+                                                                field.value.toLowerCase() === cat.label.toLowerCase() ? "opacity-100" : "opacity-0"
                                                                 )}
                                                             />
                                                             {cat.label}
@@ -495,7 +508,5 @@ export default function AddTransactionPage() {
     );
 
 }
-
-    
 
     
