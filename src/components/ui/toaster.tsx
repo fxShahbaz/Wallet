@@ -14,7 +14,7 @@ import { motion } from "framer-motion"
 import { Check, X } from "lucide-react"
 
 function AnimatedIcon({ variant }: { variant?: 'default' | 'destructive' | null }) {
-    const Icon = variant === 'destructive' ? X : Check;
+    const Icon = Check;
     const iconColor = variant === 'destructive' ? 'bg-red-500' : 'bg-green-500';
 
     return (
