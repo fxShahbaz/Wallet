@@ -311,7 +311,7 @@ export default function AddTransactionPage() {
                                         name="label"
                                         control={form.control}
                                         render={({ field }) => (
-                                            <Input {...field} placeholder="Add Label (e.g. Dosa)" className="p-0 h-auto bg-transparent border-none focus-visible:ring-0 text-xs w-full" />
+                                            <Input {...field} placeholder="Add Label (e.g. Coffee, Lunch)" className="p-0 h-auto bg-transparent border-none focus-visible:ring-0 text-xs w-full" />
                                         )}
                                     />
                                 </div>
