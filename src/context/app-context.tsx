@@ -3,7 +3,7 @@
 
 import React, { createContext, useContext, useState, ReactNode, Dispatch, SetStateAction, useEffect } from 'react';
 import type { Account, Transaction, Category, User } from '@/lib/types';
-import { Landmark, PiggyBank, Wallet, ShoppingBag, Utensils, Car, Home, Dumbbell, Briefcase, Gift, HeartHandshake, Film, BookOpen, Truck, Fuel, Wrench, Shirt, ShoppingCart, Drama, HandCoins, Repeat, HelpCircle, UserRound, ArrowRightLeft, CircleDollarSign, PlusCircle, Ban, Laptop, Pencil, Beer as BeerLucide, Bike } from 'lucide-react';
+import { Landmark, PiggyBank, Wallet, ShoppingBag, Utensils, Car, Home, Dumbbell, Briefcase, Gift, HeartHandshake, Film, BookOpen, Truck, Fuel, Wrench, Shirt, ShoppingCart, Drama, HandCoins, Repeat, HelpCircle, UserRound, ArrowRightLeft, CircleDollarSign, PlusCircle, Ban, Laptop, Pencil, Beer as BeerLucide, Bike, Shield, GraduationCap, Dog, Newspaper, Receipt, Stethoscope, WashingMachine, Smartphone, Wifi, Building, DollarSign } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 // Helper components for icons not in lucide-react
@@ -46,22 +46,33 @@ const initialExpenseCategories: Category[] = [
     { value: 'food', label: 'Food', icon: Utensils, budget: 15000 },
     { value: 'groceries', label: 'Groceries', icon: ShoppingCart, budget: 10000 },
     { value: 'fruits_or_vegetables', label: 'Fruits or Vegetables', icon: Apple },
-    { value: 'home', label: 'Home', icon: Home },
-    { value: 'personal_care', label: 'Personal Care', icon: HeartHandshake },
-    { value: 'electronics_accessories', label: 'Electronics & Accessories', icon: Laptop },
+    { value: 'home', label: 'Home', icon: Home, budget: 30000 },
+    { value: 'rent', label: 'Rent', icon: Home, budget: 25000 },
+    { value: 'personal_care', label: 'Personal Care', icon: HeartHandshake, budget: 3000 },
+    { value: 'electronics_accessories', label: 'Electronics & Accessories', icon: Laptop, budget: 10000 },
     { value: 'utilities', label: 'Utilities', icon: Wrench, budget: 7500 },
-    { value: 'learning', label: 'Learning', icon: BookOpen },
+    { value: 'phone_bill', label: 'Phone Bill', icon: Smartphone, budget: 1000 },
+    { value: 'internet_bill', label: 'Internet Bill', icon: Wifi, budget: 1000 },
+    { value: 'learning', label: 'Learning', icon: BookOpen, budget: 2000 },
+    { value: 'education', label: 'Education', icon: GraduationCap, budget: 10000 },
     { value: 'entertainment', label: 'Entertainment', icon: Film, budget: 5000 },
+    { value: 'subscriptions', label: 'Subscriptions', icon: Newspaper, budget: 1000 },
     { value: 'private', label: 'Private', icon: UserRound },
-    { value: 'travelling', label: 'Travelling', icon: Truck },
-    { value: 'bar_cafe_drinks', label: 'Bar, Cafe & Drinks', icon: BeerLucide },
+    { value: 'travelling', label: 'Travelling', icon: Truck, budget: 15000 },
+    { value: 'bar_cafe_drinks', label: 'Bar, Cafe & Drinks', icon: BeerLucide, budget: 3000 },
     { value: 'shopping', label: 'Shopping', icon: Shirt, budget: 20000 },
+    { value: 'clothing', label: 'Clothing', icon: Shirt, budget: 5000 },
+    { value: 'laundry', label: 'Laundry', icon: WashingMachine, budget: 1000 },
     { value: 'money_lending', label: 'Money Lending', icon: HandCoins },
-    { value: 'bike', label: 'Bike', icon: Bike },
-    { value: 'fuel', label: 'Fuel', icon: Fuel },
-    { value: 'maintenance', label: 'Maintenance', icon: Wrench },
-    { value: 'health_fitness', label: 'Health & Fitness', icon: Dumbbell },
-    { value: 'bike_maintenance', label: 'Bike Maintenance', icon: Wrench },
+    { value: 'bike', label: 'Bike', icon: Bike, budget: 2000 },
+    { value: 'fuel', label: 'Fuel', icon: Fuel, budget: 5000 },
+    { value: 'maintenance', label: 'Maintenance', icon: Wrench, budget: 2000 },
+    { value: 'health_fitness', label: 'Health & Fitness', icon: Dumbbell, budget: 5000 },
+    { value: 'healthcare', label: 'Healthcare', icon: Stethoscope, budget: 5000 },
+    { value: 'insurance', label: 'Insurance', icon: Shield, budget: 5000 },
+    { value: 'gifts', label: 'Gifts', icon: Gift, budget: 2000 },
+    { value: 'pets', label: 'Pets', icon: Dog, budget: 2000 },
+    { value: 'taxes', label: 'Taxes', icon: Receipt },
     { value: 'transportation', label: 'Transportation', icon: Car, budget: 6000 },
     { value: 'unknown', label: 'Unknown', icon: HelpCircle },
     { value: 'unwanted', label: 'Unwanted', icon: Ban },
@@ -70,15 +81,13 @@ const initialExpenseCategories: Category[] = [
 const incomeCategories: Category[] = [
     { value: 'salary', label: 'Salary', icon: Briefcase },
     { value: 'freelance', label: 'Freelance', icon: Pencil },
+    { value: 'business', label: 'Business', icon: Briefcase },
+    { value: 'rental_income', label: 'Rental Income', icon: Building },
     { value: 'refund', label: 'Refund', icon: Repeat },
     { value: 'investment', label: 'Investment', icon: CircleDollarSign },
-    { value: 'bike', label: 'Bike', icon: Bike },
-    { value: 'fuel', label: 'Fuel', icon: Fuel },
-    { value: 'maintenance', label: 'Maintenance', icon: Wrench },
-    { value: 'health_fitness', label: 'Health & Fitness', icon: Dumbbell },
-    { value: 'bike_maintenance', label: 'Bike Maintenance', icon: Wrench },
+    { value: 'dividends', label: 'Dividends', icon: DollarSign },
+    { value: 'gifts_received', label: 'Gifts Received', icon: Gift },
     { value: 'unknown', label: 'Unknown', icon: HelpCircle },
-    { value: 'unwanted', label: 'Unwanted', icon: Ban },
 ];
 
 
