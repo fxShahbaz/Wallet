@@ -22,7 +22,7 @@ export interface Transaction {
   status?: 'Cleared' | 'Uncleared' | 'Reconciled';
   location?: string;
   photo?: string | File;
-  labels?: Label[];
+  label?: string;
 }
 
 export interface Category {
@@ -41,3 +41,5 @@ export interface User {
   name: string;
   email: string;
 }
+
+    

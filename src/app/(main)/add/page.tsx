@@ -110,16 +110,17 @@ export default function AddTransactionPage() {
     });
 
     const currentTransactionType = form.watch('type');
-    const labelValue = form.watch('label');
+    const descriptionValue = form.watch('description');
 
     useDebounce(
         () => {
-            if (labelValue && labelValue.length > 2) {
-                handleSuggestCategory(labelValue);
+            const valueToSuggest = form.getValues('description');
+            if (valueToSuggest && valueToSuggest.length > 2) {
+                handleSuggestCategory(valueToSuggest);
             }
         },
         500,
-        [labelValue]
+        [descriptionValue]
     );
 
     const handleSuggestCategory = async (description: string) => {
@@ -210,7 +211,7 @@ export default function AddTransactionPage() {
         addTransaction({
             ...data,
             category: data.category,
-            description: data.note || '',
+            description: data.description || '',
             photo: photoPreview || undefined,
         });
         setTimeout(() => {
@@ -331,7 +332,7 @@ export default function AddTransactionPage() {
                                  <div className="flex items-center gap-3 p-2 bg-background rounded-xl border">
                                     <Tag className="w-4 h-4 text-muted-foreground shrink-0" />
                                     <Controller
-                                        name="label"
+                                        name="description"
                                         control={form.control}
                                         render={({ field }) => (
                                             <Input {...field} placeholder="Add Label (e.g. Coffee, Lunch)" className="p-0 h-auto bg-transparent border-none focus-visible:ring-0 text-xs w-full" />
