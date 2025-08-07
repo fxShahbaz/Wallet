@@ -181,7 +181,7 @@ export default function SettingsPage() {
           </div>
 
           <div className="text-center text-muted-foreground text-xs pt-8">
-            <p>Developed with ❤️ by Shahbaz</p>
+            <p>Made with ❤️ by Shahbaz</p>
             <Button variant="link" asChild className="text-xs h-auto p-0">
                 <Link href="https://www.buymeacoffee.com/shahbaz" target="_blank">
                     Buy me a coffee
