@@ -20,11 +20,13 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Calendar } from '@/components/ui/calendar';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Calendar as CalendarIcon, X, ArrowLeft, ArrowRight, TrendingUp, FileText, Folder, Landmark, Tag, Users, CreditCard, CheckCircle, MapPin, Camera, Loader2 } from 'lucide-react';
+import { Calendar as CalendarIcon, X, ArrowLeft, ArrowRight, TrendingUp, FileText, Folder, Landmark, Tag, Users, CreditCard, CheckCircle, MapPin, Camera, Loader2, Wand2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { suggestExpenseCategory } from '@/ai/flows/suggest-expense-category';
+import { useDebounce } from 'react-use';
 
 
 const transactionFormSchema = z.object({
@@ -82,6 +84,7 @@ export default function AddTransactionPage() {
     const photoInputRef = useRef<HTMLInputElement>(null);
     const [photoPreview, setPhotoPreview] = useState<string | null>(null);
     const [isSaving, setIsSaving] = useState(false);
+    const [isSuggesting, setIsSuggesting] = useState(false);
 
     const form = useForm<TransactionFormValues>({
         resolver: zodResolver(transactionFormSchema),
@@ -102,6 +105,36 @@ export default function AddTransactionPage() {
     });
 
     const currentTransactionType = form.watch('type');
+    const labelValue = form.watch('label');
+
+    useDebounce(
+        () => {
+            if (labelValue && labelValue.length > 2) {
+                handleSuggestCategory(labelValue);
+            }
+        },
+        500,
+        [labelValue]
+    );
+
+    const handleSuggestCategory = async (description: string) => {
+        setIsSuggesting(true);
+        try {
+            const result = await suggestExpenseCategory({ transactionDescription: description });
+            const suggested = result.suggestedCategory;
+            
+            const categories = currentTransactionType === 'income' ? incomeCategories : expenseCategories;
+            const foundCategory = categories.find(c => c.label.toLowerCase() === suggested.toLowerCase());
+
+            if (foundCategory) {
+                form.setValue('category', foundCategory.label);
+            }
+        } catch (error) {
+            console.error("Error suggesting category:", error);
+        } finally {
+            setIsSuggesting(false);
+        }
+    };
 
     useEffect(() => {
         setTransactionType(currentTransactionType);
@@ -271,6 +304,18 @@ export default function AddTransactionPage() {
                                         <p className="text-xs text-red-500 mt-1">{form.formState.errors.accountId.message}</p>
                                     )}
                                 </div>
+                                
+                                 <div className="flex items-center gap-3 p-2 bg-background rounded-xl border">
+                                    <Tag className="w-4 h-4 text-muted-foreground shrink-0" />
+                                    <Controller
+                                        name="label"
+                                        control={form.control}
+                                        render={({ field }) => (
+                                            <Input {...field} placeholder="Add Label (e.g. Dosa)" className="p-0 h-auto bg-transparent border-none focus-visible:ring-0 text-xs w-full" />
+                                        )}
+                                    />
+                                </div>
+
 
                                 <div className="flex items-center gap-3 p-2 bg-background rounded-xl border">
                                     <Folder className="w-4 h-4 text-muted-foreground shrink-0" />
@@ -290,19 +335,10 @@ export default function AddTransactionPage() {
                                             </Select>
                                         )}
                                     />
+                                    {isSuggesting && <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />}
                                      {form.formState.errors.category && (
                                         <p className="text-xs text-red-500 mt-1">{form.formState.errors.category.message}</p>
                                     )}
-                                </div>
-                                 <div className="flex items-center gap-3 p-2 bg-background rounded-xl border">
-                                    <Tag className="w-4 h-4 text-muted-foreground shrink-0" />
-                                    <Controller
-                                        name="label"
-                                        control={form.control}
-                                        render={({ field }) => (
-                                            <Input {...field} placeholder="Add Label (custom)" className="p-0 h-auto bg-transparent border-none focus-visible:ring-0 text-xs w-full" />
-                                        )}
-                                    />
                                 </div>
 
                                  <div className="flex items-center gap-3 p-2 bg-background rounded-xl border">
@@ -416,3 +452,5 @@ export default function AddTransactionPage() {
     );
 
 }
+
+    
