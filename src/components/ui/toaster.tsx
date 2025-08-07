@@ -22,7 +22,7 @@ function AnimatedIcon({ variant }: { variant?: 'default' | 'destructive' | null 
             initial={{ scale: 0, rotate: -90 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-            className={`flex items-center justify-center w-6 h-6 rounded-full text-white ${iconColor}`}
+            className={`flex items-center justify-center w-6 h-6 rounded-full text-white ${iconColor} shrink-0`}
         >
             <Icon className="w-4 h-4" />
         </motion.div>
@@ -37,7 +37,7 @@ export function Toaster() {
       {toasts.map(function ({ id, title, description, action, ...props }) {
         return (
           <Toast key={id} {...props}>
-            <div className="flex items-center gap-3">
+            <div className="flex items-start gap-3">
               <AnimatedIcon variant={props.variant} />
               <div className="grid gap-1">
                 {title && <ToastTitle>{title}</ToastTitle>}
