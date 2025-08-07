@@ -86,7 +86,10 @@ export default function AddTransactionPage() {
     const [photoPreview, setPhotoPreview] = useState<string | null>(null);
     const [isSaving, setIsSaving] = useState(false);
     const [isSuggesting, setIsSuggesting] = useState(false);
-    const [comboboxOpen, setComboboxOpen] = useState(false);
+    
+    const [categoryInput, setCategoryInput] = useState('');
+    const [showSuggestions, setShowSuggestions] = useState(false);
+    const suggestionsRef = useRef<HTMLDivElement>(null);
 
     const form = useForm<TransactionFormValues>({
         resolver: zodResolver(transactionFormSchema),
@@ -130,6 +133,7 @@ export default function AddTransactionPage() {
 
             if (foundCategory) {
                 form.setValue('category', foundCategory.label);
+                setCategoryInput(foundCategory.label);
             }
         } catch (error) {
             console.error("Error suggesting category:", error);
@@ -148,6 +152,18 @@ export default function AddTransactionPage() {
             setSubmitTransactionForm(false); 
         }
     }, [submitTransactionForm, form, setSubmitTransactionForm]);
+
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+          if (suggestionsRef.current && !suggestionsRef.current.contains(event.target as Node)) {
+            setShowSuggestions(false);
+          }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+          document.removeEventListener("mousedown", handleClickOutside);
+        };
+      }, [suggestionsRef]);
 
     const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value.replace(/[^0-9.]/g, '');
@@ -204,6 +220,10 @@ export default function AddTransactionPage() {
     };
     
     const categoriesToShow = currentTransactionType === 'income' ? incomeCategories : expenseCategories;
+    
+    const filteredCategories = categoriesToShow.filter(c => 
+        c.label.toLowerCase().includes(categoryInput.toLowerCase())
+    );
 
     return (
         <motion.div 
@@ -274,6 +294,7 @@ export default function AddTransactionPage() {
                                             onChange={(value) => {
                                                 field.onChange(value);
                                                 form.setValue('category', '');
+                                                setCategoryInput('');
                                             }}
                                             options={[
                                                 { value: 'expense', label: 'Expense', icon: <ArrowLeft className="w-3 h-3" /> },
@@ -319,81 +340,48 @@ export default function AddTransactionPage() {
                                 </div>
 
 
-                                <div className="flex items-center gap-3 p-2 bg-background rounded-xl border">
-                                    <Folder className="w-4 h-4 text-muted-foreground shrink-0" />
-                                    <Controller
-                                        name="category"
-                                        control={form.control}
-                                        render={({ field }) => (
-                                          <Popover open={comboboxOpen} onOpenChange={setComboboxOpen}>
-                                            <PopoverTrigger asChild>
-                                              <Button
-                                                variant="ghost"
-                                                role="combobox"
-                                                aria-expanded={comboboxOpen}
-                                                className="w-full justify-between p-0 h-auto bg-transparent hover:bg-transparent border-none focus:ring-0 text-xs shadow-none font-normal"
-                                              >
-                                                {field.value
-                                                  ? categoriesToShow.find((cat) => cat.label.toLowerCase() === field.value.toLowerCase())?.label
-                                                  : "Select category"}
-                                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                              </Button>
-                                            </PopoverTrigger>
-                                            <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
-                                              <Command
-                                                filter={(value, search) => {
-                                                  const category = categoriesToShow.find(c => c.value === value);
-                                                  if (category?.label.toLowerCase().includes(search.toLowerCase())) return 1;
-                                                  return 0;
-                                                }}
-                                              >
-                                                <CommandInput 
-                                                    placeholder="Search or add category..." 
-                                                    onKeyDown={(e) => {
-                                                        if (e.key === 'Enter' && e.currentTarget.value) {
-                                                            const newValue = e.currentTarget.value;
-                                                            field.onChange(newValue);
-                                                            const existingCategory = categoriesToShow.find(c => c.label.toLowerCase() === newValue.toLowerCase());
-                                                            if (!existingCategory) {
-                                                                // You might want to add logic here to add it to your global categories list
-                                                            }
-                                                            setComboboxOpen(false);
-                                                        }
+                                <div className="relative" ref={suggestionsRef}>
+                                    <div className="flex items-center gap-3 p-2 bg-background rounded-xl border">
+                                        <Folder className="w-4 h-4 text-muted-foreground shrink-0" />
+                                        <Controller
+                                            name="category"
+                                            control={form.control}
+                                            render={({ field }) => (
+                                                <Input 
+                                                    placeholder="Category" 
+                                                    className="p-0 h-auto bg-transparent border-none focus-visible:ring-0 text-xs w-full"
+                                                    value={categoryInput}
+                                                    onChange={(e) => {
+                                                        const value = e.target.value;
+                                                        setCategoryInput(value);
+                                                        field.onChange(value);
+                                                        setShowSuggestions(true);
                                                     }}
+                                                    onFocus={() => setShowSuggestions(true)}
                                                 />
-                                                <CommandList>
-                                                    <CommandEmpty>
-                                                      <p className="text-xs p-2">No category found. Press Enter to add a new one.</p>
-                                                    </CommandEmpty>
-                                                    <CommandGroup>
-                                                    {categoriesToShow.map((cat) => (
-                                                        <CommandItem
-                                                            key={cat.value}
-                                                            value={cat.label}
-                                                            onSelect={(currentValue) => {
-                                                                field.onChange(currentValue === field.value ? "" : currentValue);
-                                                                setComboboxOpen(false);
-                                                            }}
-                                                        >
-                                                            <Check
-                                                                className={cn(
-                                                                "mr-2 h-4 w-4",
-                                                                field.value.toLowerCase() === cat.label.toLowerCase() ? "opacity-100" : "opacity-0"
-                                                                )}
-                                                            />
-                                                            {cat.label}
-                                                        </CommandItem>
-                                                    ))}
-                                                    </CommandGroup>
-                                                </CommandList>
-                                              </Command>
-                                            </PopoverContent>
-                                          </Popover>
-                                        )}
-                                      />
-                                    {isSuggesting && <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />}
-                                     {form.formState.errors.category && (
-                                        <p className="text-xs text-red-500 mt-1">{form.formState.errors.category.message}</p>
+                                            )}
+                                        />
+                                        {isSuggesting && <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />}
+                                    </div>
+                                    {showSuggestions && filteredCategories.length > 0 && (
+                                        <div className="absolute z-10 w-full mt-1 bg-background border rounded-lg shadow-lg max-h-48 overflow-auto">
+                                            {filteredCategories.map(cat => (
+                                                <div 
+                                                    key={cat.value} 
+                                                    className="p-2 text-xs cursor-pointer hover:bg-muted"
+                                                    onClick={() => {
+                                                        setCategoryInput(cat.label);
+                                                        form.setValue('category', cat.label);
+                                                        setShowSuggestions(false);
+                                                    }}
+                                                >
+                                                    {cat.label}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                    {form.formState.errors.category && (
+                                        <p className="text-xs text-red-500 mt-1 pl-2">{form.formState.errors.category.message}</p>
                                     )}
                                 </div>
 
