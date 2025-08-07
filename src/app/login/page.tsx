@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Mail, Key, User } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useApp } from '@/context/app-context';
+import Link from 'next/link';
 
 
 export default function LoginPage() {
@@ -24,7 +25,7 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-background p-4">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-background p-4">
             <div className="w-full max-w-sm">
                 <Tabs defaultValue="sign-in" className="w-full">
                     <TabsList className="grid w-full grid-cols-2">
@@ -93,6 +94,14 @@ export default function LoginPage() {
                         </Card>
                     </TabsContent>
                 </Tabs>
+            </div>
+            <div className="text-center text-muted-foreground text-xs pt-8">
+                <p>Made with ❤️ by Shahbaz</p>
+                <Button variant="link" asChild className="text-xs h-auto p-0">
+                    <Link href="https://www.buymeacoffee.com/shahbaz" target="_blank">
+                        Buy me a coffee
+                    </Link>
+                </Button>
             </div>
         </div>
     );
