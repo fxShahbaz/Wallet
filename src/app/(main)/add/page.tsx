@@ -20,7 +20,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Calendar } from '@/components/ui/calendar';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Calendar as CalendarIcon, X, ArrowLeft, ArrowRight, TrendingUp, FileText, Folder, Landmark, Tag, Users, CreditCard, CheckCircle, MapPin, Camera, Loader2, Wand2 } from 'lucide-react';
+import { Calendar as CalendarIcon, X, ArrowLeft, ArrowRight, TrendingUp, FileText, Folder, Landmark, Tag, Users, CreditCard, CheckCircle, MapPin, Camera, Loader2, Wand2, Check, ChevronsUpDown } from 'lucide-react';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
@@ -85,6 +86,7 @@ export default function AddTransactionPage() {
     const [photoPreview, setPhotoPreview] = useState<string | null>(null);
     const [isSaving, setIsSaving] = useState(false);
     const [isSuggesting, setIsSuggesting] = useState(false);
+    const [comboboxOpen, setComboboxOpen] = useState(false);
 
     const form = useForm<TransactionFormValues>({
         resolver: zodResolver(transactionFormSchema),
@@ -323,18 +325,59 @@ export default function AddTransactionPage() {
                                         name="category"
                                         control={form.control}
                                         render={({ field }) => (
-                                            <Select onValueChange={field.onChange} value={field.value}>
-                                                <SelectTrigger className="w-full p-0 h-auto bg-transparent border-none focus:ring-0 text-xs shadow-none">
-                                                     <SelectValue placeholder="Category" />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    {categoriesToShow.map(cat => (
-                                                        <SelectItem key={cat.value} value={cat.label}>{cat.label}</SelectItem>
+                                          <Popover open={comboboxOpen} onOpenChange={setComboboxOpen}>
+                                            <PopoverTrigger asChild>
+                                              <Button
+                                                variant="ghost"
+                                                role="combobox"
+                                                aria-expanded={comboboxOpen}
+                                                className="w-full justify-between p-0 h-auto bg-transparent hover:bg-transparent border-none focus:ring-0 text-xs shadow-none font-normal"
+                                              >
+                                                {field.value
+                                                  ? categoriesToShow.find((cat) => cat.label === field.value)?.label
+                                                  : "Select category"}
+                                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                              </Button>
+                                            </PopoverTrigger>
+                                            <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                                              <Command>
+                                                <CommandInput 
+                                                    placeholder="Search or add category..." 
+                                                    onKeyDown={(e) => {
+                                                        if (e.key === 'Enter' && e.currentTarget.value) {
+                                                            field.onChange(e.currentTarget.value);
+                                                            setComboboxOpen(false);
+                                                        }
+                                                    }}
+                                                />
+                                                <CommandList>
+                                                    <CommandEmpty>No category found.</CommandEmpty>
+                                                    <CommandGroup>
+                                                    {categoriesToShow.map((cat) => (
+                                                        <CommandItem
+                                                            key={cat.value}
+                                                            value={cat.label}
+                                                            onSelect={(currentValue) => {
+                                                                field.onChange(currentValue === field.value ? "" : currentValue);
+                                                                setComboboxOpen(false);
+                                                            }}
+                                                        >
+                                                            <Check
+                                                                className={cn(
+                                                                "mr-2 h-4 w-4",
+                                                                field.value === cat.label ? "opacity-100" : "opacity-0"
+                                                                )}
+                                                            />
+                                                            {cat.label}
+                                                        </CommandItem>
                                                     ))}
-                                                </SelectContent>
-                                            </Select>
+                                                    </CommandGroup>
+                                                </CommandList>
+                                              </Command>
+                                            </PopoverContent>
+                                          </Popover>
                                         )}
-                                    />
+                                      />
                                     {isSuggesting && <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />}
                                      {form.formState.errors.category && (
                                         <p className="text-xs text-red-500 mt-1">{form.formState.errors.category.message}</p>
@@ -452,5 +495,7 @@ export default function AddTransactionPage() {
     );
 
 }
+
+    
 
     
